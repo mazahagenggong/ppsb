@@ -6,7 +6,7 @@ interface HeaderPros {
     children: ReactNode;
 }
 
-const Topbar: React.FC<HeaderPros> = ({children}) => {
+const THeader: React.FC<HeaderPros> = ({children}) => {
     return (
         <>
             <header id="header" className="header fixed-top d-flex align-items-center">
@@ -41,4 +41,4 @@ const Topbar: React.FC<HeaderPros> = ({children}) => {
     );
 };
 
-export default Topbar;
+export default THeader;

@@ -1,0 +1,27 @@
+.canvasWrapper {
+    display: block;
+    z-index: 3;
+    position: absolute;
+    padding: 0;
+}
+
+.canvas {
+    display: block;
+    z-index: 3;
+    position: absolute;
+    padding: 0px;
+}
+.bodycanvas {
+    background-color: #282828;
+    height: 100vh;
+    width: 100vw;
+    text-decoration-color: #ffffff;
+}
+.texthitung {
+    text-align: center;
+    text-transform: capitalize
+}
+.hitung {
+    font-size: 50pt;
+    text-decoration: seagreen;
+}
