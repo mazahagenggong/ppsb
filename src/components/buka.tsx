@@ -1,6 +1,9 @@
 import React from 'react'
 import useSWR from "swr";
 import axios from "axios";
+import Topbar from "@/components/template/main/topbar";
+import Hero from "@/components/template/main/hero";
+import Sekertariat from "@/components/template/main/sekertariat";
 
 const cekstatus = async () => {
     const res = await axios.get('/api/cek')
@@ -13,12 +16,9 @@ const Buka = () => {
     const {data: status} = useSWR('/api/cek', cekstatus,  { refreshInterval: 3000 })
     return (
         <>
-            <center>
-                <h2>SISTEM PENDAFTARAN SANTRI BARU</h2>
-                <h2>MA ZAINUL HASAN GENGGONG</h2>
-                <h1>SEDANG DIBUKA</h1>
-                <h3>Informasi lebih lanjut hubungi bagian sekretariat pendaftaran</h3>
-            </center>
+            <Topbar/>
+            <Hero/>
+            <Sekertariat/>
         </>
     );
 };
