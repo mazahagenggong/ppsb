@@ -1433,10 +1433,6 @@ section {
     overflow: hidden;
 }
 
-.section-bg {
-    background-color: #f3f5fa;
-}
-
 .section-title {
     text-align: center;
     padding-bottom: 30px;
@@ -1469,7 +1465,7 @@ section {
     display: block;
     width: 40px;
     height: 3px;
-    background: #47b2e4;
+    background: #067808;
     bottom: 0;
     left: calc(50% - 20px);
 }
@@ -1483,7 +1479,7 @@ section {
 --------------------------------------------------------------*/
 .breadcrumbs {
     padding: 15px 0;
-    background: #f3f5fa;
+    background: #fff;
     min-height: 40px;
     margin-top: 150px;
 }
@@ -1497,7 +1493,7 @@ section {
 .breadcrumbs h2 {
     font-size: 28px;
     font-weight: 600;
-    color: #37517e;
+    color: #067808;
 }
 
 .breadcrumbs ol {
@@ -1516,6 +1512,6 @@ section {
 .breadcrumbs ol li + li::before {
     display: inline-block;
     padding-right: 10px;
-    color: #4668a2;
+    color: #067808;
     content: "/";
 }

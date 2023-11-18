@@ -43,11 +43,11 @@ const Topbar = () => {
                         <ul
                             className="pt-4 text-base text-gray-700 md:flex md:justify-between md:pt-0">
                             <li>
-                                <Link className="md:p-4 py-2 block hover:text-purple-400 text-white" href="/"
+                                <Link className="md:p-4 py-2 block hover:text-purple-400 text-white" href="#daftar"
                                       style={{textDecoration: "none"}}>Daftar</Link>
                             </li>
                             <li>
-                                <Link className="md:p-4 py-2 block hover:text-purple-400 text-white" href="/"
+                                <Link className="md:p-4 py-2 block hover:text-purple-400 text-white" href="#sekretariat"
                                       style={{textDecoration: "none"}}>Panitia</Link>
                             </li>
                             <li>

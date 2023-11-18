@@ -60,10 +60,12 @@ const Hero = () => {
                                         className="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded m-3">
                                         Cara Daftar
                                     </button>
-                                    <button
-                                        className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded m-3">
+                                    <Link
+                                        href="#daftar"
+                                        className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded m-3"
+                                        style={{textDecoration: "none"}}>
                                         Daftar Sekarang
-                                    </button>
+                                    </Link>
                                     <button
                                         className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-3">
                                         Masuk
@@ -74,29 +76,38 @@ const Hero = () => {
                     </div>
                     <div>
                         <div className={isMobile ? "flex flex-col items-center" : "flex flex-row items-center"}>
-                            <div className={`${styles.gr1} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`} style={{width: "25em", height: "15em"}} >
+                            <div
+                                className={`${styles.gr1} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}
+                                style={{width: "25em", height: "15em"}}>
                                 <Icon icon="mingcute:wave-line" width="64" height="64"/>
                                 <Link href="#" style={{textDecoration: "none"}}>
                                     <h1 className="mb-2 text-4xl font-semibold text-black">Gelombang Pendaftaran</h1>
                                 </Link>
                             </div>
-                            <div className={`${styles.gr2} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`} style={{width: "25em", height: "15em"}} >
+                            <div
+                                className={`${styles.gr2} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}
+                                style={{width: "25em", height: "15em"}}>
                                 <Icon icon="ion:time-outline" width="64" height="64"/>
                                 <Link href="#" style={{textDecoration: "none"}}>
                                     <h1 className="mb-2 text-4xl font-semibold text-black">Waktu Pendaftaran</h1>
                                 </Link>
                             </div>
                         </div>
-                        <div className={isMobile ? "flex flex-col" : "flex flex-row"} style={{alignItems: "center", cursor: "pointer"}} onClick={()=>{
+                        <div className={isMobile ? "flex flex-col" : "flex flex-row"}
+                             style={{alignItems: "center", cursor: "pointer"}} onClick={() => {
                             window.open("https://www.youtube.com/watch?v=cWrqxdyQZgc", '_blank');
                         }}>
-                            <div className={`${styles.gr3} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`} style={{width: "25em", height: "15em"}} >
+                            <div
+                                className={`${styles.gr3} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}
+                                style={{width: "25em", height: "15em"}}>
                                 <Icon icon="bx:video" width="64" height="64"/>
                                 <Link href="#" style={{textDecoration: "none"}}>
                                     <h1 className="mb-2 text-4xl font-semibold text-black">Video Profile</h1>
                                 </Link>
                             </div>
-                            <div className={`${styles.gr4} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`} style={{width: "25em", height: "15em"}} >
+                            <div
+                                className={`${styles.gr4} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}
+                                style={{width: "25em", height: "15em"}}>
                                 <Icon icon="gala:brochure" width="64" height="64"/>
                                 <Link href="#" style={{textDecoration: "none"}}>
                                     <h1 className="mb-2 text-4xl font-semibold text-black">Download Brosur</h1>
@@ -106,20 +117,26 @@ const Hero = () => {
                     </div>
                 </div>
                 {!isMobile && (
-                    <React.Fragment>
-                        <button
-                            className="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded m-3">
+                    <div className="m-3">
+                        <Link
+                            href="#"
+                            className="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded m-3"
+                            style={{textDecoration: "none"}}>
                             Cara Daftar
-                        </button>
-                        <button
-                            className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded m-3">
+                        </Link>
+                        <Link
+                            href="#daftar"
+                            className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded m-3"
+                            style={{textDecoration: "none"}}>
                             Daftar Sekarang
-                        </button>
-                        <button
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-3">
+                        </Link>
+                        <Link
+                            href="#"
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-3"
+                            style={{textDecoration: "none"}}>
                             Masuk
-                        </button>
-                    </React.Fragment>
+                        </Link>
+                    </div>
                 )}
             </div>
         </section>

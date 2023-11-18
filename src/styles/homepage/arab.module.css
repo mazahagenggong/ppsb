@@ -14,6 +14,18 @@
     background-image: linear-gradient(#0459b5, #397cf7);
 }
 
+.photo_rounded {
+    overflow: hidden;
+    width: 11.5em;
+    height: 11.5em;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #0a53be;
+}
+.photo_rounded img {
+    transition: ease-in-out 0.3s;
+}
+
 .selamat {
     position: relative;
     font-size: 2vw;
