@@ -14,13 +14,13 @@ const Hero = () => {
         typeSpeed: 150,
 
     });
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-
-    const containerStyle = {
-        display: isMobile ? 'block' : 'grid',
-        gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', // dua kolom untuk tampilan desktop
-        gap: isMobile ? '0' : '2px', // jarak antara dua kolom untuk tampilan desktop
-    };
+    // const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    //
+    // const containerStyle = {
+    //     display: isMobile ? 'block' : 'grid',
+    //     gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', // dua kolom untuk tampilan desktop
+    //     gap: isMobile ? '0' : '2px', // jarak antara dua kolom untuk tampilan desktop
+    // };
     return (
         <section className={`${styles.clients} ${styles.arab_bg}`}>
             <div className="container">
@@ -43,8 +43,8 @@ const Hero = () => {
                 </div>
             </div>
             <div className="container">
-                <div style={containerStyle}>
-                    <div className="row">
+                <div className="flex h-full flex-col md:flex-row items-center">
+                    <div className="w-full md:w-1/2">
                         <center>
                             <Image
                                 src={'/gambarpsb.png'}
@@ -54,52 +54,45 @@ const Hero = () => {
                                 height={800}
                                 priority
                             />
-                            {isMobile && (
-                                <React.Fragment>
-                                    <button
-                                        className="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded m-3">
-                                        Cara Daftar
-                                    </button>
-                                    <Link
-                                        href="#daftar"
-                                        className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded m-3"
-                                        style={{textDecoration: "none"}}>
-                                        Daftar Sekarang
-                                    </Link>
-                                    <button
-                                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-3">
-                                        Masuk
-                                    </button>
-                                </React.Fragment>
-                            )}
+                            <button
+                                className="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded m-3">
+                                Cara Daftar
+                            </button>
+                            <Link
+                                href="#daftar"
+                                className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded m-3"
+                                style={{textDecoration: "none"}}>
+                                Daftar Sekarang
+                            </Link>
+                            <button
+                                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-3">
+                                Masuk
+                            </button>
                         </center>
                     </div>
-                    <div>
-                        <div className={isMobile ? "flex flex-col items-center" : "flex flex-row items-center"}>
+                    <div className="flex flex-col md:w-1/2">
+                        <div className="flex flex-col w-full md:w-1/2 md:flex-row">
                             <div
                                 className={`${styles.gr1} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}
-                                style={{width: "25em", height: "15em"}}>
+                                style={{width: "100%", height: "30vh"}}>
                                 <Icon icon="mingcute:wave-line" width="64" height="64"/>
                                 <Link href="#" style={{textDecoration: "none"}}>
-                                    <h1 className="mb-2 text-4xl font-semibold text-black">Gelombang Pendaftaran</h1>
+                                    <h1 className="mb-2 font-bold text-4xl text-black">Gelombang Pendaftaran</h1>
                                 </Link>
                             </div>
                             <div
                                 className={`${styles.gr2} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}
-                                style={{width: "25em", height: "15em"}}>
+                                style={{width: "100%", height: "30vh"}}>
                                 <Icon icon="ion:time-outline" width="64" height="64"/>
                                 <Link href="#" style={{textDecoration: "none"}}>
                                     <h1 className="mb-2 text-4xl font-semibold text-black">Waktu Pendaftaran</h1>
                                 </Link>
                             </div>
                         </div>
-                        <div className={isMobile ? "flex flex-col" : "flex flex-row"}
-                             style={{alignItems: "center", cursor: "pointer"}} onClick={() => {
-                            window.open("https://www.youtube.com/watch?v=cWrqxdyQZgc", '_blank');
-                        }}>
+                        <div className="flex flex-col w-full md:w-1/2 md:flex-row">
                             <div
                                 className={`${styles.gr3} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}
-                                style={{width: "25em", height: "15em"}}>
+                                style={{width: "100%", height: "30vh"}}>
                                 <Icon icon="bx:video" width="64" height="64"/>
                                 <Link href="#" style={{textDecoration: "none"}}>
                                     <h1 className="mb-2 text-4xl font-semibold text-black">Video Profile</h1>
@@ -107,7 +100,7 @@ const Hero = () => {
                             </div>
                             <div
                                 className={`${styles.gr4} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}
-                                style={{width: "25em", height: "15em"}}>
+                                style={{width: "100%", height: "30vh"}}>
                                 <Icon icon="gala:brochure" width="64" height="64"/>
                                 <Link href="#" style={{textDecoration: "none"}}>
                                     <h1 className="mb-2 text-4xl font-semibold text-black">Download Brosur</h1>
@@ -115,29 +108,51 @@ const Hero = () => {
                             </div>
                         </div>
                     </div>
+                    {/*    <div className={isMobile ? "flex flex-col" : "flex flex-row"}*/}
+                    {/*         style={{alignItems: "center", cursor: "pointer"}} onClick={() => {*/}
+                    {/*        window.open("https://www.youtube.com/watch?v=cWrqxdyQZgc", '_blank');*/}
+                    {/*    }}>*/}
+                    {/*        <div*/}
+                    {/*            className={`${styles.gr3} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}*/}
+                    {/*            style={{width: "100%", height: "100%"}}>*/}
+                    {/*            <Icon icon="bx:video" width="64" height="64"/>*/}
+                    {/*            <Link href="#" style={{textDecoration: "none"}}>*/}
+                    {/*                <h1 className="mb-2 text-4xl font-semibold text-black">Video Profile</h1>*/}
+                    {/*            </Link>*/}
+                    {/*        </div>*/}
+                    {/*        <div*/}
+                    {/*            className={`${styles.gr4} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}*/}
+                    {/*            style={{width: "100%", height: "100%"}}>*/}
+                    {/*            <Icon icon="gala:brochure" width="64" height="64"/>*/}
+                    {/*            <Link href="#" style={{textDecoration: "none"}}>*/}
+                    {/*                <h1 className="mb-2 text-4xl font-semibold text-black">Download Brosur</h1>*/}
+                    {/*            </Link>*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                 </div>
-                {!isMobile && (
-                    <div className="m-3">
-                        <Link
-                            href="#"
-                            className="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded m-3"
-                            style={{textDecoration: "none"}}>
-                            Cara Daftar
-                        </Link>
-                        <Link
-                            href="#daftar"
-                            className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded m-3"
-                            style={{textDecoration: "none"}}>
-                            Daftar Sekarang
-                        </Link>
-                        <Link
-                            href="#"
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-3"
-                            style={{textDecoration: "none"}}>
-                            Masuk
-                        </Link>
-                    </div>
-                )}
+                {/*{!isMobile && (*/}
+                {/*    <div className="m-3">*/}
+                {/*        <Link*/}
+                {/*            href="#"*/}
+                {/*            className="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded m-3"*/}
+                {/*            style={{textDecoration: "none"}}>*/}
+                {/*            Cara Daftar*/}
+                {/*        </Link>*/}
+                {/*        <Link*/}
+                {/*            href="#daftar"*/}
+                {/*            className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded m-3"*/}
+                {/*            style={{textDecoration: "none"}}>*/}
+                {/*            Daftar Sekarang*/}
+                {/*        </Link>*/}
+                {/*        <Link*/}
+                {/*            href="#"*/}
+                {/*            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-3"*/}
+                {/*            style={{textDecoration: "none"}}>*/}
+                {/*            Masuk*/}
+                {/*        </Link>*/}
+                {/*    </div>*/}
+                {/*)}*/}
             </div>
         </section>
     );
