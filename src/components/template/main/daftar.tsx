@@ -3,6 +3,7 @@ import useSWR from "swr";
 import axios from "axios";
 import {useLokasiStore} from '@/utils/lokasi';
 import Daftarpsb from "@/utils/daftar";
+import prisma from "@/utils/prisma";
 
 const cekLokasi = async (url: string) => {
     const res = await axios.get(url);
@@ -104,22 +105,22 @@ const Daftar = () => {
                     setSelectedKeldes(value);
                 }
                 break;
-                case 'rt':
-                    if (value === '-- Pilih --') {
-                        setrt(null);
-                        return;
-                    } else {
-                        setrt(value);
-                    }
-                    break;
-                case 'rw':
-                    if (value === '-- Pilih --') {
-                        setrw(null);
-                        return;
-                    } else {
-                        setrw(value);
-                    }
-                    break;
+            case 'rt':
+                if (value === '-- Pilih --') {
+                    setrt(null);
+                    return;
+                } else {
+                    setrt(value);
+                }
+                break;
+            case 'rw':
+                if (value === '-- Pilih --') {
+                    setrw(null);
+                    return;
+                } else {
+                    setrw(value);
+                }
+                break;
             default:
                 break;
         }
@@ -313,7 +314,7 @@ const Daftar = () => {
                                             handlelokasi(e.target.value, "keldes")
                                         }}>
                                             <option>-- Pilih --</option>
-                                            {selectedProv !== null && selectedKabkot !== null && selectedKecamatan!== null && keldes && keldes.map((item: any, key: number) => (
+                                            {selectedProv !== null && selectedKabkot !== null && selectedKecamatan !== null && keldes && keldes.map((item: any, key: number) => (
                                                 <option key={key} value={`${item.nama}`}>{item.nama}</option>
                                             ))}
                                         </select>
@@ -397,23 +398,25 @@ const Daftar = () => {
                             <center>
                                 <button
                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                                    type="button" onClick={() => {
-                                    const cobadaftar = Daftarpsb({
-                                        nama: nama,
-                                        jk: jk,
-                                        ip: ip,
-                                        hp: hp,
-                                        sekolah: sekolah,
-                                        provinsi: selectedProv,
-                                        kabkot: selectedKabkot,
-                                        kecamatan: selectedKecamatan,
-                                        keldes: selectedKeldes,
-                                        rt: rt,
-                                        rw: rw,
-                                        alamat: alamat
-                                    });
-                                    console.log(cobadaftar);
-                                }}>
+                                    type="button" onClick={
+                                    async () => {
+                                        const cek = await Daftarpsb({
+                                            nama: nama,
+                                            jk: jk,
+                                            ip: ip,
+                                            hp: hp,
+                                            sekolah: sekolah,
+                                            provinsi: selectedProv,
+                                            kabkot: selectedKabkot,
+                                            kecamatan: selectedKecamatan,
+                                            keldes: selectedKeldes,
+                                            rt: rt,
+                                            rw: rw,
+                                            alamat: alamat
+                                        });
+                                        console.log(cek)
+                                    }
+                                }>
                                     Daftar
                                 </button>
                             </center>

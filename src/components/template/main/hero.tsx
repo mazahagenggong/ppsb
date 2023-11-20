@@ -71,9 +71,9 @@ const Hero = () => {
                         </center>
                     </div>
                     <div className="flex flex-col md:w-1/2">
-                        <div className="flex flex-col w-full md:w-1/2 md:flex-row">
+                        <div className="flex flex-col w-full md:flex-row">
                             <div
-                                className={`${styles.gr1} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}
+                                className={`${styles.gr1} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1 md:w-1/2`}
                                 style={{width: "100%", height: "30vh"}}>
                                 <Icon icon="mingcute:wave-line" width="64" height="64"/>
                                 <Link href="#" style={{textDecoration: "none"}}>
@@ -81,7 +81,7 @@ const Hero = () => {
                                 </Link>
                             </div>
                             <div
-                                className={`${styles.gr2} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}
+                                className={`${styles.gr2} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1 md:w-1/2`}
                                 style={{width: "100%", height: "30vh"}}>
                                 <Icon icon="ion:time-outline" width="64" height="64"/>
                                 <Link href="#" style={{textDecoration: "none"}}>
@@ -89,9 +89,9 @@ const Hero = () => {
                                 </Link>
                             </div>
                         </div>
-                        <div className="flex flex-col w-full md:w-1/2 md:flex-row">
+                        <div className="flex flex-col w-full md:flex-row">
                             <div
-                                className={`${styles.gr3} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}
+                                className={`${styles.gr3} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1 md:w-1/2`}
                                 style={{width: "100%", height: "30vh"}}>
                                 <Icon icon="bx:video" width="64" height="64"/>
                                 <Link href="#" style={{textDecoration: "none"}}>
@@ -99,7 +99,7 @@ const Hero = () => {
                                 </Link>
                             </div>
                             <div
-                                className={`${styles.gr4} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}
+                                className={`${styles.gr4} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1 md:w-1/2`}
                                 style={{width: "100%", height: "30vh"}}>
                                 <Icon icon="gala:brochure" width="64" height="64"/>
                                 <Link href="#" style={{textDecoration: "none"}}>

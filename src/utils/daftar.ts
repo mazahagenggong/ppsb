@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const nullkat = (jenis: string) => {
     let keterangan;
     switch (jenis) {
@@ -43,7 +45,7 @@ const nullkat = (jenis: string) => {
     }
     return keterangan;
 }
-const Daftarpsb = (data:any) => {
+const Daftarpsb = async (data:any) => {
     for (const key in data) {
         if (data[key] === null || data[key] === "") {
             return {
@@ -55,10 +57,11 @@ const Daftarpsb = (data:any) => {
     data.provinsi = data.provinsi.split("|")[1];
     data.kabkot = data.kabkot.split("|")[1];
     data.kecamatan = data.kecamatan.split("|")[1];
+    const test = await axios.post("api/daftar", data);
     return {
         success: true,
-        data,
-        message: "Data berhasil di simpan",
+        test,
+        message: "Data berhasil di cek",
     }
 };
 
