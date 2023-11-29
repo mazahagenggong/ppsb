@@ -2,7 +2,7 @@ import React from 'react';
 import axios from "axios";
 import useSWR from "swr";
 import Daftarpsb from "@/utils/daftar";
-import {DaftarFormProps} from "@/utils/interfaces/DaftarFormProps";
+import {DaftarFormProps, ResponseDaftar} from "@/utils/interfaces/DaftarFormProps";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
@@ -400,7 +400,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                         async (e) => {
                             e.preventDefault();
                             await props.ubahTampilan("loading");
-                            const cek = await Daftarpsb({
+                            const cek: ResponseDaftar = await Daftarpsb({
                                 nama: nama,
                                 jk: jk,
                                 ip: ip,
@@ -416,7 +416,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                             });
                             if (!cek.success) {
                                 await props.ubahTampilan("awal");
-                                Swal.fire({
+                                await Swal.fire({
                                     position: "center",
                                     icon: "error",
                                     title: "Ooops!",
@@ -424,8 +424,27 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     showConfirmButton: false,
                                     timer: 1500
                                 });
+                                console.log(cek)
+                                return;
                             }
                             console.log(cek)
+                            const cekstorage = localStorage.getItem('savedlogin');
+                            if (!cekstorage) {
+                                localStorage.setItem('savedlogin', JSON.stringify([{"kode": cek.data.siswa.kode, "nama": cek.data.siswa.nama}]));
+                            } else {
+                                const savedlogin = JSON.parse(cekstorage);
+                                savedlogin.push({kode: cek.data.siswa.kode, nama: cek.data.siswa.nama});
+                                localStorage.setItem('savedlogin', JSON.stringify(savedlogin));
+                            }
+                            await props.ubahTampilan("awal");
+                            await Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Mantap.",
+                                html: "<p>Pendaftaran berhasil.</p>" +"<br>"+ "<p>Silahkan download dan login</p>",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
                         }
                     }>
                         Daftar

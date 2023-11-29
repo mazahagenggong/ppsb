@@ -1,6 +1,7 @@
 import React from 'react';
 import DaftarForm from "@/components/daftar";
 import {useSiswaStore, useLokasiStore} from "@/utils/stores/daftar";
+import Loading from "@/components/loading";
 
 const Daftar = () => {
     const [tampilan, settampilan] = React.useState<string>("awal");
@@ -80,7 +81,7 @@ const Daftar = () => {
 
                         {
                             tampilan === "loading" && (
-                                <h1>Loading.....</h1>
+                                <Loading/>
                             )
                         }
 

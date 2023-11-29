@@ -3,10 +3,22 @@ import Cors from 'cors'
 import prisma from "@/utils/prisma"
 import runMiddleware from "@/utils/runMiddleware"
 
+const generateRandomCode = async (): Promise<string> => {
+    const randomCode = Math.floor(100000 + Math.random() * 900000).toString().slice(0, 6);
+    const existingSiswa = await prisma.siswa.findUnique({
+        where: { kode: randomCode },
+    });
+
+    if (existingSiswa) {
+        return generateRandomCode();
+    }
+
+    return randomCode;
+};
+
 const post = async function (req: NextApiRequest) {
     const reqbody = req.body;
-    const cek = await prisma.siswa.count({});
-    const kode = (202400001 + cek).toString();
+    const kode = await generateRandomCode();
 
     try {
         const createAlamatResult = await prisma.alamat.create({
@@ -28,7 +40,7 @@ const post = async function (req: NextApiRequest) {
                 jk: reqbody.jk,
                 hp: reqbody.hp,
                 sekolah: reqbody.sekolah,
-                alamatId: createAlamatResult.id,  // Gunakan id alamat yang baru saja dibuat
+                alamatId: createAlamatResult.id,
                 ip: reqbody.ip,
             }
         });
@@ -48,7 +60,7 @@ const post = async function (req: NextApiRequest) {
             status: 400,
             data: {
                 success: false,
-                message: "Data gagal disimpan",
+                message: "Gagal mendaftar",
                 error: error instanceof Error ? error.message : "Unknown error",
             }
         };

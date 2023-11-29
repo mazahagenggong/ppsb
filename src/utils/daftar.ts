@@ -57,11 +57,14 @@ const Daftarpsb = async (data:any) => {
     data.provinsi = data.provinsi.split("|")[1];
     data.kabkot = data.kabkot.split("|")[1];
     data.kecamatan = data.kecamatan.split("|")[1];
-    const test = await axios.post("api/daftar", data);
+    const cek = await axios.post("api/daftar", data);
     return {
-        success: true,
-        test,
-        message: "Data berhasil di cek",
+        success: cek.data.success,
+        data: {
+            siswa: cek.data.datasiswa,
+            alamat: cek.data.dataalamat
+        },
+        message: cek.data.message
     }
 };
 

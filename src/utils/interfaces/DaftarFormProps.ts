@@ -26,3 +26,10 @@ export interface DaftarFormProps {
     alamat: string | null;
     setalamat: (value: string | null) => void;
 }
+
+export interface ResponseDaftar {
+    success: boolean;
+    message: string;
+    data?: any;
+    error?: any;
+}
