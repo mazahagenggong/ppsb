@@ -60,7 +60,7 @@ const Loading = () => {
                                 <h1 className='arab'>بِسْمِ اللّهِ الرَّحْمَنِ الرَّحِيْمِ</h1>
                             ) : (
                                 <div className={`col ${styles.texthitung}`}>
-                                    <h1>PPSB MA ZAINUL HASAN 1 Genggong</h1>
+                                    <h1>PSB MA ZAINUL HASAN 1 Genggong</h1>
                                     <h1>DI{data.status.toUpperCase()} DALAM</h1>
                                     <h1 className={styles.hitung}>{countdown}</h1>
                                     <h1>DETIK</h1>
