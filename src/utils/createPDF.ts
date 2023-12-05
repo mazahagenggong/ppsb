@@ -1,8 +1,9 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import moment from "moment-with-locales-es6";
+import moment from 'moment';
+import 'moment/locale/id';
 
-moment.locale("id");
+moment.locale('id');
 
 const formatDate = (createdAt: string) => {
     return moment(createdAt).format('DD MMMM YYYY | hh:mm:ss A');
@@ -132,10 +133,7 @@ const createPDF = async (data: any, url: string) => {
     const imageHight = 30;
     const centerX = (pageWidth - imageWidth) / 2;
     doc.addImage(url, 'JPEG', centerX, finalY, imageWidth, imageHight);
-    //string to url and lowercase
     const namaurl = data.nama.toUpperCase().replace(/\s/g, "-");
-    // datetime unix
-    const date = new Date().getTime();
     doc.save(`FORMULIR-${namaurl}.pdf`);
 }
 

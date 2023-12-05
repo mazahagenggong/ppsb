@@ -4,6 +4,7 @@ import styles from "@/styles/homepage/arab.module.css";
 import Image from "next/image";
 import {Icon} from '@iconify/react';
 import Link from "next/link";
+import Login from "@/components/buttons/login";
 
 const Hero = () => {
     const [text] = useTypewriter({
@@ -14,13 +15,6 @@ const Hero = () => {
         typeSpeed: 150,
 
     });
-    // const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    //
-    // const containerStyle = {
-    //     display: isMobile ? 'block' : 'grid',
-    //     gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', // dua kolom untuk tampilan desktop
-    //     gap: isMobile ? '0' : '2px', // jarak antara dua kolom untuk tampilan desktop
-    // };
     return (
         <section className={`${styles.clients} ${styles.arab_bg}`}>
             <div className="container">
@@ -35,9 +29,12 @@ const Hero = () => {
             <div className="container">
                 <div className="row" data-aos="zoom-in">
                     <div>
-                        <h1 className={styles.selamat}>
-                            Selamat Datang di Sistem Pendaftaran Online Santri Baru MA. Zainul Hasan 1 Genggong Tahun
-                            pelajaran 2023/2024
+                        <h1 className={`${styles.selamat} text-xl md:text-3xl`}>
+                            Selamat Datang di Sistem Pendaftaran Online Santri Baru
+                            <br/>
+                            MA Zainul Hasan 1 Genggong
+                            <br/>
+                            Tahun pelajaran 2023/2024
                         </h1>
                     </div>
                 </div>
@@ -54,20 +51,22 @@ const Hero = () => {
                                 height={800}
                                 priority
                             />
-                            <button
-                                className="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded m-3">
-                                Cara Daftar
-                            </button>
-                            <Link
-                                href="#daftar"
-                                className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded m-3"
-                                style={{textDecoration: "none"}}>
-                                Daftar Sekarang
-                            </Link>
-                            <button
-                                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-3">
-                                Masuk
-                            </button>
+
+                            <div className="flex flex-wrap justify-center mb-6 items-center">
+                                <div className="flex flex-col md:flex-row items-center">
+                                    <button
+                                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full my-2 md:mx-3">
+                                        Cara Daftar
+                                    </button>
+                                    <Link
+                                        href="#daftar"
+                                        className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full my-2 md:mx-3"
+                                        style={{textDecoration: "none"}}>
+                                        Daftar Sekarang
+                                    </Link>
+                                    <Login/>
+                                </div>
+                            </div>
                         </center>
                     </div>
                     <div className="flex flex-col md:w-1/2">
@@ -108,51 +107,7 @@ const Hero = () => {
                             </div>
                         </div>
                     </div>
-                    {/*    <div className={isMobile ? "flex flex-col" : "flex flex-row"}*/}
-                    {/*         style={{alignItems: "center", cursor: "pointer"}} onClick={() => {*/}
-                    {/*        window.open("https://www.youtube.com/watch?v=cWrqxdyQZgc", '_blank');*/}
-                    {/*    }}>*/}
-                    {/*        <div*/}
-                    {/*            className={`${styles.gr3} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}*/}
-                    {/*            style={{width: "100%", height: "100%"}}>*/}
-                    {/*            <Icon icon="bx:video" width="64" height="64"/>*/}
-                    {/*            <Link href="#" style={{textDecoration: "none"}}>*/}
-                    {/*                <h1 className="mb-2 text-4xl font-semibold text-black">Video Profile</h1>*/}
-                    {/*            </Link>*/}
-                    {/*        </div>*/}
-                    {/*        <div*/}
-                    {/*            className={`${styles.gr4} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1`}*/}
-                    {/*            style={{width: "100%", height: "100%"}}>*/}
-                    {/*            <Icon icon="gala:brochure" width="64" height="64"/>*/}
-                    {/*            <Link href="#" style={{textDecoration: "none"}}>*/}
-                    {/*                <h1 className="mb-2 text-4xl font-semibold text-black">Download Brosur</h1>*/}
-                    {/*            </Link>*/}
-                    {/*        </div>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
                 </div>
-                {/*{!isMobile && (*/}
-                {/*    <div className="m-3">*/}
-                {/*        <Link*/}
-                {/*            href="#"*/}
-                {/*            className="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded m-3"*/}
-                {/*            style={{textDecoration: "none"}}>*/}
-                {/*            Cara Daftar*/}
-                {/*        </Link>*/}
-                {/*        <Link*/}
-                {/*            href="#daftar"*/}
-                {/*            className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded m-3"*/}
-                {/*            style={{textDecoration: "none"}}>*/}
-                {/*            Daftar Sekarang*/}
-                {/*        </Link>*/}
-                {/*        <Link*/}
-                {/*            href="#"*/}
-                {/*            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-3"*/}
-                {/*            style={{textDecoration: "none"}}>*/}
-                {/*            Masuk*/}
-                {/*        </Link>*/}
-                {/*    </div>*/}
-                {/*)}*/}
             </div>
         </section>
     );

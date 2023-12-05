@@ -2,11 +2,11 @@ import React from 'react';
 import {useRouter} from 'next/router';
 import axios from "axios";
 import useSWR from "swr";
-
-import moment from "moment-with-locales-es6";
 import createPDF from "@/utils/createPDF";
+import moment from 'moment';
+import 'moment/locale/id';
 
-moment.locale("id");
+moment.locale('id');
 const DownloadFormulir = () => {
     const router = useRouter();
     const {id} = router.query;
@@ -28,7 +28,6 @@ const DownloadFormulir = () => {
     const formatDate = (createdAt: string) => {
         return moment(createdAt).format('DD MMMM YYYY | hh:mm:ss A');
     };
-    console.log(data);
     return (
         <React.Fragment>
             {isLoading && (
