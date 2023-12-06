@@ -26,14 +26,6 @@
     transition: ease-in-out 0.3s;
 }
 
-.selamat {
-    position: relative;
-    color: #fff;
-    margin: auto;
-    padding: 15px;
-    line-height: 1.3;
-}
-
 .clients {
     padding: 10px 0 30px 0;
     text-align: center;

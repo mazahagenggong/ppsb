@@ -1,13 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import DaftarForm from "@/components/daftar";
 import {useSiswaStore, useLokasiStore} from "@/utils/stores/daftar";
-import Loading from "@/components/loading";
+import {showWaitLoading} from "@/components/loading/waitLoading";
+import withReactContent from 'sweetalert2-react-content';
+import Swal from 'sweetalert2';
+
+const MySwal = withReactContent(Swal);
 
 const Daftar = () => {
     const [tampilan, settampilan] = React.useState<string>("awal");
     const ubahTampilan = (nilaiTampilan: string) => {
         settampilan(nilaiTampilan);
     };
+    useEffect(() => {
+        if (tampilan === "loading") {
+            showWaitLoading('Mencoba mendaftar, silahkan menunggu')
+        } else {
+            MySwal.close();
+        }
+    }, [tampilan]);
     const lokasiStore = useLokasiStore();
     const siswaStore = useSiswaStore();
     const {
@@ -76,12 +87,6 @@ const Daftar = () => {
                                     alamat={alamat}
                                     setalamat={setalamat}
                                 />
-                            )
-                        }
-
-                        {
-                            tampilan === "loading" && (
-                                <Loading/>
                             )
                         }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import {Icon} from '@iconify/react';
 import Image from "next/image";
 import Link from "next/link";
+import Login from "@/components/buttons/login";
 
 const Topbar = () => {
     const [menu, setMenu] = React.useState<string>("hidden");
@@ -43,18 +44,15 @@ const Topbar = () => {
                         <ul
                             className="pt-4 text-base text-gray-700 md:flex md:justify-between md:pt-0">
                             <li>
-                                <Link className="md:p-4 py-2 block hover:text-purple-400 text-white" href="#daftar"
+                                <Link className="md:p-4 py-2 block hover:text-purple-400 text-white my-3 md:mx-3" href="#daftar"
                                       style={{textDecoration: "none"}}>Daftar</Link>
                             </li>
                             <li>
-                                <Link className="md:p-4 py-2 block hover:text-purple-400 text-white" href="#sekretariat"
+                                <Link className="md:p-4 py-2 block hover:text-purple-400 text-white my-3 md:mx-3" href="#sekretariat"
                                       style={{textDecoration: "none"}}>Panitia</Link>
                             </li>
                             <li>
-                                <button
-                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                    Masuk
-                                </button>
+                                <Login/>
                             </li>
                         </ul>
                     </div>

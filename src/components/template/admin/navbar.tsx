@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from "next/link"
 import Image from "next/image";
+import {deleteCookie} from "cookies-next";
 
 const Navbar = () => {
     const [expanded, setExpanded] = React.useState<boolean>(false);
@@ -59,12 +60,14 @@ const Navbar = () => {
                             </li>
 
                             <li>
-                                <button type="button" className="dropdown-item d-flex align-items-center">
+                                <button type="button" className="dropdown-item d-flex align-items-center" onClick={() => {
+                                    deleteCookie('token');
+                                    window.location.href = '/';
+                                }}>
                                     <i className="bi bi-box-arrow-right"></i>
                                     <span>Logout</span>
                                 </button>
                             </li>
-
                         </ul>
                     </li>
 

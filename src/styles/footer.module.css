@@ -1,0 +1,44 @@
+
+/*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
+.footer {
+    font-size: 14px;
+    background: #37517e;
+}
+.footer_bottom {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background: #188c74;
+    color: #fff;
+}
+
+.copyright {
+    float: left;
+}
+
+.credits {
+    float: right;
+    font-size: 13px;
+}
+
+.credits a {
+    transition: 0.3s;
+}
+
+@media (max-width: 768px) {
+    .footer_bottom {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .copyright,
+    .credits {
+        text-align: center;
+        float: none;
+    }
+
+    .credits {
+        padding-top: 4px;
+    }
+}

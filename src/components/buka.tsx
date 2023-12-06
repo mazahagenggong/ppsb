@@ -5,6 +5,7 @@ import Topbar from "@/components/template/main/topbar";
 import Hero from "@/components/template/main/hero";
 import Sekertariat from "@/components/template/main/sekertariat";
 import Daftar from "@/components/template/main/daftar";
+import Footer from "@/components/template/main/footer";
 
 const cekstatus = async () => {
     const res = await axios.get('/api/cek')
@@ -21,6 +22,7 @@ const Buka = () => {
             <Hero/>
             <Sekertariat/>
             <Daftar/>
+            <Footer/>
         </>
     );
 };

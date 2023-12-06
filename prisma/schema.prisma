@@ -38,3 +38,13 @@ model alamat {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
+
+model user {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  username   String   @unique
+  password   String
+  nama       String
+  role       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}

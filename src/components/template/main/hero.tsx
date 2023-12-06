@@ -29,7 +29,7 @@ const Hero = () => {
             <div className="container">
                 <div className="row" data-aos="zoom-in">
                     <div>
-                        <h1 className={`${styles.selamat} text-xl md:text-3xl`}>
+                        <h1 className={`text-xl md:text-3xl p-3 m-auto text-white`}>
                             Selamat Datang di Sistem Pendaftaran Online Santri Baru
                             <br/>
                             MA Zainul Hasan 1 Genggong

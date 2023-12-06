@@ -30,7 +30,7 @@ const Sekertariat = () => {
                                 <div style={{textDecoration: "none", textAlign: "center"}}>
                                     <p className="mt-3 text-2xl font-semibold text-black">AGUS SURAHMAN, S.Si</p>
                                     <p className="mb-2">Ketua PPSB</p>
-                                    <p>No. Telp : 082336517179</p>
+                                    <p>No. Telp : 082236517179</p>
                                     <p
                                         onClick={() => {
                                             window.open("https://t.me/agus_surahman", '_blank');

@@ -8,6 +8,7 @@ import withReactContent from 'sweetalert2-react-content'
 import {decrypt, encrypt} from "@/utils/crypt";
 import Login from "@/components/buttons/login";
 import createPDF from "@/utils/createPDF";
+import {LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
 
 const MySwal = withReactContent(Swal)
 
@@ -143,17 +144,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
         }, []);
 
         if (lprov || lkabkot || lkec || lkeldes) {
-            MySwal.fire({
-                position: "center",
-                icon: "info",
-                title: "Mohon menunggu",
-                html: "Mengambil data lokasi",
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                },
-            });
+            showWaitLoading("Mengambil data lokasi.")
         }
         if (!lprov && !lkabkot && !lkec && !lkeldes) {
             MySwal.close();
@@ -511,37 +502,13 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                 className="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full my-3 md:mx-3"
                                 onClick={async () => {
                                     try {
-                                        MySwal.fire({
-                                            position: "center",
-                                            icon: "info",
-                                            title: "Mohon menunggu",
-                                            html: "Membuat formulir pendaftaran",
-                                            showConfirmButton: false,
-                                            allowOutsideClick: false,
-                                            didOpen: () => {
-                                                Swal.showLoading();
-                                            },
-                                        });
+                                        showWaitLoading("Membuat formulir pendaftaran.")
                                         const {data} = (await axios.post("/api/cek/siswa", {id: datalogin.id})).data;
                                         const url = `https://ppsb.mazainulhasan1.sch.id/downloads/formulir/${datalogin.id}`;
                                         await createPDF(data, `https://quickchart.io/qr?text=${url}&dark=018417&margin=2&size=300&centerImageUrl=https%3A%2F%2Fi.ibb.co%2Fb2hZf16%2Fmalogo.png`);
-                                        await MySwal.fire({
-                                            position: "center",
-                                            icon: "success",
-                                            title: "Mantap.",
-                                            html: "<p>Formulir pendaftaran berhasil di download.</p>",
-                                            showConfirmButton: false,
-                                            timer: 3000
-                                        });
+                                        await LoadingTimer("Formulir berhasil di buat.", "success", 3000);
                                     } catch (e) {
-                                        await MySwal.fire({
-                                            position: "center",
-                                            icon: "error",
-                                            title: "Ooops!",
-                                            html: "<p>Formulir gagal di buat.</p>",
-                                            showConfirmButton: false,
-                                            timer: 3000
-                                        });
+                                        await LoadingTimer("Formulir gagal di buat.", "error", 3000);
                                     }
                                 }}
                             >
