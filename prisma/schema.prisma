@@ -13,6 +13,7 @@ datasource db {
 
 model siswa {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  nomor      String   @unique
   kode       String   @unique
   nama       String
   jk         String

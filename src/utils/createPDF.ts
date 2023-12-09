@@ -134,7 +134,7 @@ const createPDF = async (data: any, url: string) => {
     const centerX = (pageWidth - imageWidth) / 2;
     doc.addImage(url, 'JPEG', centerX, finalY, imageWidth, imageHight);
     const namaurl = data.nama.toUpperCase().replace(/\s/g, "-");
-    doc.save(`FORMULIR-${namaurl}.pdf`);
+    doc.save(`Bukti-Pendaftaran-${namaurl}.pdf`);
 }
 
 export default createPDF;

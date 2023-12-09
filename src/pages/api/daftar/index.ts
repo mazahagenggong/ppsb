@@ -16,9 +16,27 @@ const generateRandomCode = async (): Promise<string> => {
     return randomCode;
 };
 
+const generatenomoreg = async (): Promise<string> => {
+    const currentYear = new Date().getFullYear();
+
+    const lastRegisteredNomor = await prisma.siswa.findFirst({
+        orderBy: { nomor: 'desc' },
+    });
+
+    let totalSiswa = lastRegisteredNomor ? parseInt(lastRegisteredNomor.nomor.slice(4)) + 1 : 1;
+
+    if (!lastRegisteredNomor && totalSiswa === 1) {
+        totalSiswa = 0;
+    }
+    const nomorReg = `${currentYear}${totalSiswa.toString().padStart(4, '0')}`;
+
+    return nomorReg;
+}
+
 const post = async function (req: NextApiRequest) {
     const reqbody = req.body;
     const kode = await generateRandomCode();
+    const nomor = await generatenomoreg();
 
     try {
         const createAlamatResult = await prisma.alamat.create({
@@ -35,6 +53,7 @@ const post = async function (req: NextApiRequest) {
 
         const createSiswaResult = await prisma.siswa.create({
             data: {
+                nomor: nomor,
                 kode: kode,
                 nama: reqbody.nama,
                 jk: reqbody.jk,

@@ -4,12 +4,21 @@ import THeader from "@/components/template/admin/header"
 import Navbar from "@/components/template/admin/navbar"
 import Sidebar from "@/components/template/admin/sidebar"
 import Footer from "@/components/template/footer"
+import {useToogleSidebarPanel} from "@/utils/stores/sidebarPanel";
 
 interface TemplatePros {
     children: ReactNode;
 }
 
 const Template: React.FC<TemplatePros> = ({children}) => {
+    const {active} = useToogleSidebarPanel();
+    useEffect(() => {
+        if (active) {
+            document.body.className = '';
+        } else {
+            document.body.className = 'toggle-sidebar';
+        }
+    });
     return (
         <>
             <Head>
@@ -18,12 +27,14 @@ const Template: React.FC<TemplatePros> = ({children}) => {
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <link rel="icon" href="/assets/img/logo.png"/>
             </Head>
-            <div style={{ backgroundColor: 'white' }}>
+            <div style={{backgroundColor: 'white'}}>
                 <THeader>
                     <Navbar/>
                 </THeader>
                 <Sidebar/>
-                {children}
+                <main id="main" className="main">
+                    {children}
+                </main>
             </div>
             <Footer/>
         </>
