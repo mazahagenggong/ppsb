@@ -7,7 +7,7 @@ const Sidebar = () => {
     return (
         <aside id="sidebar" className="sidebar">
             <ul className="sidebar-nav" id="sidebar-nav">
-                <li className="nav-item" key={'1'}>
+                <li className="nav-item">
                     <Link
                         href={"/panel"}
                         className={`nav-link ${show === 'dashboard' ? '' : 'collapsed'}`}
@@ -22,7 +22,7 @@ const Sidebar = () => {
 
                 <li className="nav-heading">Master Data</li>
 
-                <li className="nav-item" key={'1'}>
+                <li className="nav-item">
                     <Link
                         href={"/panel/santri_baru/tambah"}
                         className={`nav-link ${show === 'tsb' ? '' : 'collapsed'}`}

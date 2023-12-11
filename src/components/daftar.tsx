@@ -8,7 +8,7 @@ import withReactContent from 'sweetalert2-react-content'
 import {decrypt, encrypt} from "@/utils/crypt";
 import Login from "@/components/buttons/login";
 import createPDF from "@/utils/createPDF";
-import {LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
+import {CloseSwal, LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
 
 const MySwal = withReactContent(Swal)
 
@@ -143,12 +143,13 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
             }
         }, []);
 
-        if (lprov || lkabkot || lkec || lkeldes) {
-            showWaitLoading("Mengambil data lokasi.")
-        }
-        if (!lprov && !lkabkot && !lkec && !lkeldes) {
-            MySwal.close();
-        }
+        React.useEffect(() => {
+            if (lprov || lkabkot || lkec || lkeldes) {
+                showWaitLoading("Mengambil data lokasi.");
+            } else {
+                CloseSwal();
+            }
+        }, [lprov, lkabkot, lkec, lkeldes]);
         return (
             <React.Fragment>
                 {!savedlogin ? (

@@ -1,10 +1,23 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Link from "next/link"
 import Image from "next/image";
 import {deleteCookie} from "cookies-next";
+import useSWR from "swr";
+import { getCookie } from 'cookies-next';
+import axios from "axios";
 
+const fetcher = async (url: string) => {
+    const {data} = (await axios.post(url, {}, {
+        headers: {
+            'Authorization': `Bearer ${getCookie('token')}`
+        }
+    })).data;
+    return data;
+};
 const Navbar = () => {
     const [expanded, setExpanded] = React.useState<boolean>(false);
+    const token = getCookie('token');
+    const {data: user} = useSWR((token ? '/api/auth/detail' : null), fetcher);
     return (
         <>
             <nav className="header-nav ms-auto">
@@ -24,7 +37,7 @@ const Navbar = () => {
                                     priority
                                     style={{height: 'auto', width: 'auto'}}
                                 />
-                            <span className="d-none d-md-block dropdown-toggle ps-2">Nama</span>
+                            <span className="d-none d-md-block dropdown-toggle ps-2">{user?.nama}</span>
                         </a>
 
                         <ul className={`dropdown-menu dropdown-menu-end dropdown-menu-arrow profile ${expanded ? 'show' : ''}`}
@@ -35,8 +48,8 @@ const Navbar = () => {
                                 transform: "translate(-16px, 38px)",
                             }}>
                             <li className="dropdown-header">
-                                <h6>@username</h6>
-                                <span>role</span>
+                                <h6>@{user?.username}</h6>
+                                <span>{user?.role}</span>
                             </li>
                             <li>
                                 <hr className="dropdown-divider"/>

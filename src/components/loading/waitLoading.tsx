@@ -59,4 +59,8 @@ const LoadingTimer = (text: string, icon: SweetAlertIcon, time: number) => {
     });
 };
 
-export {showWaitLoading, showWaitPercent, LoadingTimer};
+const CloseSwal = () => {
+    return MySwal.close();
+}
+
+export {showWaitLoading, showWaitPercent, LoadingTimer, CloseSwal};

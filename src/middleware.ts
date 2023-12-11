@@ -40,15 +40,13 @@ const cekToken = async (request:NextRequest, token: string | boolean) => {
                 'Authorization': 'Bearer ' + token,
             },
         });
-        const test = await cek.json();
-        if (!test.success) {
+        const cekuser = await cek.json();
+        if (!cekuser.success) {
             return {
                 success: false,
             }
         }
-        return {
-            success: true,
-        }
+        return cekuser
     } catch (error) {
         return {
             success: false,
