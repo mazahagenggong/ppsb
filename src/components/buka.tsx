@@ -7,15 +7,15 @@ import Sekertariat from "@/components/template/main/sekertariat";
 import Daftar from "@/components/template/main/daftar";
 import Footer from "@/components/template/main/footer";
 
-const cekstatus = async () => {
-    const res = await axios.get('/api/cek')
-    if (res.data.status === 'tutup') {
+const cekstatus = async (url:string) => {
+    const {data} = (await axios.get(url)).data
+    if (data.status_pendaftaran === 'tutup') {
         window.location.href = '/loading';
     }
-    return res.data.status
+    return data.status_pendaftaran
 }
 const Buka = () => {
-    const {data: status} = useSWR('/api/cek', cekstatus,  { refreshInterval: 3000 })
+    const {data: status} = useSWR('/api/setting/cek', cekstatus,  { refreshInterval: 3000 })
     return (
         <>
             <Topbar/>

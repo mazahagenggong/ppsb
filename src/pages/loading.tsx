@@ -3,15 +3,15 @@ import useSWR from 'swr';
 import styles from '@/styles/cover.module.css';
 import {Fireworks} from '@fireworks-js/react'
 import type {FireworksHandlers} from '@fireworks-js/react'
+import axios from "axios";
 
-
-const cekdata = async () => {
-    const res = await fetch('/api/cek');
-    return await res.json();
+const cekdata = async (url:string) => {
+    const {data} = (await axios.get(url)).data;
+    return await data;
 };
 
 const Loading = () => {
-    const {data, isLoading, error} = useSWR('/api/cek', cekdata);
+    const {data, isLoading, error} = useSWR('/api/setting/cek', cekdata);
     const [countdown, setCountdown] = useState<number>(10);
 
     useEffect(() => {
@@ -61,7 +61,7 @@ const Loading = () => {
                             ) : (
                                 <div className={`col ${styles.texthitung}`}>
                                     <h1>PSB MA ZAINUL HASAN 1 Genggong</h1>
-                                    <h1>DI{data.status.toUpperCase()} DALAM</h1>
+                                    <h1>DI{data.status_pendaftaran.toUpperCase()} DALAM</h1>
                                     <h1 className={styles.hitung}>{countdown}</h1>
                                     <h1>DETIK</h1>
                                 </div>

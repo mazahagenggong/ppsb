@@ -120,7 +120,7 @@ const Sidebar = () => {
                         data-bs-parent="#sidebar-nav">
                         <li>
                             <Link
-                                href={"/panel/santri_baru"}
+                                href={"/panel/pengaturan_aplikasi"}
                                 className={active === 'pengaturan_aplikasi' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"

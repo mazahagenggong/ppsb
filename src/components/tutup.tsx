@@ -2,15 +2,15 @@ import React from 'react'
 import useSWR from "swr";
 import axios from "axios";
 
-const cekstatus = async () => {
-    const res = await axios.get('/api/cek')
-    if (res.data.status === 'buka') {
+const cekstatus = async (url:string) => {
+    const {data} = (await axios.get(url)).data
+    if (data.status_pendaftaran === 'buka') {
         window.location.href = '/loading';
     }
-    return res.data.status
+    return data.status_pendaftaran
 }
 const Tutup = () => {
-    const {data: status} = useSWR('/api/cek', cekstatus,  { refreshInterval: 3000 })
+    const {data: status} = useSWR('/api/setting/cek', cekstatus,  { refreshInterval: 3000 })
     return (
         <>
             <center>

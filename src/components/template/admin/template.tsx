@@ -32,7 +32,7 @@ const Template: React.FC<TemplatePros> = ({children}) => {
                     <Navbar/>
                 </THeader>
                 <Sidebar/>
-                <main id="main" className="main">
+                <main id="main" className="main bg-[#f8fcfc]">
                     {children}
                 </main>
             </div>
