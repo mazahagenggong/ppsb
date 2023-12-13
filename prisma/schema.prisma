@@ -11,16 +11,43 @@ datasource db {
 }
 
 model siswa {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  nomor        String      @unique
+  kode         String      @unique
+  nama         String
+  jk           String
+  hp           String
+  sekolah      String
+  ip           String
+  alamatId     String      @db.ObjectId
+  alamat       alamat      @relation(fields: [alamatId], references: [id])
+  pembayaranId String?     @db.ObjectId
+  pembayaran   pembayaran? @relation(fields: [pembayaranId], references: [id])
+  gelombangId  String?     @db.ObjectId
+  gelombang    gelombang?  @relation(fields: [gelombangId], references: [id])
+  panitiaId    String?     @db.ObjectId
+  panitia      user?       @relation(fields: [panitiaId], references: [id])
+  created_at   DateTime    @default(now())
+  updated_at   DateTime    @updatedAt
+}
+
+model gelombang {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  nomor      String   @unique
-  kode       String   @unique
+  siswa      siswa[]
+  periode    String
   nama       String
-  jk         String
-  hp         String
-  sekolah    String
-  ip         String
-  alamatId   String   @db.ObjectId
-  alamat     alamat   @relation(fields: [alamatId], references: [id])
+  keterangan String
+  biaya      String
+  active     Boolean
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model pembayaran {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  siswa      siswa[]
+  status     String
+  bukti      String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
@@ -45,6 +72,7 @@ model user {
   password   String
   nama       String
   role       String
+  siswa      siswa[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }

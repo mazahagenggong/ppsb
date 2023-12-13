@@ -32,7 +32,7 @@ const THeader: React.FC<HeaderPros> = ({children}) => {
                         />
                         <span className="d-none d-lg-block">Mumtaz</span>
                     </Link>
-                    <i className={`bi ${active ? 'bi-x-circle' : 'bi-list'} toggle-sidebar-btn`} onClick={()=>(setActive(!active))}></i>
+                    <i className={`bi bi-list toggle-sidebar-btn`} onClick={()=>(setActive(!active))}></i>
                 </div>
 
                 <div className="search-bar">

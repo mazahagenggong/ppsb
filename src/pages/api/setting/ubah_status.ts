@@ -2,6 +2,7 @@ import type {NextApiRequest, NextApiResponse} from 'next'
 import Cors from "cors";
 import runMiddleware from "@/utils/runMiddleware";
 import {promises as fs} from 'fs';
+import {Admin} from "@/utils/validate/token";
 
 const post = async function (req: NextApiRequest) {
     const token = req.headers.authorization?.split(' ')[1];
@@ -11,6 +12,16 @@ const post = async function (req: NextApiRequest) {
             data: {
                 success: false,
                 message: "token tidak ada",
+            }
+        };
+    }
+    const verified = await Admin(token);
+    if (!verified.success) {
+        return {
+            status: 401,
+            data: {
+                success: false,
+                message: verified.message,
             }
         };
     }
