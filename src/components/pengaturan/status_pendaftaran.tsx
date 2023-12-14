@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import useSWR from "swr";
 import axios from "axios";
 import {getCookie} from "cookies-next";
+import {CloseSwal, LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
 
 const fetcher = async (url: string) => axios.get(url).then((res) => res.data);
 const StatusPendaftaran = () => {
@@ -10,6 +11,7 @@ const StatusPendaftaran = () => {
 
     const handleCheckboxChange = async () => {
         try {
+            showWaitLoading("Mengubah status pendaftaran")
             await axios.post('/api/setting/ubah_status', {
                 status_pendaftaran: isChecked ? "tutup" : "buka"
             }, {
@@ -18,22 +20,26 @@ const StatusPendaftaran = () => {
                     'Authorization': 'Bearer ' + getCookie('token') || '',
                 }
             });
-
+            CloseSwal();
             mutate();
-            setIsChecked(cek?.data?.status_pendaftaran !== "buka");
+            setIsChecked(!isChecked);
         } catch (e) {
-            console.log(e);
+            console.log(e)
+            LoadingTimer("Gagal mengubah status", "error", 1500);
         }
     }
     useEffect(() => {
         if (cek?.data) {
             const new_data = cek.data;
-
-            if (new_data.status_pendaftaran === "buka" && !isChecked) {
-                setIsChecked(true);
-            } else if (new_data.status_pendaftaran !== "buka" && isChecked) {
-                setIsChecked(false);
-            }
+            new_data.forEach((item: any) => {
+                if (item.nama === "status_pendaftaran") {
+                    if (item.value === "buka") {
+                        setIsChecked(true);
+                    } else {
+                        setIsChecked(false);
+                    }
+                }
+            });
         }
     }, [cek?.data, isChecked]);
     return (
@@ -61,39 +67,41 @@ const StatusPendaftaran = () => {
                     </div>
                 </div>
             )}
-            <div className="row">
-                <div className="col-lg-12">
-                    <div className="card">
-                        <div className="flex flex-col md:flex-row w-11/12 m-3">
-                            <div className="flex w-full md:w-1/2 justify-center md:justify-normal">
-                                <h1 className="text-2xl font-semibold">Pengaturan Pendaftaran</h1>
-                            </div>
-                            <div className="flex w-full md:w-1/2 justify-center md:justify-end">
-                                <label
-                                    className='flex autoSaverSwitch relative inline-flex cursor-pointer select-none items-center flex-col md:flex-row'>
-                                    <input
-                                        type='checkbox'
-                                        name='autoSaver'
-                                        className='sr-only'
-                                        checked={isChecked}
-                                        onChange={handleCheckboxChange}
-                                    />
-                                    <span
-                                        className='label flex items-center text-sm font-medium text-black'>
+            {cek && (
+                <div className="row">
+                    <div className="col-lg-12">
+                        <div className="card">
+                            <div className="flex flex-col md:flex-row w-11/12 m-3">
+                                <div className="flex w-full md:w-1/2 justify-center md:justify-normal">
+                                    <h1 className="text-2xl font-semibold">Pengaturan Pendaftaran</h1>
+                                </div>
+                                <div className="flex w-full md:w-1/2 justify-center md:justify-end">
+                                    <label
+                                        className='flex autoSaverSwitch relative inline-flex cursor-pointer select-none items-center flex-col md:flex-row'>
+                                        <input
+                                            type='checkbox'
+                                            name='autoSaver'
+                                            className='sr-only'
+                                            checked={isChecked}
+                                            onChange={handleCheckboxChange}
+                                        />
+                                        <span
+                                            className='label flex items-center text-sm font-medium text-black'>
                                             pendaftaran sedang di <span
-                                        className='pl-1'> {isChecked ? 'buka' : 'tutup'}</span>&nbsp;
+                                            className='pl-1'> {isChecked ? 'buka' : 'tutup'}</span>&nbsp;
                                         </span>
-                                    <span
-                                        className={`slider mr-3 flex h-[26px] w-[50px] items-center rounded-full p-1 duration-200 ${isChecked ? 'bg-primary' : 'bg-[#CCCCCE]'}`}>
+                                        <span
+                                            className={`slider mr-3 flex h-[26px] w-[50px] items-center rounded-full p-1 duration-200 ${isChecked ? 'bg-primary' : 'bg-[#CCCCCE]'}`}>
                                             <span
                                                 className={`dot h-[18px] w-[18px] rounded-full bg-white duration-200 ${isChecked ? 'translate-x-6' : ''}`}></span>
                                         </span>
-                                </label>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            )}
         </>
     );
 };

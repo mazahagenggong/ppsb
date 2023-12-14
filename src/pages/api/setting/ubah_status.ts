@@ -3,6 +3,7 @@ import Cors from "cors";
 import runMiddleware from "@/utils/runMiddleware";
 import {promises as fs} from 'fs';
 import {Admin} from "@/utils/validate/token";
+import prisma from "@/utils/prisma";
 
 const post = async function (req: NextApiRequest) {
     const token = req.headers.authorization?.split(' ')[1];
@@ -25,7 +26,6 @@ const post = async function (req: NextApiRequest) {
             }
         };
     }
-    const path = process.cwd() + '/src/utils/config/setting.json';
     const body = req.body;
     if (!body.status_pendaftaran) {
         return {
@@ -39,23 +39,33 @@ const post = async function (req: NextApiRequest) {
     }
 
     try {
-        const fileContent = await fs.readFile(path, 'utf-8');
-        const settings = JSON.parse(fileContent);
-        settings.status_pendaftaran = body.status_pendaftaran;
-        await fs.writeFile(path, JSON.stringify(settings, null, 2), 'utf-8');
-        const file = await fs.readFile(path, 'utf8');
-        const data = JSON.parse(file);
+        const edit = await prisma.settingan.update({
+            where: {
+                nama: "status_pendaftaran"
+            },
+            data: {
+                value: body.status_pendaftaran
+            }
+        });
+        if (!edit) {
+            return {
+                status: 400,
+                data: {
+                    success: false,
+                    data: null,
+                    message: "Gagal mengubah data setting",
+                }
+            };
+        }
         return {
             status: 200,
             data: {
                 success: true,
-                data: data,
+                data: edit,
                 message: "berhasil"
             }
         };
     } catch (error) {
-        const file = await fs.readFile(path, 'utf8');
-        const data = JSON.parse(file);
         return {
             status: 200,
             data: {

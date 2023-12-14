@@ -8,14 +8,25 @@ import Daftar from "@/components/template/main/daftar";
 import Footer from "@/components/template/main/footer";
 
 const cekstatus = async (url:string) => {
-    const {data} = (await axios.get(url)).data
-    if (data.status_pendaftaran === 'tutup') {
-        window.location.href = '/loading';
+    try {
+        const {data} = (await axios.get(url)).data
+        if (data && data.length > 0){
+            data.forEach((item:any) => {
+                if (item.nama === "status_pendaftaran") {
+                    if (item.value === 'tutup') {
+                        window.location.href = '/loading';
+                    }
+                }
+            });
+        }
+        return data
     }
-    return data.status_pendaftaran
+    catch (e) {
+        console.log(e)
+    }
 }
 const Buka = () => {
-    const {data: status} = useSWR('/api/setting/cek', cekstatus,  { refreshInterval: 3000 })
+    const {data:buka} = useSWR('/api/setting/cek', cekstatus, {refreshInterval: 3000})
     return (
         <>
             <Topbar/>

@@ -1,19 +1,41 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import Cors from "cors";
 import runMiddleware from "@/utils/runMiddleware";
-import {promises as fs} from 'fs';
+import prisma from "@/utils/prisma";
 
 const getdata = async function (req: NextApiRequest) {
-    const file = await fs.readFile(process.cwd() + '/src/utils/config/setting.json', 'utf8');
-    const data = JSON.parse(file);
-    return {
-        status: 200,
-        data: {
-            success: true,
-            data: data,
-            message: "berhasil"
+    try {
+        const data = await prisma.settingan.findMany({
+            orderBy: {
+                nama: 'asc'
+            }
+        });
+        if (!data) {
+            return {
+                status: 400,
+                data: {
+                    success: false,
+                    message: "Gagal mengambil data setting",
+                }
+            };
         }
-    };
+        return {
+            status: 200,
+            data: {
+                success: true,
+                data: data,
+                message: "berhasil"
+            }
+        };
+    } catch (e) {
+        return {
+            status: 400,
+            data: {
+                success: false,
+                message: "Gagal mengambil data setting",
+            }
+        };
+    }
 }
 
 export default async function handler(

@@ -3,14 +3,25 @@ import useSWR from "swr";
 import axios from "axios";
 
 const cekstatus = async (url:string) => {
-    const {data} = (await axios.get(url)).data
-    if (data.status_pendaftaran === 'buka') {
-        window.location.href = '/loading';
+    try {
+        const {data} = (await axios.get(url)).data
+        if (data && data.length > 0){
+            data.forEach((item:any) => {
+                if (item.nama === "status_pendaftaran") {
+                    if (item.value === 'buka') {
+                        window.location.href = '/loading';
+                    }
+                }
+            });
+        }
+        return data
     }
-    return data.status_pendaftaran
+    catch (e) {
+        console.log(e)
+    }
 }
 const Tutup = () => {
-    const {data: status} = useSWR('/api/setting/cek', cekstatus,  { refreshInterval: 3000 })
+    const {data: status} = useSWR('/api/setting/cek', cekstatus, {refreshInterval: 3000} )
     return (
         <>
             <center>

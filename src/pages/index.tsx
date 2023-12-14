@@ -1,18 +1,25 @@
-import Head from 'next/head'
 import axios from "axios";
 import useSWR, {mutate} from "swr";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Tutup from "@/components/tutup";
 import Buka from "@/components/buka";
 
 const cekstatus = async (url:string) => {
     const {data} = (await axios.get(url)).data;
-    console.log("status ",data.status_pendaftaran)
-    return data.status_pendaftaran
+    return data
 }
 export default function Home() {
-    const {data: status,isLoading, error} = useSWR('/api/setting/cek', cekstatus)
-    console.log(status, isLoading, error)
+    const {data,isLoading, error} = useSWR('/api/setting/cek', cekstatus);
+    const [status, setStatus] = useState<string|null>(null);
+    useEffect(() => {
+        if (data && data.length > 0){
+            data.forEach((item:any) => {
+                if (item.nama === "status_pendaftaran") {
+                    setStatus(item.value);
+                }
+            });
+        }
+    }, [data]);
 
     return (
         <React.Fragment>

@@ -76,3 +76,11 @@ model user {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
+
+model settingan {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  nama       String   @unique
+  value      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
