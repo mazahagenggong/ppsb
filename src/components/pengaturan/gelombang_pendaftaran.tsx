@@ -2,6 +2,7 @@ import React from 'react';
 import useSWR from "swr";
 import axios from "axios";
 import {getCookie} from "cookies-next";
+import Gelombang from "@/components/buttons/gelombang";
 
 const fetcher = async (url: string) => {
     const res = await axios.get(url);
@@ -90,10 +91,7 @@ const GelombangPendaftaran = () => {
                                     </table>
                                 )}
                                 <div className="flex w-full justify-center">
-                                    <button
-                                        className="btn btn-primary w-full md:w-auto md:ml-3 mt-3 md:mt-0 justify-center">Tambah
-                                        Gelombang
-                                    </button>
+                                    <Gelombang/>
                                 </div>
                             </div>
                         </div>
