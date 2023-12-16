@@ -10,6 +10,9 @@ const fetcher = async (url: string) => {
 };
 const GelombangPendaftaran = () => {
     const {data, isLoading, error, mutate} = useSWR('/api/setting/gelombang', fetcher);
+    const handleMutate = () => {
+        mutate();
+    }
     console.log(data)
     return (
         <>
@@ -37,67 +40,65 @@ const GelombangPendaftaran = () => {
                 </div>
             )}
             {data && (
-            <div className="row">
-                <div className="col-lg-12">
-                    <div className="card">
-                        <div className="flex flex-col w-11/12 m-3">
-                            <div className="flex w-full justify-center">
-                                <h1 className="text-2xl font-semibold">Pengaturan Gelombang</h1>
-                            </div>
-                            <div className="flex flex-col w-full">
-                                {data && data.data?.length === 0 ? (
-                                    <div className="flex flex-col w-full justify-center items-center">
-                                        <span className="font-semibold">Belum ada gelombang pendaftaran</span>
-                                    </div>
-                                ) : (
-                                    <table className="table">
-                                        <tbody>
-                                        <tr>
-                                            <th>
-                                                Nama Gelombang
-                                            </th>
-                                            <th>
-                                                Tanggal
-                                            </th>
-                                            <th>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td>Gelombang 1
-                                            </td>
-                                            <td>-&gt; 02 February 2023 <br/> &lt;- 02 March 2023</td>
-                                            <td>
-                                                <button className="btn btn-success">Aktifkan</button>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Gelombang 2
-                                            </td>
-                                            <td>-&gt; 03 March 2023 <br/> &lt;- 02 May 2023</td>
-                                            <td>
-                                                <button className="btn btn-success">Aktifkan</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Gelombang 3
-                                            </td>
-                                            <td>-&gt; 03 May 2023 <br/> &lt;- 26 June 2023</td>
-                                            <td>
-                                                Sedang Aktif
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                )}
+                <div className="row">
+                    <div className="col-lg-12">
+                        <div className="card">
+                            <div className="flex flex-col w-11/12 m-3">
                                 <div className="flex w-full justify-center">
-                                    <Gelombang/>
+                                    <h1 className="text-2xl font-semibold">Pengaturan Gelombang</h1>
+                                </div>
+                                <div className="flex flex-col w-full">
+                                    {data && data.data?.length === 0 ? (
+                                        <div className="flex flex-col w-full justify-center items-center">
+                                            <span className="font-semibold">Belum ada gelombang pendaftaran</span>
+                                        </div>
+                                    ) : (
+                                        <table className="table">
+                                            <tbody>
+                                            <tr>
+                                                <th>
+                                                    Nama Gelombang
+                                                </th>
+                                                <th>
+                                                    Tanggal
+                                                </th>
+                                                <th>
+                                                </th>
+                                            </tr>
+                                            {data && data.data?.map((item: any, index: number) => (
+                                                <tr key={index}>
+                                                    <td>{item.nama}</td>
+                                                    <td>{item.keterangan}</td>
+                                                    {!item.active ? (
+                                                        <td>
+                                                        <span
+                                                            className={`slider mr-3 flex h-[26px] w-[50px] items-center rounded-full p-1 duration-200 bg-[#CCCCCE]`}>
+                                                            <span
+                                                                className={`dot h-[18px] w-[18px] rounded-full bg-white duration-200`}></span>
+                                                        </span>
+                                                        </td>
+                                                    ) : (
+                                                        <td>
+                                                            <span
+                                                                className={`slider mr-3 flex h-[26px] w-[50px] items-center rounded-full p-1 duration-200 bg-primary`}>
+                                                            <span
+                                                                className={`dot h-[18px] w-[18px] rounded-full bg-white duration-200 translate-x-6`}></span>
+                                                        </span>
+                                                        </td>
+                                                    )}
+                                                </tr>
+                                            ))}
+                                            </tbody>
+                                        </table>
+                                    )}
+                                    <div className="flex w-full justify-center">
+                                        <Gelombang onMutate={handleMutate}/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             )}
         </>
     );
