@@ -3,6 +3,7 @@ import useSWR from "swr";
 import axios from "axios";
 import {getCookie} from "cookies-next";
 import Gelombang from "@/components/buttons/gelombang";
+import {CloseSwal, LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
 
 const fetcher = async (url: string) => {
     const res = await axios.get(url);
@@ -13,7 +14,27 @@ const GelombangPendaftaran = () => {
     const handleMutate = () => {
         mutate();
     }
-    console.log(data)
+    const handleToActive = async (id: string) => {
+        try {
+            showWaitLoading("Mengubah status gelombang");
+            await axios.post('/api/gelombang/active', {
+                id: id
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + getCookie('token')
+                }
+
+            });
+            LoadingTimer("Berhasil mengubah status gelombang", "success", 1500);
+        } catch (e) {
+            LoadingTimer("Gagal mengubah status", "error", 1500);
+            console.log(e)
+            CloseSwal();
+        }
+        mutate();
+        return;
+    }
     return (
         <>
             {isLoading && (
@@ -70,7 +91,10 @@ const GelombangPendaftaran = () => {
                                                     <td>{item.nama}</td>
                                                     <td>{item.keterangan}</td>
                                                     {!item.active ? (
-                                                        <td>
+                                                        <td onClick={(e)=>{
+                                                            e.preventDefault();
+                                                            handleToActive(item.id);
+                                                        }}>
                                                         <span
                                                             className={`slider mr-3 flex h-[26px] w-[50px] items-center rounded-full p-1 duration-200 bg-[#CCCCCE]`}>
                                                             <span
@@ -78,7 +102,9 @@ const GelombangPendaftaran = () => {
                                                         </span>
                                                         </td>
                                                     ) : (
-                                                        <td>
+                                                        <td onClick={()=>{
+                                                            LoadingTimer("Silahkan mengaktifkan gelombang lain untuk mengaktifkan gelombang ini", "error", 2000);
+                                                        }}>
                                                             <span
                                                                 className={`slider mr-3 flex h-[26px] w-[50px] items-center rounded-full p-1 duration-200 bg-primary`}>
                                                             <span
