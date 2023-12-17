@@ -14,48 +14,20 @@ const createPDF = async (data: any, url: string) => {
         unit: 'mm',
         format: 'a4',
     });
-    autoTable(doc, {
-        body: [
-            [
-                {
-                    content: 'PPSB 2021',
-                    styles: {
-                        halign: 'center',
-                        fontStyle: 'bold',
-                        fontSize: 20,
-                    },
-                },
-            ],
-            [
-                {
-                    content: 'MA ZAINUL HASAN 1 GENGGONG',
-                    styles: {
-                        halign: 'center',
-                        fontStyle: 'bold',
-                        fontSize: 18,
-                    },
-                },
-            ],
-        ],
-        theme: 'plain',
-    });
 
-    autoTable(doc, {
-        body: [
-            [
-                {
-                    content: 'Data Pendaftar:',
-                    styles: {
-                        halign: 'left',
-                        fontStyle: 'bold',
-                        fontSize: 14,
-                    },
-                },
-            ],
-        ],
-        theme: 'plain',
-    });
+    let fy = 3;
+    const pw = doc.internal.pageSize.getWidth();
+    const iw = 160;
+    const ih = 30;
+    const cx = (pw - iw) / 2;
+    doc.addImage("http://localhost:3000/assets/img/kop.jpg", 'JPEG', cx, fy, iw, ih);
+    doc.setFont('underline', 'bold');
+    doc.setFontSize(16);
+    doc.text("Bukti Pendaftaran PSB 2024", 105, fy + 37, { align: 'center' });
 
+    doc.setFont('', 'normal');
+    doc.setFontSize(12);
+    doc.text("Data pendaftar : ", 105, fy + 44, { align: 'left' });
     autoTable(doc, {
         body: [
             ['Kode Login', data.kode],
@@ -63,6 +35,7 @@ const createPDF = async (data: any, url: string) => {
             ['Jenis Kelamin', data.jk === "lk" ? "Laki-laki" : "Perempuan"],
             ['Nomor HP', data.hp],
         ],
+        startY: fy + 47,
         theme: 'striped',
     });
 

@@ -150,6 +150,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                 CloseSwal();
             }
         }, [lprov, lkabkot, lkec, lkeldes]);
+        const htmlContent = '<h1>Hello, this is HTML content!</h1><p>Some text...</p>';
         return (
             <React.Fragment>
                 {!savedlogin ? (
@@ -435,7 +436,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                         keldes: selectedKeldes,
                                         rt: rt,
                                         rw: rw,
-                                        alamat: alamat
+                                        alamat: alamat,
                                     });
                                     if (!cek.success) {
                                         props.ubahTampilan("awal");
@@ -504,9 +505,11 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                 onClick={async () => {
                                     try {
                                         showWaitLoading("Membuat bukti pendaftaran.")
-                                        const {data} = (await axios.post("/api/cek/siswa", {id: datalogin.id})).data;
-                                        const url = `https://ppsb.mazainulhasan1.sch.id/downloads/formulir/${datalogin.id}`;
-                                        await createPDF(data, `https://quickchart.io/qr?text=${url}&dark=018417&margin=2&size=300&centerImageUrl=https%3A%2F%2Fi.ibb.co%2Fb2hZf16%2Fmalogo.png`);
+                                        // create code to open link new tab
+                                        window.open(`http://localhost:3000/api/test`, '_blank');
+                                        // const {data} = (await axios.post("/api/cek/siswa", {id: datalogin.id})).data;
+                                        // const url = `https://ppsb.mazainulhasan1.sch.id/downloads/formulir/${datalogin.id}`;
+                                        // await createPDF(data, `https://quickchart.io/qr?text=${url}&dark=018417&margin=2&size=300&centerImageUrl=https%3A%2F%2Fi.ibb.co%2Fb2hZf16%2Fmalogo.png`);
                                         await LoadingTimer("Bukti pendaftaran berhasil di buat.", "success", 3000);
                                     } catch (e) {
                                         await LoadingTimer("Bukti pendaftaran gagal di buat.", "error", 3000);

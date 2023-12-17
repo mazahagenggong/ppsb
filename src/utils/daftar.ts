@@ -1,4 +1,5 @@
 import axios from "axios";
+import prisma from "@/utils/prisma";
 
 const nullkat = (jenis: string) => {
     let keterangan;
@@ -39,6 +40,9 @@ const nullkat = (jenis: string) => {
         case "alamat":
             keterangan = "Alamat belum di isi";
             break;
+        case "gelombang":
+            keterangan = "Gelombang tidak valid";
+            break;
         default:
             keterangan = "Error";
             break;
@@ -57,14 +61,22 @@ const Daftarpsb = async (data:any) => {
     data.provinsi = data.provinsi.split("|")[1];
     data.kabkot = data.kabkot.split("|")[1];
     data.kecamatan = data.kecamatan.split("|")[1];
-    const cek = await axios.post("api/daftar", data);
-    return {
-        success: cek.data.success,
-        data: {
-            siswa: cek.data.datasiswa,
-            alamat: cek.data.dataalamat
-        },
-        message: cek.data.message
+    try {
+        const cek = await axios.post("api/daftar", data);
+        return {
+            success: cek.data.success,
+            data: {
+                siswa: cek.data.datasiswa,
+                alamat: cek.data.dataalamat
+            },
+            message: cek.data.message
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            message: "Gagal mendaftar"
+        }
     }
 };
 

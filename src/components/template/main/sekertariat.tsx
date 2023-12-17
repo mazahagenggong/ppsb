@@ -4,7 +4,6 @@ import {Icon} from "@iconify/react";
 import Image from "next/image";
 
 const Sekertariat = () => {
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     return (
         <>
             <section id="sekretariat">
@@ -14,9 +13,9 @@ const Sekertariat = () => {
                             <h2>Sekretariat</h2>
                         </div>
                         <div
-                            className={(isMobile ? "flex flex-col" : "flex flex-row") + " items-center justify-center"}>
+                            className={"flex flex-col md:flex-row items-center justify-center"}>
                             <div
-                                className={`max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-3`}
+                                className={`w-full md:w-1/3 h-1/4 p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-3`}
                                 style={{backgroundColor: "#fff"}}>
                                 <div className={styles.photo_rounded}>
                                     <Image
@@ -27,7 +26,7 @@ const Sekertariat = () => {
                                         priority
                                     />
                                 </div>
-                                <div style={{textDecoration: "none", textAlign: "center"}}>
+                                <div className={"h-[25vh]"} style={{textDecoration: "none", textAlign: "center"}}>
                                     <p className="mt-3 text-2xl font-semibold text-black">AGUS SURAHMAN, S.Si</p>
                                     <p className="mb-2">Ketua PPSB</p>
                                     <p>No. Telp : 082236517179</p>
@@ -41,27 +40,27 @@ const Sekertariat = () => {
                                 </div>
                             </div>
                             <div
-                                className={`max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-3`}
+                                className={`w-full md:w-1/3 h-1/4 p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-3`}
                                 style={{backgroundColor: "#fff"}}>
                                 <div className={styles.photo_rounded}>
                                     <Image
                                         width="600"
                                         height="600"
                                         alt="Ustad Agus"
-                                        src="https://res.cloudinary.com/dfko3mdsp/website/gs/kme1tdhbc3lp3utpxzl8"
+                                        src="https://res.cloudinary.com/dfko3mdsp/website/gs/egzotmlq7flcii86ij6t"
                                         priority
                                     />
                                 </div>
-                                <div style={{textDecoration: "none", textAlign: "center"}}>
-                                    <p className="mt-3 text-2xl font-semibold text-black">NAJWAN NADA, S.Sos</p>
+                                <div className={"h-[25vh]"} style={{textDecoration: "none", textAlign: "center"}}>
+                                    <p className="mt-3 text-2xl font-semibold text-black">MOHAMMAD JAMALUL LAIL, S.Pd</p>
                                     <p className="mb-2">Sekretaris</p>
-                                    <p>No. Telp : 082234510002</p>
+                                    <p>No. Telp : 085733500155 / 082331103145</p>
                                     <p
                                         onClick={() => {
-                                            window.open("https://t.me/najwannada", '_blank');
+                                            window.open("https://t.me/iyLoeL", '_blank');
                                         }}
                                         style={{cursor: "pointer"}}>
-                                        Telegram : @najwannada
+                                        Telegram : @iyLoeL
                                     </p>
                                 </div>
                             </div>

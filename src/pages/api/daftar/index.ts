@@ -39,6 +39,20 @@ const post = async function (req: NextApiRequest) {
     const nomor = await generatenomoreg();
 
     try {
+        const gelombang = await prisma.gelombang.findFirst({
+            where: {
+                active: true,
+            },
+        });
+        if (!gelombang) {
+            return {
+                status: 400,
+                data: {
+                    success: false,
+                    message: "Gelombang aktif tidak ditemukan",
+                }
+            };
+        }
         const createAlamatResult = await prisma.alamat.create({
             data: {
                 alamat: reqbody.alamat,
@@ -61,6 +75,7 @@ const post = async function (req: NextApiRequest) {
                 sekolah: reqbody.sekolah,
                 alamatId: createAlamatResult.id,
                 ip: reqbody.ip,
+                gelombangId: gelombang.id,
             }
         });
 
@@ -75,6 +90,7 @@ const post = async function (req: NextApiRequest) {
         };
 
     } catch (error) {
+        console.log(error)
         return {
             status: 400,
             data: {
