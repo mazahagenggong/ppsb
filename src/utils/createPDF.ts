@@ -36,7 +36,7 @@ const createPDF = async (data: any,id:string) => {
     const hdp = 5;
     doc.setFont('times', 'bold');
     doc.setFontSize(14);
-    doc.text("Data pendaftar : ", 10, fy + hdp, {align: 'left'});
+    doc.text("Data pendaftar : " + app_url, 10, fy + hdp, {align: 'left'});
 
     fy = fy + hdp;
     autoTable(doc, {
