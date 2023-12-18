@@ -10,6 +10,7 @@ const formatDate = (createdAt: string) => {
 };
 const createPDF = async (data: any,id:string) => {
     const app_url = process.env.APP_URL ?? 'http://localhost:3000';
+    console.log(app_url);
     const url_qr = `${app_url}/downloads/formulir/${id}`;
     const url = `https://quickchart.io/qr?text=${url_qr}&dark=018417&margin=2&size=300&centerImageUrl=https%3A%2F%2Fi.ibb.co%2Fb2hZf16%2Fmalogo.png`
     const doc = new jsPDF({
