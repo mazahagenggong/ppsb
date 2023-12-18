@@ -30,6 +30,7 @@ const post = async function (req: NextApiRequest) {
             where: { id: id },
             include: {
                 alamat: true,
+                gelombang: true,
             }
         })
         if (!ceksiswa) {

@@ -26,7 +26,7 @@ const generatenomoreg = async (): Promise<string> => {
     let totalSiswa = lastRegisteredNomor ? parseInt(lastRegisteredNomor.nomor.slice(4)) + 1 : 1;
 
     if (!lastRegisteredNomor && totalSiswa === 1) {
-        totalSiswa = 0;
+        totalSiswa = 1;
     }
     const nomorReg = `${currentYear}${totalSiswa.toString().padStart(4, '0')}`;
 
@@ -100,7 +100,6 @@ const post = async function (req: NextApiRequest) {
             }
         };
     } finally {
-        // Always disconnect from the Prisma client to release resources
         await prisma.$disconnect();
     }
 }

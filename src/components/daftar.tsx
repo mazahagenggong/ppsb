@@ -503,10 +503,11 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                             <button
                                 className="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full my-3 md:mx-3"
                                 onClick={async () => {
+                                    const app_url = process.env.APP_URL ?? 'http://localhost:3000';
                                     try {
                                         showWaitLoading("Membuat bukti pendaftaran.")
                                         const {data} = (await axios.post("/api/cek/siswa", {id: datalogin.id})).data;
-                                        const url = `https://ppsb.mazainulhasan1.sch.id/downloads/formulir/${datalogin.id}`;
+                                        const url = `${app_url}/downloads/formulir/${datalogin.id}`;
                                         await createPDF(data, `https://quickchart.io/qr?text=${url}&dark=018417&margin=2&size=300&centerImageUrl=https%3A%2F%2Fi.ibb.co%2Fb2hZf16%2Fmalogo.png`);
                                         await LoadingTimer("Bukti pendaftaran berhasil di buat.", "success", 3000);
                                     } catch (e) {
