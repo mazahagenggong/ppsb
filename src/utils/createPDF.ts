@@ -117,7 +117,8 @@ const createPDF = async (data: any,id:string) => {
         body: [
             ['• Bukti pendaftaran ini sebagai tanda sudah terdaftar sebagai Calon Santri Baru Tahun Pelajaran 2024/2025\n' +
             '• Silahkan melakukan pembayaran baik melalui panitia langsung atau transfer\n' +
-            '• Pembayaran dapat ditransfer melalui REKENING RESMI PSB BANK SYARIAH INDONESIA (BSI) : 670-670-889-6\n' +
+            '• Transfer biaya pendaftaran ke rekening BSI (Bank Syariah Indonesia) kode bank 451\n' +
+            '   a.n PSB MA ZAINUL HASAN 1 GENGGONG No rek : 6706708896\n' +
             '• Silahkan masuk ke menu Login kemudian upload bukti pembayaran'],
         ],
         startY: fy,

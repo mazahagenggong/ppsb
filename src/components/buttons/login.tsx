@@ -1,16 +1,71 @@
 import React, {useState, useEffect} from 'react';
 import Modal from '@/components/modal';
+import {CloseSwal, LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
+import axios from "axios";
+import {deleteCookie, getCookie, setCookie} from "cookies-next";
 
 const Login: React.FC = () => {
+    const [kode, setKode] = useState<string>("");
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-    const handleLoginClick = () => {
-        setIsModalOpen(true);
+    const handleLoginClick = async () => {
+        const token = getCookie("token_santri");
+        if (!token || token === "") {
+            deleteCookie("token_santri");
+            setIsModalOpen(true);
+        } else {
+            setIsModalOpen(false);
+            showWaitLoading("Mencoba login...");
+            try {
+                const {data} = await axios.post("/api/auth/santri/detail", {}, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+                if (data.success) {
+                    LoadingTimer("Login berhasil", "success", 1500);
+                    setCookie("token_santri", data.data.token);
+                    window.location.href = "/santri";
+                } else {
+                    deleteCookie("token_santri");
+                    CloseSwal();
+                    setIsModalOpen(true);
+                }
+            } catch (e) {
+                deleteCookie("token_santri");
+                CloseSwal();
+                setIsModalOpen(true);
+            }
+        }
     };
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
+    const handleLogin = async () => {
+        setIsModalOpen(false);
+        if (kode === "") {
+            LoadingTimer("Kode Login tidak boleh kosong", "error", 1500);
+        }
+        showWaitLoading("Mencoba login...");
+        try {
+            const {data} = await axios.post("/api/auth/santri", {
+                kode: kode
+            });
+            if (data.success) {
+                LoadingTimer("Login berhasil", "success", 1500);
+                setCookie("token_santri", data.data.token);
+                window.location.href = "/santri";
+            } else {
+                await LoadingTimer("Kode Login salah", "error", 1500);
+                setIsModalOpen(true);
+            }
+        } catch (e) {
+            await LoadingTimer("Kode Login salah", "error", 1500);
+            setIsModalOpen(true);
+        }
+    }
 
     return (
         <>
@@ -30,14 +85,17 @@ const Login: React.FC = () => {
                                 className="text-center appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                 id="kode"
                                 type="text"
-                                placeholder={"Kode Login"}/>
+                                placeholder={"Kode Login"}
+                            onChange={(e)=> {
+                                setKode(e.target.value)
+                            }}/>
                             <center>
                                 <button
                                     className="bg-fuchsia-500 hover:bg-fuchsia-700 text-white font-bold py-2 px-4 rounded-full my-1 md:mx-3"
                                     type="submit"
-                                    onClick={(e) => {
+                                    onClick={async (e) => {
                                         e.preventDefault();
-                                        console.log("Login");
+                                        handleLogin();
                                     }}>
                                     Login
                                 </button>
