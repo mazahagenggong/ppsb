@@ -1,7 +1,8 @@
 import React from 'react';
 import {CldImage} from "next-cloudinary";
 
-const Menunggu = ({bukti} ) => {
+const Menunggu = (data:any) => {
+    const bukti = data.bukti;
     return (
         <div className="flex flex-col justify-center items-center">
             <h1 className="text-2xl font-bold text-gray-700">Anda sudah mengirimkan bukti pembayaran</h1>
