@@ -4,7 +4,7 @@ import {useSidebarPanel} from "@/utils/stores/sidebarPanel";
 import PanelContent from "@/components/panelContent";
 import Table from "@/components/table"
 
-const Index = () => {
+const Verifikasi = () => {
     const {setActive, setShow} = useSidebarPanel();
     const [tablewiew, setTablewiew] = React.useState<boolean>(true);
     const head: { name: string, id: string }[] = [
@@ -32,7 +32,7 @@ const Index = () => {
         setTablewiew(true);
     }
     useEffect(() => {
-        setActive('santri_baru');
+        setActive('perlu_verifikasi');
         setShow("pendaftar");
     }, []);
     const aksi= [
@@ -40,16 +40,12 @@ const Index = () => {
             name: "Detail",
             url: "/panel/santri_baru/detail/",
         },
-        {
-            name: "Hapus",
-            url :"/gs",
-        }
     ];
-    const url: string = "/santri/santri_baru";
+    const url: string = "/santri/verifikasi";
     const nama: string = "Santri Baru";
     return (
         <Template>
-            <PanelContent title={"Data Santri Baru"}>
+            <PanelContent title={"Perlu Verifikasi"}>
                 <section className="section dashboard">
                     <div className="row">
                         <div className="col-lg-12">
@@ -64,4 +60,4 @@ const Index = () => {
     );
 };
 
-export default Index;
+export default Verifikasi;

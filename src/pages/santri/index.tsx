@@ -5,6 +5,8 @@ import {getCookie} from "cookies-next";
 import axios from "axios";
 import Upload from "@/components/santri/pembayaran/upload";
 import Menunggu from "@/components/santri/pembayaran/menunggu";
+import Spinner from "@/components/spinner";
+import FormulirSantri from "@/components/santri/formulir";
 
 export default function Home() {
 
@@ -24,10 +26,8 @@ export default function Home() {
         <Template>
             {isLoading && (
                 <>
-                    <div className="d-flex justify-content-center align-items-center">
-                        <div className="spinner-border text-primary" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
+                    <div id="loading" className="loading-container">
+                        <Spinner text={"Megambil Data"}/>
                     </div>
                 </>
             )}
@@ -44,6 +44,9 @@ export default function Home() {
                         <>
                         {data.data.pembayaran.status === 'menunggu' && (
                                 <Menunggu bukti={data.data.pembayaran.bukti}/>
+                            )}
+                            {data.data.pembayaran.status === 'Lunas' && (
+                                <FormulirSantri/>
                             )}
                         </>
                     )}

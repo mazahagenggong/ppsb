@@ -21,7 +21,9 @@ const Menunggu = (data:any) => {
                             style={{maxWidth: 'auto', height: '400px', width: 'auto'}}
                         />
                     <h1 className="text-2xl font-bold text-gray-700 m-3">Status : Menunggu Verifikasi</h1>
-                    <p className={"italic"}>Jika ada kesalahan upload bukti pembayaran silahkan hubungi panitia PSB</p>
+                    <div className="alert alert-warning" role="alert">
+                        <strong>Perhatian!</strong> Jika ada kesalahan dalam upload bukti pembayaran silahkan hubungi panitia PSB.
+                    </div>
                 </center>
             </div>
         </div>

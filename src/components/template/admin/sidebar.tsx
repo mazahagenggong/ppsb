@@ -71,7 +71,7 @@ const Sidebar = () => {
                         </li>
                         <li>
                             <Link
-                                href={"/panel/santri_baru"}
+                                href={"/panel/santri_baru/verifikasi"}
                                 className={active === 'perlu_verifikasi' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"
