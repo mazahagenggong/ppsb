@@ -2,6 +2,7 @@ import React, {useState, useEffect, ReactNode} from 'react'
 import Head from "next/head"
 import {useToogleSidebarPanel} from "@/utils/stores/sidebarPanel";
 import Topbar from "@/components/template/santri/topbar";
+import Footer from "@/components/template/main/footer";
 
 interface TemplatePros {
     children: ReactNode;
@@ -29,6 +30,7 @@ const Template: React.FC<TemplatePros> = ({children}) => {
                 <div className="flex justify-center px-10 md:px-72 py-3">
                 {children}
                 </div>
+                <Footer/>
             </div>
         </>
     )

@@ -12,6 +12,7 @@ const Sekertariat = () => {
                         <div className="section-title">
                             <h2>Sekretariat</h2>
                         </div>
+                        <h2 className="text-center">Sekretariat</h2>
                         <div
                             className={"flex flex-col md:flex-row items-center justify-center"}>
                             <div
