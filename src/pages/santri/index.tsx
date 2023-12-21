@@ -7,6 +7,7 @@ import Upload from "@/components/santri/pembayaran/upload";
 import Menunggu from "@/components/santri/pembayaran/menunggu";
 import Spinner from "@/components/spinner";
 import FormulirSantri from "@/components/santri/formulir";
+import Lunas from "@/components/santri/pembayaran/lunas";
 
 export default function Home() {
 
@@ -21,7 +22,6 @@ export default function Home() {
         return data.data;
     };
     const {data, error, isLoading} = useSWR("/api/auth/santri/detail", fetcher);
-    // console.log(data);
     return (
         <Template>
             {isLoading && (
@@ -46,7 +46,7 @@ export default function Home() {
                                 <Menunggu bukti={data.data.pembayaran.bukti}/>
                             )}
                             {data.data.pembayaran.status === 'Lunas' && (
-                                <FormulirSantri/>
+                                <Lunas data={data.data}/>
                             )}
                         </>
                     )}

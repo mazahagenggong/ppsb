@@ -35,6 +35,7 @@ const post = async function (req: NextApiRequest) {
                     pembayaran: true,
                     gelombang: true,
                     panitia: true,
+                    biodata: true,
                 },
             });
             if (!santri) {

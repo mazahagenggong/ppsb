@@ -36,21 +36,22 @@ model siswa {
 model biodata_tambahan {
   id     String    @id @default(auto()) @map("_id") @db.ObjectId
   siswa  siswa[]
-  tempat_lahir String?
-  tanggal_lahir DateTime?
+  foto String?
+  tempat_lahir String
+  tanggal_lahir DateTime
   nisn String?
   nik String?
-  kip Boolean?
-  jurusan String?
-  jumlah_saudara Int?
-  anak_ke Int?
+  kip Boolean
+  jurusan String
+  jumlah_saudara Int
+  anak_ke Int
   npsn String?
   alamat_sekolah String?
-  nama_ayah String?
+  nama_ayah String
   nik_ayah String?
   pendidikan_ayah String?
   pekerjaan_ayah String?
-  nama_ibu String?
+  nama_ibu String
   nik_ibu String?
   pendidikan_ibu String?
   pekerjaan_ibu String?

@@ -116,6 +116,7 @@ export const Santri = async (token: string) => {
                     pembayaran: true,
                     gelombang: true,
                     panitia: true,
+                    biodata: true,
                 },
             });
             if (!user) {
