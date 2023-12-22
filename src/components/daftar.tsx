@@ -503,7 +503,6 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                             <button
                                 className="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full my-3 md:mx-3"
                                 onClick={async () => {
-                                    const app_url = process.env.APP_URL ?? 'http://localhost:3000';
                                     try {
                                         showWaitLoading("Membuat bukti pendaftaran.")
                                         const {data} = (await axios.post("/api/cek/siswa", {id: datalogin.id})).data;

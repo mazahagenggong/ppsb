@@ -30,7 +30,10 @@ const post = async function (req: NextApiRequest) {
             where: { id: id },
             include: {
                 alamat: true,
+                biodata: true,
                 gelombang: true,
+                panitia: true,
+                pembayaran: true,
             }
         })
         if (!ceksiswa) {

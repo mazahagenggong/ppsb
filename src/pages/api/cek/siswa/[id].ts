@@ -41,6 +41,7 @@ const get = async function (req: NextApiRequest) {
             where: { id: id },
             include: {
                 alamat: true,
+                biodata: true,
                 gelombang: true,
                 pembayaran: true,
                 panitia: true,
