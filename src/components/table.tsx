@@ -106,44 +106,56 @@ const Table: React.FC<TableProps> = ({data}) => {
                     allowOutsideClick: false,
                     showConfirmButton: false,
                 });
-                LoadingTimer('Masih Simulasi.', 'success', 1500);
-                // const token = getCookie("token");
-                // const res = await axios.delete(`/api/${url}/${id}`, {
-                //     headers: {
-                //         "Content-Type": "application/json",
-                //         "Authorization": "Bearer " + token ?? "",
-                //     }
-                // });
-                // if (res.status === 200) {
-                //     Swal.fire({
-                //             title: 'Berhasil!',
-                //             html: 'Data berhasil dihapus',
-                //             icon: 'success',
-                //             allowOutsideClick: true,
-                //             showConfirmButton: false,
-                //             timer: 1500,
-                //         }
-                //     ).then(() => {
-                //         mutate();
-                //     })
-                // } else {
-                //     await Swal.fire({
-                //             title: 'Gagal!',
-                //             html: 'Data gagal dihapus',
-                //             icon: 'error',
-                //             allowOutsideClick: true,
-                //             showConfirmButton: false,
-                //             timer: 1500,
-                //         }
-                //     );
-                //     console.log(res)
-                // }
+                const token = getCookie("token");
+                try {
+                    const res = await axios.delete(`/api/${url}/${id}`, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + token ?? "",
+                        }
+                    });
+                    if (res.status === 200) {
+                        Swal.fire({
+                                title: 'Berhasil!',
+                                html: 'Data berhasil dihapus',
+                                icon: 'success',
+                                allowOutsideClick: true,
+                                showConfirmButton: false,
+                                timer: 1500,
+                            }
+                        ).then(() => {
+                            mutate();
+                        })
+                    } else {
+                        await Swal.fire({
+                                title: 'Gagal!',
+                                html: 'Data gagal dihapus',
+                                icon: 'error',
+                                allowOutsideClick: true,
+                                showConfirmButton: false,
+                                timer: 1500,
+                            }
+                        );
+                        console.log(res)
+                    }
+                } catch (e:any){
+                    console.log(e);
+                    await Swal.fire({
+                        title: 'Gagal!',
+                        html: e.response?.data?.message ?? 'Gagal menghapus data',
+                        icon: 'error',
+                        allowOutsideClick: true,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }
+                );  
+                }
             }
         })
     }
     return (
         <>
-            <div className="container mt-3">
+            <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-md-6">
                         <form id="search-form">
@@ -269,7 +281,7 @@ const Table: React.FC<TableProps> = ({data}) => {
                                                                             );
                                                                         case 'Detail':
                                                                             return (
-                                                                                <Link href={`${item3.url}/${item.id}`}
+                                                                                <Link href={`${item3.url}${item.id}`}
                                                                                       key={`edit-${nk2}`}
                                                                                       className={"cursor-pointer mx-2"}>
                                                                                     <Icon

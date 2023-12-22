@@ -25,7 +25,6 @@ const Pagination: React.FC<PaginationProps> = ({currentPage, itemsPerPage, total
             return ["<<", "<", currentPage - 1, currentPage, currentPage + 1, ">", ">>"];
         }
     };
-    console.log(getPageRange());
     return (
         <nav aria-label="Pagination">
             <ul className="pagination">

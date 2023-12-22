@@ -1,9 +1,23 @@
 import Link from "next/link"
 import {Icon} from '@iconify/react'
 import {useSidebarPanel} from "@/utils/stores/sidebarPanel";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Sidebar = () => {
     const {active, setActive, show, setShow} = useSidebarPanel();
+    const runtoast = () => {
+        toast('🚀 Memuat Halaman', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
+    }
     return (
         <aside id="sidebar" className="sidebar">
             <ul className="sidebar-nav" id="sidebar-nav">
@@ -14,6 +28,7 @@ const Sidebar = () => {
                         onClick={() => {
                             setActive(null);
                             setShow('dashboard');
+                            runtoast();
                         }}>
                         <i className="bi bi-mortarboard"></i>
                         <span>Dashboard</span>
@@ -29,6 +44,7 @@ const Sidebar = () => {
                         onClick={() => {
                             setActive(null);
                             setShow('tsb');
+                            runtoast();
                         }}>
                         <i className="bi bi-person-plus"></i>
                         <span>Tambah Santri Baru</span>
@@ -63,6 +79,9 @@ const Sidebar = () => {
                                 className={active === 'santri_baru' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"
+                                onClick={() => {
+                                    runtoast();
+                                }}
                                 style={{textDecoration: "none"}}
                             >
                                 <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
@@ -75,6 +94,9 @@ const Sidebar = () => {
                                 className={active === 'perlu_verifikasi' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"
+                                onClick={() => {
+                                    runtoast();
+                                }}
                                 style={{textDecoration: "none"}}
                             >
                                 <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
@@ -87,6 +109,9 @@ const Sidebar = () => {
                                 className={active === 'registrasi' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"
+                                onClick={() => {
+                                    runtoast();
+                                }}
                                 style={{textDecoration: "none"}}
                             >
                                 <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
@@ -124,6 +149,9 @@ const Sidebar = () => {
                                 className={active === 'pengaturan_aplikasi' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"
+                                onClick={() => {
+                                    runtoast();
+                                }}
                                 style={{textDecoration: "none"}}
                             >
                                 <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
@@ -136,6 +164,9 @@ const Sidebar = () => {
                                 className={active === 'panitia' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"
+                                onClick={() => {
+                                    runtoast();
+                                }}
                                 style={{textDecoration: "none"}}
                             >
                                 <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
@@ -148,6 +179,9 @@ const Sidebar = () => {
                                 className={active === 'brosur' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"
+                                onClick={() => {
+                                    runtoast();
+                                }}
                                 style={{textDecoration: "none"}}
                             >
                                 <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
@@ -156,10 +190,13 @@ const Sidebar = () => {
                         </li>
                         <li>
                             <Link
-                                href={"/panel/santri_baru"}
+                                href={"/panel/admin"}
                                 className={active === 'admin' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"
+                                onClick={() => {
+                                    runtoast();
+                                }}
                                 style={{textDecoration: "none"}}
                             >
                                 <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
@@ -197,6 +234,9 @@ const Sidebar = () => {
                                 className={active === 'laporan_semua_data' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"
+                                onClick={() => {
+                                    runtoast();
+                                }}
                                 style={{textDecoration: "none"}}
                             >
                                 <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
@@ -209,6 +249,9 @@ const Sidebar = () => {
                                 className={active === 'data_registrasi' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"
+                                onClick={() => {
+                                    runtoast();
+                                }}
                                 style={{textDecoration: "none"}}
                             >
                                 <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
@@ -221,6 +264,9 @@ const Sidebar = () => {
                                 className={active === 'kartu_tes' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"
+                                onClick={() => {
+                                    runtoast();
+                                }}
                                 style={{textDecoration: "none"}}
                             >
                                 <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>

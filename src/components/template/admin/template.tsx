@@ -1,10 +1,12 @@
-import React, {useState, useEffect, ReactNode} from 'react'
+import React, {useEffect, useState, ReactNode} from 'react'
 import Head from "next/head"
 import THeader from "@/components/template/admin/header"
 import Navbar from "@/components/template/admin/navbar"
 import Sidebar from "@/components/template/admin/sidebar"
 import Footer from "@/components/template/footer"
 import {useToogleSidebarPanel} from "@/utils/stores/sidebarPanel";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface TemplatePros {
     children: ReactNode;
@@ -12,13 +14,29 @@ interface TemplatePros {
 
 const Template: React.FC<TemplatePros> = ({children}) => {
     const {active} = useToogleSidebarPanel();
-    useEffect(() => {
-        if (active) {
-            document.body.className = '';
+    const [isMounted, setIsMounted] = useState(false);
+    useEffect(() => { 
+        if (isMounted) {
+            if (active) {
+                document.body.className = '';
+            } else {
+                document.body.className = 'toggle-sidebar';
+            }
+
+            toast('🚀 Halaman Selesai dimuat', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
         } else {
-            document.body.className = 'toggle-sidebar';
+            setIsMounted(true);
         }
-    });
+    },[active, isMounted])
     return (
         <>
             <Head>
@@ -33,6 +51,7 @@ const Template: React.FC<TemplatePros> = ({children}) => {
                 </THeader>
                 <Sidebar/>
                 <main id="main" className="main bg-[#f8fcfc]">
+                    <ToastContainer />
                     {children}
                 </main>
             </div>
