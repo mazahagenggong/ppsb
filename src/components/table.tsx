@@ -108,7 +108,9 @@ const Table: React.FC<TableProps> = ({data}) => {
                 });
                 const token = getCookie("token");
                 try {
-                    const res = await axios.delete(`/api/${url}/${id}`, {
+                    const res = await axios.post(`/api/${url}`,{
+                        id: id,
+                    }, {
                         headers: {
                             "Content-Type": "application/json",
                             "Authorization": "Bearer " + token ?? "",

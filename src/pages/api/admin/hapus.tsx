@@ -3,9 +3,8 @@ import Cors from "cors";
 import runMiddleware from "@/utils/runMiddleware";
 import { Admin } from "@/utils/validate/token";
 import prisma from "@/utils/prisma";
-import { card } from "@/utils/card";
 
-const deletedata = async function (req: NextApiRequest) {
+const post = async function (req: NextApiRequest) {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) {
     return {
@@ -26,8 +25,8 @@ const deletedata = async function (req: NextApiRequest) {
       },
     };
   }
-  const reqquery = req.query;
-  if (!reqquery.id) {
+  const reqbody = req.body;
+  if (!reqbody.id) {
     return {
       status: 401,
       data: {
@@ -36,7 +35,7 @@ const deletedata = async function (req: NextApiRequest) {
       },
     };
   }
-  const id = reqquery.id;
+  const id = reqbody.id;
   try {
     try {
       const user = await prisma.user.findUnique({
@@ -62,7 +61,7 @@ const deletedata = async function (req: NextApiRequest) {
           status: 401,
           data: {
             success: false,
-            message: "tidak bisa menghapus diri sendiri",
+            message: "tidak bisa menghapus diri sendiri " + id,
           },
         };
       }
@@ -95,14 +94,14 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const cors = Cors({
-    methods: ["DELETE"],
+    methods: ["POST"],
   });
 
   await runMiddleware(req, res, cors);
 
   switch (req.method) {
-    case "DELETE":
-      const data = await deletedata(req);
+    case "POST":
+      const data = await post(req);
       return res.status(data.status).json(data.data);
     default:
       return res.status(404).json({
