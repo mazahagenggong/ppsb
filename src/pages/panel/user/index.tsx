@@ -23,6 +23,10 @@ const Admin = () => {
             id: "nama",
         },
         {
+            name: "Username",
+            id: "username",
+        },
+        {
             name: "Role",
             id: "role",
         },
