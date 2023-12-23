@@ -2,7 +2,7 @@ import type {NextApiRequest, NextApiResponse} from 'next'
 import Cors from 'cors'
 import prisma from "@/utils/prisma"
 import runMiddleware from "@/utils/runMiddleware"
-import {Admin} from "@/utils/validate/token";
+import {Panitia} from "@/utils/validate/token";
 
 const get = async function (req: NextApiRequest) {
     if (!req.query.id){
@@ -24,7 +24,7 @@ const get = async function (req: NextApiRequest) {
             }
         };
     }
-    const cek_token = await Admin(token);
+    const cek_token = await Panitia(token);
     if (!cek_token.success) {
         return {
             status: 401,

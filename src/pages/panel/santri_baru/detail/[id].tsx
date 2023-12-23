@@ -9,6 +9,8 @@ import Spinner from "@/components/spinner";
 import {CldImage} from "next-cloudinary";
 import Swal from "sweetalert2";
 import {LoadingTimer} from "@/components/loading/waitLoading";
+import {useUserStore} from "@/utils/stores/user";
+import UploadComponent from "@/components/santri/pembayaran/uploadComponent";
 
 const fetcher = async (url: string) => {
     const res = await axios.get(url, {
@@ -20,9 +22,9 @@ const fetcher = async (url: string) => {
     return res.data.data;
 }
 const Detail = () => {
+    const {role, username} = useUserStore();
     const query = useRouter().query;
     const {data: santri, isLoading, error} = useSWR(query.id ? `/api/cek/siswa/${query.id}` : null, fetcher);
-    console.log(santri)
     return (
         <Template>
             <PanelContent title={"Detail Santri"}>
@@ -103,24 +105,32 @@ const Detail = () => {
                                 </tbody>
                             </table>
 
-                            {santri.pembayaran && (
+                            {santri.pembayaran ? (
                                 <>
                                     <center>
                                         <h3>Bukti Pembayaran:</h3>
                                     </center>
                                     <CldImage alt={'bukti'} src={santri.pembayaran.bukti} width={1500} height={1000}
                                               className={"mb-3"}/>
-                                    {santri.pembayaran.status === 'menunggu' && (
+                                    {santri.pembayaran.status === 'menunggu' && role === "admin" && (
                                         <div className={"flex flex-col md:flex-row justify-center mb-2"}>
                                             <button className={"btn btn-primary m-2"} onClick={() => {
                                                 handleterima(santri)
-                                            }}>Terima</button>
+                                            }}>Terima
+                                            </button>
                                             <button className={"btn btn-danger m-2"} onClick={() => {
                                                 handleTolak(santri)
                                             }}>Tolak
                                             </button>
                                         </div>
                                     )}
+                                </>
+                            ): (
+                                <>
+                                    <center>
+                                        <h3>Bantu Pembayaran:</h3>
+                                    </center>
+                                    <UploadComponent data={username}/>
                                 </>
                             )}
                         </div>
@@ -194,7 +204,7 @@ const handleStatusPembayaran = (santri: any) => {
         return 'Belum Melakukan Pembayaran'
     } else if (santri.pembayaran.status === 'menunggu') {
         return 'Menunggu Verifikasi Pembayaran'
-    } else{
+    } else {
         return santri.pembayaran.status
     }
 }

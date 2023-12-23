@@ -1,23 +1,25 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import Link from "next/link"
 import Image from "next/image";
 import {deleteCookie} from "cookies-next";
-import useSWR from "swr";
-import { getCookie } from 'cookies-next';
-import axios from "axios";
+import {useUserStore} from "@/utils/stores/user";
+import {toast} from "react-toastify";
 
-const fetcher = async (url: string) => {
-    const {data} = (await axios.post(url, {}, {
-        headers: {
-            'Authorization': `Bearer ${getCookie('token')}`
-        }
-    })).data;
-    return data;
-};
 const Navbar = () => {
+    const {nama, username, role} = useUserStore();
     const [expanded, setExpanded] = React.useState<boolean>(false);
-    const token = getCookie('token');
-    const {data: user} = useSWR((token ? '/api/auth/detail' : null), fetcher);
+    const runtoast = () => {
+        toast('🚀 Memuat Halaman', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    }
     return (
         <>
             <nav className="header-nav ms-auto">
@@ -37,7 +39,7 @@ const Navbar = () => {
                                     priority
                                     style={{height: 'auto', width: 'auto'}}
                                 />
-                            <span className="d-none d-md-block dropdown-toggle ps-2">{user?.nama}</span>
+                            <span className="d-none d-md-block dropdown-toggle ps-2">{nama}</span>
                         </a>
 
                         <ul className={`dropdown-menu dropdown-menu-end dropdown-menu-arrow profile ${expanded ? 'show' : ''}`}
@@ -48,8 +50,8 @@ const Navbar = () => {
                                 transform: "translate(-16px, 38px)",
                             }}>
                             <li className="dropdown-header">
-                                <h6>@{user?.username}</h6>
-                                <span>{user?.role}</span>
+                                <h6>@{username}</h6>
+                                <span>{role}</span>
                             </li>
                             <li>
                                 <hr className="dropdown-divider"/>
@@ -59,7 +61,10 @@ const Navbar = () => {
                                 <Link
                                     className="dropdown-item d-flex align-items-center"
                                     style={{textDecoration: "none"}}
-                                    href={"/profile"}>
+                                    onClick={() => {
+                                        runtoast();
+                                    }}
+                                    href={"/panel/profile"}>
                                     <i className="bi bi-person"></i>
                                     <span>Profile</span>
                                 </Link>

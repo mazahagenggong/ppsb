@@ -3,7 +3,7 @@ import Cors from 'cors'
 import runMiddleware from "@/utils/runMiddleware"
 import {Panitia} from "@/utils/validate/token";
 import prisma from "@/utils/prisma";
-import {siswacard} from "@/utils/card";
+import {siswacardregistrasi} from "@/utils/card";
 
 const post = async function (req: NextApiRequest) {
     const token = req.headers.authorization?.split(' ')[1];
@@ -34,7 +34,7 @@ const post = async function (req: NextApiRequest) {
     const sort_by = {nama: "asc"};
     try {
         try {
-            const data = await siswacard(prisma.siswa, reqbody, search_list, sort_by);
+            const data = await siswacardregistrasi(prisma.siswa, reqbody, search_list, sort_by);
             return {
                 status: data.status,
                 data: {

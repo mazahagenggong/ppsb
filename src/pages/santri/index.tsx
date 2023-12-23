@@ -6,7 +6,6 @@ import axios from "axios";
 import Upload from "@/components/santri/pembayaran/upload";
 import Menunggu from "@/components/santri/pembayaran/menunggu";
 import Spinner from "@/components/spinner";
-import FormulirSantri from "@/components/santri/formulir";
 import Lunas from "@/components/santri/pembayaran/lunas";
 
 export default function Home() {

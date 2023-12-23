@@ -1,11 +1,13 @@
 import Link from "next/link"
 import {Icon} from '@iconify/react'
 import {useSidebarPanel} from "@/utils/stores/sidebarPanel";
-import { toast } from 'react-toastify';
+import {useUserStore} from "@/utils/stores/user";
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Sidebar = () => {
     const {active, setActive, show, setShow} = useSidebarPanel();
+    const {role} = useUserStore();
     const runtoast = () => {
         toast('🚀 Memuat Halaman', {
             position: "top-center",
@@ -16,7 +18,7 @@ const Sidebar = () => {
             draggable: true,
             progress: undefined,
             theme: "light",
-            });
+        });
     }
     return (
         <aside id="sidebar" className="sidebar">
@@ -88,24 +90,26 @@ const Sidebar = () => {
                                 <span>Data Santri Baru</span>
                             </Link>
                         </li>
+                        {role === 'admin' && (
+                            <li>
+                                <Link
+                                    href={"/panel/santri_baru/verifikasi"}
+                                    className={active === 'perlu_verifikasi' ? 'active' : ''}
+                                    data-bs-target="#components-nav"
+                                    data-bs-toggle="collapse"
+                                    onClick={() => {
+                                        runtoast();
+                                    }}
+                                    style={{textDecoration: "none"}}
+                                >
+                                    <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
+                                    <span>Perlu Verifikasi</span>
+                                </Link>
+                            </li>
+                        )}
                         <li>
                             <Link
-                                href={"/panel/santri_baru/verifikasi"}
-                                className={active === 'perlu_verifikasi' ? 'active' : ''}
-                                data-bs-target="#components-nav"
-                                data-bs-toggle="collapse"
-                                onClick={() => {
-                                    runtoast();
-                                }}
-                                style={{textDecoration: "none"}}
-                            >
-                                <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
-                                <span>Perlu Verifikasi</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href={"/panel/santri_baru"}
+                                href={"/panel/santri_baru/registrasi"}
                                 className={active === 'registrasi' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"
@@ -121,90 +125,78 @@ const Sidebar = () => {
                     </ul>
                 </li>
 
-                <li className="nav-item">
-                    <Link
-                        className={`nav-link ${show === 'pengaturan' ? '' : 'collapsed'}`}
-                        data-bs-target="#components-nav"
-                        data-bs-toggle="collapse"
-                        style={{textDecoration: "none"}}
-                        aria-expanded={show === 'pengaturan' ? true : false}
-                        href="#"
-                        onClick={() => {
-                            if (show === 'pengaturan') {
-                                setShow('')
-                            } else {
-                                setShow('pengaturan')
-                            }
-                        }}>
-                        <i className="bi bi-gear" style={{textDecoration: "none"}}></i>
-                        <span>Pengaturan</span>
-                        <i className={`bi bi-chevron-down ms-auto`}></i>
-                    </Link>
-                    <ul id="components-nav"
-                        className={`nav-content ${show === 'pengaturan' ? 'collapsed' : 'collapse'}`}
-                        data-bs-parent="#sidebar-nav">
-                        <li>
-                            <Link
-                                href={"/panel/pengaturan_aplikasi"}
-                                className={active === 'pengaturan_aplikasi' ? 'active' : ''}
-                                data-bs-target="#components-nav"
-                                data-bs-toggle="collapse"
-                                onClick={() => {
-                                    runtoast();
-                                }}
-                                style={{textDecoration: "none"}}
-                            >
-                                <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
-                                <span>Pengaturan Aplikasi</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href={"/panel/santri_baru"}
-                                className={active === 'panitia' ? 'active' : ''}
-                                data-bs-target="#components-nav"
-                                data-bs-toggle="collapse"
-                                onClick={() => {
-                                    runtoast();
-                                }}
-                                style={{textDecoration: "none"}}
-                            >
-                                <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
-                                <span>Panitia</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href={"/panel/santri_baru"}
-                                className={active === 'brosur' ? 'active' : ''}
-                                data-bs-target="#components-nav"
-                                data-bs-toggle="collapse"
-                                onClick={() => {
-                                    runtoast();
-                                }}
-                                style={{textDecoration: "none"}}
-                            >
-                                <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
-                                <span>Brosur</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href={"/panel/admin"}
-                                className={active === 'admin' ? 'active' : ''}
-                                data-bs-target="#components-nav"
-                                data-bs-toggle="collapse"
-                                onClick={() => {
-                                    runtoast();
-                                }}
-                                style={{textDecoration: "none"}}
-                            >
-                                <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
-                                <span>Admin</span>
-                            </Link>
-                        </li>
-                    </ul>
-                </li>
+                {role === 'admin' && (
+                    <li className="nav-item">
+                        <Link
+                            className={`nav-link ${show === 'pengaturan' ? '' : 'collapsed'}`}
+                            data-bs-target="#components-nav"
+                            data-bs-toggle="collapse"
+                            style={{textDecoration: "none"}}
+                            aria-expanded={show === 'pengaturan' ? true : false}
+                            href="#"
+                            onClick={() => {
+                                if (show === 'pengaturan') {
+                                    setShow('')
+                                } else {
+                                    setShow('pengaturan')
+                                }
+                            }}>
+                            <i className="bi bi-gear" style={{textDecoration: "none"}}></i>
+                            <span>Pengaturan</span>
+                            <i className={`bi bi-chevron-down ms-auto`}></i>
+                        </Link>
+
+                        <ul id="components-nav"
+                            className={`nav-content ${show === 'pengaturan' ? 'collapsed' : 'collapse'}`}
+                            data-bs-parent="#sidebar-nav">
+                            <li>
+                                <Link
+                                    href={"/panel/pengaturan_aplikasi"}
+                                    className={active === 'pengaturan_aplikasi' ? 'active' : ''}
+                                    data-bs-target="#components-nav"
+                                    data-bs-toggle="collapse"
+                                    onClick={() => {
+                                        runtoast();
+                                    }}
+                                    style={{textDecoration: "none"}}
+                                >
+                                    <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
+                                    <span>Pengaturan Aplikasi</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href={"/panel/santri_baru"}
+                                    className={active === 'brosur' ? 'active' : ''}
+                                    data-bs-target="#components-nav"
+                                    data-bs-toggle="collapse"
+                                    onClick={() => {
+                                        runtoast();
+                                    }}
+                                    style={{textDecoration: "none"}}
+                                >
+                                    <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
+                                    <span>Brosur</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href={"/panel/user"}
+                                    className={active === 'admin' ? 'active' : ''}
+                                    data-bs-target="#components-nav"
+                                    data-bs-toggle="collapse"
+                                    onClick={() => {
+                                        runtoast();
+                                    }}
+                                    style={{textDecoration: "none"}}
+                                >
+                                    <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
+                                    <span>User</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </li>
+                )}
 
                 <li className="nav-item">
                     <Link

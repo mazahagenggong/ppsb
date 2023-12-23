@@ -1,29 +1,28 @@
-import React, {useEffect} from 'react'
-import Template from '@/components/template/admin/template';
-import PanelContent from '@/components/panelContent';
+import React, {useEffect} from 'react';
+import Template from "@/components/template/admin/template";
 import {useSidebarPanel} from "@/utils/stores/sidebarPanel";
+import PanelContent from "@/components/panelContent";
 import Table from "@/components/table"
 
-const Admin = (props:any) =>{
-  const prop = props;
-  const {setActive, setShow} = useSidebarPanel();
-  useEffect(() => {
-      setActive('pengaturan');
-      setShow("admin");
-  }, []);
-  const [tablewiew, setTablewiew] = React.useState<boolean>(true);
+const Index = () => {
+    const {setActive, setShow} = useSidebarPanel();
+    const [tablewiew, setTablewiew] = React.useState<boolean>(true);
     const head: { name: string, id: string }[] = [
         {
             name: "#",
             id: "nomor_urut",
         },
         {
+            name: "Nomor Pendaftaran",
+            id: "nomor",
+        },
+        {
             name: "Nama",
             id: "nama",
         },
         {
-            name: "Role",
-            id: "role",
+            name: "Status Pembayaran",
+            id: "pembayaran.status",
         },
     ];
 
@@ -32,24 +31,24 @@ const Admin = (props:any) =>{
         await new Promise(resolve => setTimeout(resolve, 500));
         setTablewiew(true);
     }
+    useEffect(() => {
+        setActive('santri_baru');
+        setShow("pendaftar");
+    }, []);
     const aksi= [
         {
             name: "Detail",
-            url: "/admin/detail/",
+            url: "/panel/santri_baru/detail/",
         },
-        {
-            name: "Hapus",
-            url :"/admin/hapus",
-        }
     ];
-    const url: string = "/user";
-    const nama: string = "User";
-  return (
-    <Template>
-            <PanelContent title={"Data User"}>
+    const url: string = "/santri/santri_registrasi";
+    const nama: string = "Santri Baru";
+    return (
+        <Template>
+            <PanelContent title={"Data Santri Baru"}>
                 <section className="section dashboard">
                     <div className="row">
-                    <div className="col-lg-12">
+                        <div className="col-lg-12">
                             {tablewiew && (
                                 <Table data={{head, aksi, url, nama}}/>
                             )}
@@ -58,7 +57,7 @@ const Admin = (props:any) =>{
                 </section>
             </PanelContent>
         </Template>
-  )
-}
+    );
+};
 
-export default Admin;
+export default Index;

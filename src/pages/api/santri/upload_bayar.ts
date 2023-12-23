@@ -3,6 +3,7 @@ import Cors from 'cors'
 import runMiddleware from "@/utils/runMiddleware"
 import {Santri} from "@/utils/validate/token";
 import prisma from "@/utils/prisma";
+import {kirimTelegram} from "@/utils/telegram/chat";
 
 const post = async function (req: NextApiRequest) {
     const token = req.headers.authorization?.split(' ')[1];
@@ -44,20 +45,55 @@ const post = async function (req: NextApiRequest) {
             }
         });
         const id_pembayaran = pembayaran.id;
-        const update_santri = await prisma.siswa.update({
-            where: {id: santri?.id},
-            data: {
-                pembayaranId: id_pembayaran,
+        if (req.body.panitia) {
+            const panitia = await prisma.user.findUnique({
+                where: {
+                    username: req.body.panitia
+                }
+            });
+            if (!panitia) {
+                return {
+                    status: 400,
+                    data: {
+                        success: false,
+                        message: "panitia tidak ada",
+                    }
+                };
             }
-        });
-        return {
-            status: 200,
-            data: {
-                success: true,
-                message: "berhasil mengupload bukti pembayaran",
-                data: update_santri
-            }
-        };
+            const update_santri_panitia = await prisma.siswa.update({
+                where: {id: santri?.id},
+                data: {
+                    pembayaranId: id_pembayaran,
+                    panitiaId: panitia.id
+                }
+            });
+            const pesan = `Santri ${santri?.nama} (${santri?.nomor}) mengupload bukti pembayaran via panitia ${panitia.nama} (${panitia.username})\n silahkan cek di aplikasi`;
+            await kirimTelegram(req, pesan);
+            return {
+                status: 200,
+                data: {
+                    success: true,
+                    message: "berhasil mengupload bukti pembayaran",
+                    data: update_santri_panitia
+                }
+            };
+        } else {
+            const update_santri = await prisma.siswa.update({
+                where: {id: santri?.id},
+                data: {
+                    pembayaranId: id_pembayaran,
+                }
+            });const pesan = `Santri ${santri?.nama} (${santri?.nomor}) mengupload bukti pembayaran via transfer\n silahkan cek di aplikasi`;
+            await kirimTelegram(req, pesan);
+            return {
+                status: 200,
+                data: {
+                    success: true,
+                    message: "berhasil mengupload bukti pembayaran",
+                    data: update_santri
+                }
+            };
+        }
     } catch (error: any) {
         return {
             status: 400,

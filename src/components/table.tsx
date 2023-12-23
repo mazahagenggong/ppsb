@@ -116,6 +116,7 @@ const Table: React.FC<TableProps> = ({data}) => {
                             "Authorization": "Bearer " + token ?? "",
                         }
                     });
+                    console.log(id)
                     if (res.status === 200) {
                         Swal.fire({
                                 title: 'Berhasil!',

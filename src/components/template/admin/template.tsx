@@ -7,12 +7,17 @@ import Footer from "@/components/template/footer"
 import {useToogleSidebarPanel} from "@/utils/stores/sidebarPanel";
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {useUserStore} from "@/utils/stores/user";
+import axios from "axios";
+import {getCookie} from "cookies-next";
 
 interface TemplatePros {
     children: ReactNode;
 }
 
 const Template: React.FC<TemplatePros> = ({children}) => {
+    const {setNama, setUsername, setRole} = useUserStore();
+    const token = getCookie('token');
     const {active} = useToogleSidebarPanel();
     useEffect(() => { 
             if (active) {
@@ -20,6 +25,18 @@ const Template: React.FC<TemplatePros> = ({children}) => {
             } else {
                 document.body.className = 'toggle-sidebar';
             }
+            axios.post("/api/auth/detail", {}, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then((res) => {
+                setNama(res.data.data.nama);
+                setUsername(res.data.data.username);
+                setRole(res.data.data.role);
+            }).catch((err) => {
+                console.log(err);
+            })
     },[active])
     return (
         <>

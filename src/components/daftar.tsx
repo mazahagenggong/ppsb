@@ -425,11 +425,11 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     e.preventDefault();
                                     props.ubahTampilan("loading");
                                     const cek: ResponseDaftar = await Daftarpsb({
-                                        nama: nama,
+                                        nama: nama?.toUpperCase(),
                                         jk: jk,
-                                        ip: ip,
+                                        ip: ip?.toUpperCase(),
                                         hp: hp,
-                                        sekolah: sekolah,
+                                        sekolah: sekolah?.toUpperCase(),
                                         provinsi: selectedProv,
                                         kabkot: selectedKabkot,
                                         kecamatan: selectedKecamatan,
@@ -446,7 +446,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                             title: "Oops!",
                                             html: "<p>" + cek.message + "</p>",
                                             showConfirmButton: false,
-                                            timer: 1500
+                                            timer: 3000
                                         });
                                         console.log(cek)
                                         return;

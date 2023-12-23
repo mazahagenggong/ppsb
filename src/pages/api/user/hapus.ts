@@ -11,7 +11,7 @@ const post = async function (req: NextApiRequest) {
       status: 401,
       data: {
         success: false,
-        message: "token tidak ada",
+        message: "Token tidak ada",
       },
     };
   }
@@ -31,7 +31,7 @@ const post = async function (req: NextApiRequest) {
       status: 401,
       data: {
         success: false,
-        message: "user tidak ada",
+        message: "User tidak ada",
       },
     };
   }
@@ -52,16 +52,16 @@ const post = async function (req: NextApiRequest) {
           status: 401,
           data: {
             success: false,
-            message: "user tidak ada",
+            message: "User tidak ada",
           },
         };
       }
-      if (id === user.id) {
+      if (user.id === cek_token?.data?.id) {
         return {
           status: 401,
           data: {
             success: false,
-            message: "tidak bisa menghapus diri sendiri " + id,
+            message: "Tidak bisa menghapus diri sendiri",
           },
         };
       }
@@ -72,7 +72,7 @@ const post = async function (req: NextApiRequest) {
         status: 200,
         data: {
           success: true,
-          message: "berhasil menghapus user",
+          message: "Berhasil menghapus user",
         },
       };
     } catch (e) {
@@ -81,7 +81,7 @@ const post = async function (req: NextApiRequest) {
         status: 500,
         data: {
           success: false,
-          message: "terjadi kesalahan",
+          message: "Terjadi kesalahan",
         },
       };
     }

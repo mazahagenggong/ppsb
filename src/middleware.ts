@@ -1,6 +1,5 @@
 import {NextResponse} from 'next/server'
 import type {NextRequest} from 'next/server'
-import {deleteCookie} from "cookies-next";
 
 export async function middleware(request: NextRequest) {
     const {pathname} = request.nextUrl;
@@ -22,6 +21,16 @@ export async function middleware(request: NextRequest) {
         if (token) {
             const cek = await cekToken(request, token, "panel");
             if (cek.success) {
+                const admin = [
+                    "/panel/pengaturan_aplikasi",
+                    "/panel/santri_baru/verifikasi",
+                    "/panel/user"
+                ];
+                if (admin.includes(pathname)) {
+                    if (cek.data.role !== 'admin') {
+                        return NextResponse.redirect(new URL('/panel', request.url))
+                    }
+                }
                 return NextResponse.next()
             }
             request.cookies.delete('token')

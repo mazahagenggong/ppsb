@@ -1,8 +1,7 @@
 import React from 'react';
-import useSWR from "swr";
 import {getCookie} from "cookies-next";
 import axios from "axios";
-import {useForm, SubmitHandler, UseFormRegister} from "react-hook-form"
+import {useForm, SubmitHandler, UseFormRegister} from "react-hook-form";
 import {LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
 
 const FormulirSantri = (data: any) => {

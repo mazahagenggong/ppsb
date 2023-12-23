@@ -9,15 +9,17 @@ const Lunas = (data: any) => {
     useEffect(() => {
         setSantri(dataSantri);
     }, [dataSantri]);
+    console.log(santri)
     return (
         <>
-            {!santri.biodata && (
-                <FormulirSantri data={santri}/>
-            )}
-            {santri.biodata && !santri.biodata.foto ?(
-                <Fotosantri/>
+            {!santri.biodata ? (
+                <FormulirSantri data={santri} />
             ) : (
-                <Finish data={santri}/>
+                !santri.biodata.foto ? (
+                    <Fotosantri />
+                ) : (
+                    <Finish data={santri} />
+                )
             )}
         </>
     );
