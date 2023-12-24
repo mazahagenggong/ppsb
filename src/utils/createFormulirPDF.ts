@@ -104,11 +104,9 @@ const createFormulirPDF = async (data: any) => {
   doc.text("Informasi Tambahan:", 10, fy, { align: "left" });
   autoTable(doc, {
     body: [
-      [
-        "Sekolah Asal (NPSN)",
-        `: ${data.sekolah.toUpperCase()} (${data.biodata.npsn})`,
-      ],
-      ["Alamat Sekolah Asal", `${data.biodata.alamat_sekolah}`],
+      ["Sekolah Asal", `: ${data.sekolah.toUpperCase()}`],
+      ["NPSN Sekolah Asal", `: ${data.biodata.npsn}`],
+      ["Alamat Sekolah Asal", `: ${data.biodata.alamat_sekolah}`],
       ["NISN Pendaftar", `: ${data.biodata.nisn}`],
       ["Penerima KIP", `: ${data.biodata.kip ? "Ya" : "Tidak"}`],
       ["Nama Ayah Pendaftar", `: ${data.biodata.nama_ayah}`],

@@ -506,7 +506,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     try {
                                         showWaitLoading("Membuat bukti pendaftaran.")
                                         const {data} = (await axios.post("/api/cek/siswa", {id: datalogin.id})).data;
-                                        await createPDF(data, datalogin.id);
+                                        await createPDF(data);
                                         await LoadingTimer("Bukti pendaftaran berhasil di buat.", "success", 3000);
                                     } catch (e) {
                                         await LoadingTimer("Bukti pendaftaran gagal di buat.", "error", 3000);

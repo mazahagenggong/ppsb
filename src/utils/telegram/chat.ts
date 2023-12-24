@@ -1,21 +1,49 @@
 import moment from "moment";
-import {KirimPesan} from "mazaha";
-import {NextApiRequest} from "next";
+import { Telegraf } from 'telegraf';
 
-export const kirimTelegram = async function (req: NextApiRequest, pesan:string) {
-    const server = req.headers.host ?? '';
+type KirimPesanType = {
+    bot_token: string,
+    id: string,
+    pesan: string,
+    pengirim?: string,
+    waktu: string,
+}
+const KirimPesan = async function (data: KirimPesanType) {
+    const {bot_token, id, pesan, pengirim, waktu} = data;
+    const apiUrl = `https://api.telegram.org/bot${bot_token}/sendMessage`;
     const date = moment().format('DD-MM-YYYY : HH:mm:ss');
-    const id = ['799163200']
-    await Promise.all(id.map(async (id) => {
-        const kirim = await KirimPesan({
-            bot_token: "6836484715:AAEboz5NqXEc9DoCrP8CqPWlsZcl_qUnpoc",
-            id: id,
-            pesan: pesan,
-            pengirim: server,
-            waktu: date,
-        })
-    }))
-    return {
-        selesai: true
+    const garis = "-------------------------";
+    let newPesan = "";
+    if (pengirim) {
+        newPesan = `Pesan dari : ${pengirim}\n${garis}\n`;
+    } else {
+        newPesan = `${pesan}\n`;
+    }
+    newPesan = newPesan + `${garis}\n${date}\n${garis}\n`;
+    const params = {
+        chat_id: id,
+        pesan,
+    };
+
+    try {
+        const bot = new Telegraf(bot_token);
+        await bot.telegram.sendMessage(id, newPesan);
+        return {
+            success: true,
+            data: {
+                id,
+                pesan,
+                pengirim,
+                waktu,
+            }
+        }
+    } catch (error:any) {
+        return {
+            success: false,
+            message: "Internal server error, koneksi ke telegram gagal",
+            error:error
+        }
     }
 }
+
+export default KirimPesan;

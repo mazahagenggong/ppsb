@@ -8,11 +8,11 @@ moment.locale('id');
 const formatDate = (createdAt: string) => {
     return moment(createdAt).format('DD MMMM YYYY | hh:mm:ss A');
 };
-const createPDF = async (data: any,id:string) => {
+const createPDF = async (data: any) => {
     const protocol = window.location.protocol;
     const host = window.location.host;
     const app_url = `${protocol}//${host}`;
-    const url_qr = `${app_url}/downloads/formulir/${id}`;
+    const url_qr = `${app_url}/downloads/bukti/${data.id}`;
     const url = `https://quickchart.io/qr?text=${url_qr}&dark=018417&margin=2&size=300&centerImageUrl=https%3A%2F%2Fi.ibb.co%2Fb2hZf16%2Fmalogo.png`
     const doc = new jsPDF({
         orientation: 'p',
@@ -42,14 +42,18 @@ const createPDF = async (data: any,id:string) => {
     fy = fy + hdp;
     autoTable(doc, {
         body: [
-            ['Nomor Peserta', data.nomor],
-            ['Kode Login', data.kode],
-            ['Nama lengkap', data.nama.toUpperCase()],
-            ['Jenis Kelamin', data.jk === "lk" ? "Laki-laki" : "Perempuan"],
-            ['Nomor HP', data.hp],
+            ['Nomor Peserta', `: ${data.nomor}`],
+            ['Kode Login', `: ${data.kode}`],
+            ['Nama lengkap', `: ${data.nama}`],
+            ['Jenis Kelamin', `: ${data.jk === "lk" ? "Laki-laki" : "Perempuan"}`],
+            ['Nomor HP', `: ${data.hp}`],
         ],
         startY: fy + 5,
         theme: 'striped',
+        columnStyles: {
+            0: { cellWidth: 60 },
+            1: { cellWidth: 120 },
+        },
         didDrawPage: function (data: any) {
             if (data.cursor.y) {
                 fy = data.cursor?.y + 5;
@@ -60,14 +64,18 @@ const createPDF = async (data: any,id:string) => {
     doc.text("Alamat Pendaftar:", 10, fy, {align: 'left'});
     autoTable(doc, {
         body: [
-            ['Provinsi', data.alamat.provinsi],
-            ['Kabupaten / Kota', data.alamat.kabkot],
-            ['Kecamatan', data.alamat.kecamatan],
-            ['Desa / Kelurahan', data.alamat.keldes],
-            ['Dusun / Jln.', `${data.alamat.alamat} RT ${data.alamat.rt} RW ${data.alamat.rw}`]
+            ['Provinsi', `: ${data.alamat.provinsi}`],
+            ['Kabupaten / Kota', `: ${data.alamat.kabkot}`],
+            ['Kecamatan', `: ${data.alamat.kecamatan}`],
+            ['Desa / Kelurahan', `: ${data.alamat.keldes}`],
+            ['Dusun / Jln.', `: ${data.alamat.alamat} RT ${data.alamat.rt} RW ${data.alamat.rw}`]
         ],
         startY: fy + 5,
         theme: 'striped',
+        columnStyles: {
+            0: { cellWidth: 60 },
+            1: { cellWidth: 120 },
+        },
         didDrawPage: function (data: any) {
             if (data.cursor.y) {
                 fy = data.cursor?.y + 7;
@@ -78,12 +86,16 @@ const createPDF = async (data: any,id:string) => {
     doc.text("Informasi Gelombang:", 10, fy, {align: 'left'});
     autoTable(doc, {
         body: [
-            ['Jenis Gelombang', data.gelombang.nama],
-            ['Durasi Gelombang', data.gelombang.keterangan],
-            ['Biaya', data.gelombang.biaya],
+            ['Jenis Gelombang', `: ${data.gelombang.nama}`],
+            ['Durasi Gelombang', `: ${data.gelombang.keterangan}`],
+            ['Biaya', `: ${data.gelombang.biaya}`],
         ],
         startY: fy + 5,
         theme: 'striped',
+        columnStyles: {
+            0: { cellWidth: 60 },
+            1: { cellWidth: 120 },
+        },
         didDrawPage: function (data: any) {
             if (data.cursor.y) {
                 fy = data.cursor?.y + 7;
@@ -94,12 +106,16 @@ const createPDF = async (data: any,id:string) => {
     doc.text("Informasi Tambahan:", 10, fy, {align: 'left'});
     autoTable(doc, {
         body: [
-            ['Sekolah Asal', data.sekolah.toUpperCase()],
-            ['Info Pendaftaran', data.ip.toUpperCase()],
-            ['Waktu Pendaftaran', formatDate(data.created_at)]
+            ['Sekolah Asal', `: ${data.sekolah.toUpperCase()}`],
+            ['Info Pendaftaran', `: ${data.ip.toUpperCase()}`],
+            ['Waktu Pendaftaran', `: ${formatDate(data.created_at)}`]
         ],
         startY: fy + 5,
         theme: 'striped',
+        columnStyles: {
+            0: { cellWidth: 60 },
+            1: { cellWidth: 120 },
+        },
         didDrawPage: function (data: any) {
             if (data.cursor.y) {
                 fy = data.cursor?.y + 5;
