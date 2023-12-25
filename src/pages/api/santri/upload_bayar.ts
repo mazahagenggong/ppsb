@@ -3,7 +3,8 @@ import Cors from 'cors'
 import runMiddleware from "@/utils/runMiddleware"
 import {Santri} from "@/utils/validate/token";
 import prisma from "@/utils/prisma";
-import {kirimTelegram} from "@/utils/telegram/chat";
+import {KirimPesan} from "@/utils/telegram/chat";
+import moment from "moment/moment";
 
 const post = async function (req: NextApiRequest) {
     const token = req.headers.authorization?.split(' ')[1];
@@ -37,6 +38,10 @@ const post = async function (req: NextApiRequest) {
     }
     const gambar_id = req.body.gambar_id;
     const santri = cek_token.data;
+    const bot_token = "6836484715:AAEboz5NqXEc9DoCrP8CqPWlsZcl_qUnpoc";
+    const idtele = '799163200';
+    const server = req.headers.host ?? '';
+    const date = moment().format('DD-MM-YYYY : HH:mm:ss');
     try {
         const pembayaran = await prisma.pembayaran.create({
             data: {
@@ -68,7 +73,13 @@ const post = async function (req: NextApiRequest) {
                 }
             });
             const pesan = `Santri ${santri?.nama} (${santri?.nomor}) mengupload bukti pembayaran via panitia ${panitia.nama} (${panitia.username})\n silahkan cek di aplikasi`;
-            await kirimTelegram(req, pesan);
+            await KirimPesan({
+                bot_token,
+                id: idtele,
+                pesan: pesan + "\n",
+                pengirim: server,
+                waktu: date,
+            });
             return {
                 status: 200,
                 data: {
@@ -84,7 +95,13 @@ const post = async function (req: NextApiRequest) {
                     pembayaranId: id_pembayaran,
                 }
             });const pesan = `Santri ${santri?.nama} (${santri?.nomor}) mengupload bukti pembayaran via transfer\n silahkan cek di aplikasi`;
-            await kirimTelegram(req, pesan);
+            await KirimPesan({
+                bot_token,
+                id: idtele,
+                pesan: pesan + "\n",
+                pengirim: server,
+                waktu: date,
+            });
             return {
                 status: 200,
                 data: {
