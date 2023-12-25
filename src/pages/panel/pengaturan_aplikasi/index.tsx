@@ -7,11 +7,14 @@ import GelombangPendaftaran from "@/components/pengaturan/gelombang_pendaftaran"
 
 const Index = () => {
     const {setActive, setShow} = useSidebarPanel();
-
     useEffect(() => {
-        setActive('pengaturan_aplikasi');
-        setShow("pengaturan");
-    }, []);
+        const initializeSidebar = () => {
+            setActive('pengaturan_aplikasi');
+            setShow("pengaturan");
+        };
+
+        initializeSidebar();
+    }, [setActive, setShow]);
     return (
         <Template>
             <PanelContent title={"Data Santri Baru"}>

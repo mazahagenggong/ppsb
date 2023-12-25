@@ -10,9 +10,13 @@ import {getCookie} from "cookies-next";
 const Tambah = () => {
     const {setActive, setShow} = useSidebarPanel();
     useEffect(() => {
-        setActive('pengaturan');
-        setShow("admin");
-    }, []);
+        const initializeSidebar = () => {
+            setActive('pengaturan');
+            setShow("user");
+        };
+
+        initializeSidebar();
+    }, [setActive, setShow]);
     const {
         register,
         handleSubmit,

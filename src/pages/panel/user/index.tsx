@@ -7,11 +7,15 @@ import Link from "next/link";
 import {toast} from "react-toastify";
 
 const Admin = () => {
-    const {setActive, setShow} = useSidebarPanel();
+    const {setActive, setShow,active} = useSidebarPanel();
     useEffect(() => {
-        setActive('pengaturan');
-        setShow("admin");
-    }, []);
+        const initializeSidebar = () => {
+            setActive('user');
+            setShow('pengaturan');
+        };
+
+        initializeSidebar();
+    }, [setActive, setShow]);
     const [tablewiew, setTablewiew] = React.useState<boolean>(true);
     const head: { name: string, id: string }[] = [
         {

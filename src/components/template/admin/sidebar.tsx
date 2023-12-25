@@ -182,7 +182,7 @@ const Sidebar = () => {
                             <li>
                                 <Link
                                     href={"/panel/user"}
-                                    className={active === 'admin' ? 'active' : ''}
+                                    className={active === 'user' ? 'active' : ''}
                                     data-bs-target="#components-nav"
                                     data-bs-toggle="collapse"
                                     onClick={() => {

@@ -32,9 +32,13 @@ const Index = () => {
         setTablewiew(true);
     }
     useEffect(() => {
-        setActive('santri_baru');
-        setShow("pendaftar");
-    }, []);
+        const initializeSidebar = () => {
+            setActive('santri_baru');
+            setShow("pendaftar");
+        };
+
+        initializeSidebar();
+    }, [setActive, setShow]);
     const aksi= [
         {
             name: "Detail",

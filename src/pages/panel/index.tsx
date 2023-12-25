@@ -6,9 +6,13 @@ import PanelContent from "@/components/panelContent";
 const Index = () => {
     const {setActive, setShow} = useSidebarPanel();
     useEffect(() => {
-        setActive(null);
-        setShow("dashboard");
-    }, []);
+        const initializeSidebar = () => {
+            setActive('null');
+            setShow('dashboard');
+        };
+
+        initializeSidebar();
+    }, [setActive, setShow]);
     return (
         <Template>
             <PanelContent title={"Dashboard"}>

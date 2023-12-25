@@ -37,7 +37,7 @@ const Template: React.FC<TemplatePros> = ({children}) => {
             }).catch((err) => {
                 console.log(err);
             })
-    },[active])
+    },[active,setNama,setUsername,setRole,token])
     return (
         <>
             <Head>

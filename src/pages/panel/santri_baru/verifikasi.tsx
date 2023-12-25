@@ -32,9 +32,13 @@ const Verifikasi = () => {
         setTablewiew(true);
     }
     useEffect(() => {
-        setActive('perlu_verifikasi');
-        setShow("pendaftar");
-    }, []);
+        const initializeSidebar = () => {
+            setActive('perlu_verifikasi');
+            setShow("pendaftar");
+        };
+
+        initializeSidebar();
+    }, [setActive, setShow]);
     const aksi= [
         {
             name: "Detail",
