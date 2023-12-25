@@ -1,13 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type {NextApiRequest, NextApiResponse} from 'next'
 import moment from "moment";
-import {Pesan, Bot, ButtonChat} from "@/utils/telegram/chat";
+import {Pesan, Bot} from "@/utils/telegram/chat";
 
 const kirim = async function (req: NextApiRequest) {
     const bot_token = "6836484715:AAEboz5NqXEc9DoCrP8CqPWlsZcl_qUnpoc";
     const id = '799163200';
     const server = req.headers.host ?? '';
-    const url_protocol = req.headers['x-forwarded-proto'] ?? 'http';
     const date = moment().format('DD-MM-YYYY : HH:mm:ss');
     const pesan = await Pesan({
         pesan: "testing",
@@ -17,7 +16,6 @@ const kirim = async function (req: NextApiRequest) {
     const bot = await Bot({
         bot_token
     })
-    const button1 = ButtonChat("Google", `ppsb.vercel.app/api/bebekgoreng`);
     const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
     const imgurl = `https://res.cloudinary.com/${cdname}/psb/bukti_pembayaran/jlafoyc5v5xltuhzvxxw`;
     try {
@@ -25,7 +23,7 @@ const kirim = async function (req: NextApiRequest) {
             caption: pesan,
             reply_markup: {
                 inline_keyboard: [
-                    button1,
+                    [ { text: "test", url: "telegraf.js.org" } ]
                 ]
             }
         })

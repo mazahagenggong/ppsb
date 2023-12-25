@@ -5,7 +5,7 @@ import {Santri} from "@/utils/validate/token";
 import prisma from "@/utils/prisma";
 import moment, {now} from "moment/moment";
 import 'moment/locale/id';
-import {Pesan, Bot, ButtonChat} from "@/utils/telegram/chat";
+import {Pesan, Bot} from "@/utils/telegram/chat";
 
 moment.locale('id');
 const formatDate = (createdAt: any) => {
@@ -50,14 +50,22 @@ const post = async function (req: NextApiRequest) {
     const bot_token = "6836484715:AAEboz5NqXEc9DoCrP8CqPWlsZcl_qUnpoc";
     const idtele = '799163200';
     const server = req.headers.host ?? '';
-    const date = moment().format('DD-MM-YYYY : HH:mm:ss');
+    const date = moment().format('DD-MM-YYYY');
     const bot = await Bot({
         bot_token
     })
     const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
     const imgurl = `https://res.cloudinary.com/${cdname}/${gambar_id}`;
-    const terima = ButtonChat("✅ Terima", `${server}/api/santri/terima_pembayaran/${santri?.id}`);
-    const tolak = ButtonChat("❌ Tolak", `${server}/api/santri/tolak_pembayaran/${santri?.id}`);
+    const button1 = [
+        {
+            text: "✅ Terima",
+            url: `${server}/api/santri/terima_pembayaran/${santri?.id}`
+        },
+        {
+            text: "❌ Tolak",
+            url: `${server}/api/santri/tolak_pembayaran/${santri?.id}`
+        },
+    ]
     let pesan = "";
     try {
         const pembayaran = await prisma.pembayaran.create({
@@ -89,13 +97,13 @@ const post = async function (req: NextApiRequest) {
                     panitiaId: panitia.id
                 }
             });
-            pesan = pesan + `Nama : ${santri?.nama})\n`;
-            pesan = pesan + `Nomor Pendaftaran : ${santri?.nomor})\n`;
-            pesan = pesan + `Kode Login : ${santri?.kode})\n`;
+            pesan = pesan + `Nama : ${santri?.nama}\n`;
+            pesan = pesan + `Nomor Pendaftaran : ${santri?.nomor}\n`;
+            pesan = pesan + `Kode Login : ${santri?.kode}\n`;
             pesan = pesan + `Waktu Pembayaran : ${formatDate(santri?.created_at ?? null)}\n`;
-            pesan = pesan + `Gelombang : ${santri?.gelombang?.nama})\n`;
-            pesan = pesan + `Biaya Pendaftaran : ${santri?.gelombang?.biaya})\n`;
-            pesan = pesan + `Metode Pembayaran : ${santri?.panitia ? "Via Panitia (" + santri?.panitia?.nama + ")" : "Via Transfer"})\n`;
+            pesan = pesan + `Gelombang : ${santri?.gelombang?.nama}\n`;
+            pesan = pesan + `Biaya Pendaftaran : ${santri?.gelombang?.biaya}\n`;
+            pesan = pesan + `Metode Pembayaran : Via Panitia (${panitia.nama})\n`;
             pesan = pesan + `Telah mengupload bukti pembayaran, Silahkan pilih tindakan`;
             pesan = await Pesan({
                 pesan: pesan,
@@ -107,8 +115,7 @@ const post = async function (req: NextApiRequest) {
                     caption: pesan,
                     reply_markup: {
                         inline_keyboard: [
-                            terima,
-                            tolak
+                            button1,
                         ]
                     }
                 })
@@ -130,8 +137,16 @@ const post = async function (req: NextApiRequest) {
                     pembayaranId: id_pembayaran,
                 }
             });
+            pesan = pesan + `Nama : ${santri?.nama}\n`;
+            pesan = pesan + `Nomor Pendaftaran : ${santri?.nomor}\n`;
+            pesan = pesan + `Kode Login : ${santri?.kode}\n`;
+            pesan = pesan + `Waktu Pembayaran : ${formatDate(santri?.created_at ?? null)}\n`;
+            pesan = pesan + `Gelombang : ${santri?.gelombang?.nama}\n`;
+            pesan = pesan + `Biaya Pendaftaran : ${santri?.gelombang?.biaya}\n`;
+            pesan = pesan + `Metode Pembayaran : Via Transfer\n`;
+            pesan = pesan + `Telah mengupload bukti pembayaran, Silahkan pilih tindakan`;
             pesan = await Pesan({
-                pesan: `Santri ${santri?.nama} (${santri?.nomor}) mengupload bukti pembayaran via transfer\nKlik detail untuk melihat bukti pembayaran dan melalukan verifikasi`,
+                pesan: pesan,
                 pengirim: server,
                 waktu: date,
             })
@@ -140,8 +155,7 @@ const post = async function (req: NextApiRequest) {
                     caption: pesan,
                     reply_markup: {
                         inline_keyboard: [
-                            terima,
-                            tolak
+                            button1,
                         ]
                     }
                 })

@@ -29,7 +29,3 @@ export const Bot = async function (data: BotType) {
 
     return new Telegraf(bot_token)
 }
-
-export const ButtonChat = (text:string, url:string) => {
-    return [ { text, url} ]
-}
