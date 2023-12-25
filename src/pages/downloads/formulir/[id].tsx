@@ -5,7 +5,6 @@ import useSWR from "swr";
 import moment from 'moment';
 import 'moment/locale/id';
 import {LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
-import createPDF from "@/utils/createPDF";
 import createFormulirPDF from "@/utils/createFormulirPDF";
 import Formulir from "@/components/card/formulir";
 

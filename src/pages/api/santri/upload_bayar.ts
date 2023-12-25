@@ -3,9 +3,18 @@ import Cors from 'cors'
 import runMiddleware from "@/utils/runMiddleware"
 import {Santri} from "@/utils/validate/token";
 import prisma from "@/utils/prisma";
-import {KirimPesan} from "@/utils/telegram/chat";
-import moment from "moment/moment";
+import moment, {now} from "moment/moment";
+import 'moment/locale/id';
+import {Pesan, Bot, ButtonChat} from "@/utils/telegram/chat";
 
+moment.locale('id');
+const formatDate = (createdAt: any) => {
+    if (createdAt ) {
+        return moment(createdAt).format('DD MMMM YYYY | hh:mm:ss A');
+    } else {
+        return "";
+    }
+};
 const post = async function (req: NextApiRequest) {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
@@ -42,6 +51,14 @@ const post = async function (req: NextApiRequest) {
     const idtele = '799163200';
     const server = req.headers.host ?? '';
     const date = moment().format('DD-MM-YYYY : HH:mm:ss');
+    const bot = await Bot({
+        bot_token
+    })
+    const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
+    const imgurl = `https://res.cloudinary.com/${cdname}/${gambar_id}`;
+    const terima = ButtonChat("✅ Terima", `$server/api/santri/terima_pembayaran/${santri?.id}`);
+    const tolak = ButtonChat("❌ Tolak", `$server/api/santri/tolak_pembayaran/${santri?.id}`);
+    let pesan = "";
     try {
         const pembayaran = await prisma.pembayaran.create({
             data: {
@@ -72,14 +89,32 @@ const post = async function (req: NextApiRequest) {
                     panitiaId: panitia.id
                 }
             });
-            const pesan = `Santri ${santri?.nama} (${santri?.nomor}) mengupload bukti pembayaran via panitia ${panitia.nama} (${panitia.username})\n silahkan cek di aplikasi`;
-            await KirimPesan({
-                bot_token,
-                id: idtele,
-                pesan: pesan + "\n",
+            pesan = pesan + `Nama : ${santri?.nama})\n`;
+            pesan = pesan + `Nomor Pendaftaran : ${santri?.nomor})\n`;
+            pesan = pesan + `Kode Login : ${santri?.kode})\n`;
+            pesan = pesan + `Waktu Pembayaran : ${formatDate(santri?.created_at ?? null)}\n`;
+            pesan = pesan + `Gelombang : ${santri?.gelombang?.nama})\n`;
+            pesan = pesan + `Biaya Pendaftaran : ${santri?.gelombang?.biaya})\n`;
+            pesan = pesan + `Metode Pembayaran : ${santri?.panitia ? "Via Panitia (" + santri?.panitia?.nama + ")" : "Via Transfer"})\n`;
+            pesan = pesan + `Telah mengupload bukti pembayaran, Silahkan pilih tindakan`;
+            pesan = await Pesan({
+                pesan: pesan,
                 pengirim: server,
                 waktu: date,
-            });
+            })
+            try {
+                await bot.telegram.sendPhoto(idtele, imgurl, {
+                    caption: pesan,
+                    reply_markup: {
+                        inline_keyboard: [
+                            terima,
+                            tolak
+                        ]
+                    }
+                })
+            } catch (e) {
+                console.log(e);
+            }
             return {
                 status: 200,
                 data: {
@@ -94,14 +129,25 @@ const post = async function (req: NextApiRequest) {
                 data: {
                     pembayaranId: id_pembayaran,
                 }
-            });const pesan = `Santri ${santri?.nama} (${santri?.nomor}) mengupload bukti pembayaran via transfer\n silahkan cek di aplikasi`;
-            await KirimPesan({
-                bot_token,
-                id: idtele,
-                pesan: pesan + "\n",
+            });
+            pesan = await Pesan({
+                pesan: `Santri ${santri?.nama} (${santri?.nomor}) mengupload bukti pembayaran via transfer\nKlik detail untuk melihat bukti pembayaran dan melalukan verifikasi`,
                 pengirim: server,
                 waktu: date,
-            });
+            })
+            try {
+                await bot.telegram.sendPhoto(idtele, imgurl, {
+                    caption: pesan,
+                    reply_markup: {
+                        inline_keyboard: [
+                            terima,
+                            tolak
+                        ]
+                    }
+                })
+            } catch (e) {
+                console.log(e);
+            }
             return {
                 status: 200,
                 data: {
@@ -120,7 +166,6 @@ const post = async function (req: NextApiRequest) {
             }
         };
     }
-
 }
 export default async function handler(
     req: NextApiRequest,
