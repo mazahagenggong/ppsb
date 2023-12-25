@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type {NextApiRequest, NextApiResponse} from 'next'
 import moment from "moment";
-import KirimPesan from "@/utils/telegram/chat";
+import {KirimPesan} from "@/utils/telegram/chat";
 
 const kirim = async function (req: NextApiRequest) {
     const bot_token = "6836484715:AAEboz5NqXEc9DoCrP8CqPWlsZcl_qUnpoc";
