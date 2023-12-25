@@ -56,8 +56,8 @@ const post = async function (req: NextApiRequest) {
     })
     const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
     const imgurl = `https://res.cloudinary.com/${cdname}/${gambar_id}`;
-    const terima = ButtonChat("✅ Terima", `$server/api/santri/terima_pembayaran/${santri?.id}`);
-    const tolak = ButtonChat("❌ Tolak", `$server/api/santri/tolak_pembayaran/${santri?.id}`);
+    const terima = ButtonChat("✅ Terima", `${server}/api/santri/terima_pembayaran/${santri?.id}`);
+    const tolak = ButtonChat("❌ Tolak", `${server}/api/santri/tolak_pembayaran/${santri?.id}`);
     let pesan = "";
     try {
         const pembayaran = await prisma.pembayaran.create({

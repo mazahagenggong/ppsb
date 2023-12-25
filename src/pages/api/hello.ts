@@ -17,7 +17,7 @@ const kirim = async function (req: NextApiRequest) {
     const bot = await Bot({
         bot_token
     })
-    const button1 = ButtonChat("Google", `${url_protocol}://${server}`);
+    const button1 = ButtonChat("Google", `ppsb.vercel.app/api/bebekgoreng`);
     const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
     const imgurl = `https://res.cloudinary.com/${cdname}/psb/bukti_pembayaran/jlafoyc5v5xltuhzvxxw`;
     try {
