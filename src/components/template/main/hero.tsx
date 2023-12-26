@@ -55,7 +55,10 @@ const Hero = () => {
                             <div className="flex flex-wrap justify-center mb-6 items-center">
                                 <div className="flex flex-col md:flex-row items-center">
                                     <button
-                                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full my-2 md:mx-3">
+                                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full my-2 md:mx-3"
+                                    onClick={()=>{
+                                        window.open("/assets/pdf/ppsb.pdf", '_blank');
+                                    }}>
                                         Cara Daftar
                                     </button>
                                     <Link
