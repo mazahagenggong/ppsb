@@ -1,9 +1,8 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import cloudinary from "@/utils/cloud";
 import formidable from 'formidable';
-import jwt from "jsonwebtoken";
-import prisma from "@/utils/prisma";
 import {Santri} from "@/utils/validate/token";
+
 
 export const config = {
     api: {
@@ -39,16 +38,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     res.status(400).json({error: 'No file uploaded'});
                     return;
                 }
+
                 try {
                     const upload = await cloudinary.v2.uploader
                         .upload(files.file?.[0].filepath, {
                             folder: `psb/${fields.location}`,
-                            resource_type: 'image'
+                            resource_type: 'image',
+                            allowed_formats: ['jpg', 'png', 'jpeg'],
                         });
                     res.status(200).json({success: true, data: upload});
                 } catch (error) {
-                    console.error(error);
-                    res.status(500).json({success: false, error: 'Internal server error, koneksi ke cloudinary gagal'});
+                    res.status(500).json({success: false, error: error});
                 }
             }
         });

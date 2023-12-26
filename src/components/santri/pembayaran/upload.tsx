@@ -1,8 +1,4 @@
 import React from 'react';
-import Image from "next/image";
-import axios from "axios";
-import {LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
-import {getCookie} from "cookies-next";
 import UploadComponent from "@/components/santri/pembayaran/uploadComponent";
 
 const Upload = () => {

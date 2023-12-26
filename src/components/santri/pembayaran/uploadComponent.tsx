@@ -5,14 +5,15 @@ import axios from "axios";
 import {getCookie} from "cookies-next";
 
 interface UploadComponentProps {
-    data: string|null;
+    data: string | null;
 }
+
 const UploadComponent: React.FC<UploadComponentProps> = ({data}) => {
     let panitia: string | null;
     if (!data) {
         panitia = null;
     } else {
-        panitia= data;
+        panitia = data;
     }
 
     const [uploadedImageUrl, setUploadedImageUrl] = React.useState<string | null>(null);
@@ -33,7 +34,6 @@ const UploadComponent: React.FC<UploadComponentProps> = ({data}) => {
     const kirimBukti = async () => {
         let gambar: string | null = null;
         if (uploadedImageUrl) {
-            console.log("upload gambar")
             showWaitLoading('Mengupload gambar.')
             const formData = new FormData();
             const file = document.getElementById("foto") as HTMLInputElement;
@@ -54,12 +54,10 @@ const UploadComponent: React.FC<UploadComponentProps> = ({data}) => {
                         }
                     } else {
                         await LoadingTimer('Gagal mengupload gambar.', 'error', 1500);
-                        console.log(upload.data.message);
                         return;
                     }
-                } catch (e) {
-                    await LoadingTimer('Gagal mengupload gambar.', 'error', 1500);
-                    console.log(e);
+                } catch (e: any) {
+                    await LoadingTimer('Gagal mengupload gambar. <br/>' + e.response.data.error.message ?? e.messege, 'error', 3000);
                     return;
                 }
             }
@@ -88,12 +86,10 @@ const UploadComponent: React.FC<UploadComponentProps> = ({data}) => {
                 window.location.reload();
             } else {
                 await LoadingTimer('Gagal mengirim bukti pembayaran.', 'error', 1500);
-                console.log(save_data.data.message);
                 return;
             }
         } catch (e) {
             await LoadingTimer('Gagal mengirim bukti pembayaran.', 'error', 1500);
-            console.log(e);
             return;
         }
     }

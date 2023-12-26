@@ -3,14 +3,14 @@ import Cors from 'cors'
 import runMiddleware from "@/utils/runMiddleware"
 import {Santri} from "@/utils/validate/token";
 import prisma from "@/utils/prisma";
-import moment, {now} from "moment/moment";
+import moment from "moment/moment";
 import 'moment/locale/id';
 import {Pesan, Bot} from "@/utils/telegram/chat";
 
 moment.locale('id');
 const formatDate = (createdAt: any) => {
     if (createdAt) {
-        return moment(createdAt).format('DD MMMM YYYY | hh:mm:ss A');
+        return moment(createdAt).format('DD MMMM YYYY');
     } else {
         return "";
     }

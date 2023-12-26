@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import Modal from "@/components/modal";
-import {deleteCookie, getCookie, setCookie} from "cookies-next";
-import {CloseSwal, LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
+import Modal from "@/components/modal/default";
+import { getCookie} from "cookies-next";
+import {LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
 import axios from "axios";
 
 const Password = () => {

@@ -5,6 +5,10 @@ import Image from "next/image";
 import {Icon} from '@iconify/react';
 import Link from "next/link";
 import Login from "@/components/buttons/login";
+import Video from "@/components/template/main/empatkotak/video";
+import Brosur from "@/components/template/main/empatkotak/brosur";
+import Gelombang from "@/components/template/main/empatkotak/gelombang";
+import Waktu from "@/components/template/main/empatkotak/waktu";
 
 const Hero = () => {
     const [text] = useTypewriter({
@@ -34,7 +38,7 @@ const Hero = () => {
                             <br/>
                             MA Zainul Hasan 1 Genggong
                             <br/>
-                            Tahun pelajaran 2023/2024
+                            Tahun pelajaran 2024/2025
                         </h1>
                     </div>
                 </div>
@@ -74,40 +78,12 @@ const Hero = () => {
                     </div>
                     <div className="flex flex-col md:w-1/2">
                         <div className="flex flex-col w-full md:flex-row">
-                            <div
-                                className={`${styles.gr1} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1 md:w-1/2`}
-                                style={{width: "100%", height: "30vh"}}>
-                                <Icon icon="mingcute:wave-line" width="64" height="64"/>
-                                <Link href="#" style={{textDecoration: "none"}}>
-                                    <h1 className="mb-2 font-bold text-4xl text-black">Gelombang Pendaftaran</h1>
-                                </Link>
-                            </div>
-                            <div
-                                className={`${styles.gr2} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1 md:w-1/2`}
-                                style={{width: "100%", height: "30vh"}}>
-                                <Icon icon="ion:time-outline" width="64" height="64"/>
-                                <Link href="#" style={{textDecoration: "none"}}>
-                                    <h1 className="mb-2 text-4xl font-semibold text-black">Waktu Pendaftaran</h1>
-                                </Link>
-                            </div>
+                            <Gelombang/>
+                            <Waktu/>
                         </div>
                         <div className="flex flex-col w-full md:flex-row">
-                            <div
-                                className={`${styles.gr3} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1 md:w-1/2`}
-                                style={{width: "100%", height: "30vh"}}>
-                                <Icon icon="bx:video" width="64" height="64"/>
-                                <Link href="#" style={{textDecoration: "none"}}>
-                                    <h1 className="mb-2 text-4xl font-semibold text-black">Video Profile</h1>
-                                </Link>
-                            </div>
-                            <div
-                                className={`${styles.gr4} max-w-sm p-6 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col items-center justify-center m-1 md:w-1/2`}
-                                style={{width: "100%", height: "30vh"}}>
-                                <Icon icon="gala:brochure" width="64" height="64"/>
-                                <Link href="#" style={{textDecoration: "none"}}>
-                                    <h1 className="mb-2 text-4xl font-semibold text-black">Download Brosur</h1>
-                                </Link>
-                            </div>
+                            <Video/>
+                            <Brosur/>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import Modal from '@/components/modal';
+import Modal from '@/components/modal/default';
 import {CloseSwal, LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
 import axios from "axios";
 import {deleteCookie, getCookie, setCookie} from "cookies-next";

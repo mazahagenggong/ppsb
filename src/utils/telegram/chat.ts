@@ -9,7 +9,7 @@ type PesanType = {
 
 export const Pesan = async function (data: PesanType) {
     const {pesan, pengirim, waktu} = data;
-    const date = moment().format('DD-MM-YYYY : HH:mm:ss');
+    const date = moment().format('DD-MM-YYYY');
     const garis = "-------------------------";
     let newPesan = "";
     if (pengirim) {

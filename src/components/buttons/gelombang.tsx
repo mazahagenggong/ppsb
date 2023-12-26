@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState} from 'react';
-import Modal from "@/components/modal";
+import Modal from "@/components/modal/default";
 import Datepicker from "react-tailwindcss-datepicker";
 import {LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
 import moment from 'moment';
