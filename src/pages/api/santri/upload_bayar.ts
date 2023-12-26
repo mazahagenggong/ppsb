@@ -9,7 +9,7 @@ import {Pesan, Bot} from "@/utils/telegram/chat";
 
 moment.locale('id');
 const formatDate = (createdAt: any) => {
-    if (createdAt ) {
+    if (createdAt) {
         return moment(createdAt).format('DD MMMM YYYY | hh:mm:ss A');
     } else {
         return "";
@@ -57,12 +57,11 @@ const post = async function (req: NextApiRequest) {
         }
     })
 
-    let idtele:string[] = [];
-    if (admin.length > 0) {
-        admin.map((item) => {
-            idtele.push(item?.telegram ?? '799163200');
-        })
-    }
+    let idtele: string[] = [];
+    const cari_id = admin.map((item) => {
+        idtele.push(item?.telegram ?? '799163200');
+    })
+    await Promise.all(cari_id);
     const server = req.headers.host ?? '';
     const date = moment().format('DD-MM-YYYY');
     const bot = await Bot({
@@ -175,17 +174,28 @@ const post = async function (req: NextApiRequest) {
                 pengirim: server,
                 waktu: date,
             })
+            const sendPhotoPromises = idtele.map(async (telegramId) => {
+                try {
+                    await bot.telegram.sendPhoto(telegramId, imgurl, {
+                        caption: pesan,
+                        reply_markup: {
+                            inline_keyboard: [
+                                button1,
+                            ]
+                        }
+                    });
+                    console.log(`Message sent successfully to ${telegramId}`);
+                } catch (e) {
+                    console.log(`Error sending message to ${telegramId}:`, e);
+                    throw e;
+                }
+            });
+
             try {
-                await bot.telegram.sendPhoto("215614256", imgurl, {
-                    caption: pesan,
-                    reply_markup: {
-                        inline_keyboard: [
-                            button1,
-                        ]
-                    }
-                })
-            } catch (e) {
-                console.log(e);
+                await Promise.all(sendPhotoPromises);
+                console.log("semua notif berhasil dikirim.");
+            } catch (error) {
+                console.error("gagal mengirim notif:", error);
             }
             return {
                 status: 200,
