@@ -3,7 +3,6 @@ import Cors from "cors";
 import runMiddleware from "@/utils/runMiddleware";
 import {Admin, Panitia} from "@/utils/validate/token";
 import prisma from "@/utils/prisma";
-import {encrypt} from "@/utils/crypt";
 
 const post = async function (req: NextApiRequest) {
     const token = req.headers.authorization?.split(" ")[1];
@@ -45,8 +44,11 @@ const post = async function (req: NextApiRequest) {
             },
         };
     }
-    let {username, nama} = reqbody;
-    username= username.toLowerCase().replace(/\s/g, "");
+    let {username, nama, telegram} = reqbody;
+    if (telegram === "") {
+        telegram = null;
+    }
+    username = username.toLowerCase().replace(/\s/g, "");
     try {
         try {
             if (username !== cek_token?.data?.username) {
@@ -72,6 +74,7 @@ const post = async function (req: NextApiRequest) {
                 data: {
                     username: username,
                     nama: nama,
+                    telegram: telegram,
                 },
             });
             return {

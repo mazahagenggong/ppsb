@@ -4,8 +4,20 @@ import prisma from "@/utils/prisma"
 import runMiddleware from "@/utils/runMiddleware"
 import {decrypt} from "@/utils/crypt";
 import jwt from "jsonwebtoken";
+import {Origin} from "@/utils/validate/origin";
 
 const post = async function (req: NextApiRequest) {
+    const cekOrigin = await Origin(req);
+    if (!cekOrigin.success) {
+        console.log(cekOrigin)
+        return {
+            status: 403,
+            data: {
+                success: false,
+                message: "Alamat tidak valid",
+            }
+        };
+    }
     const reqbody = req.body;
     if (!reqbody) {
         return {

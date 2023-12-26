@@ -35,6 +35,7 @@ const post = async function (req: NextApiRequest) {
                     username: true,
                     nama: true,
                     role: true,
+                    telegram: true,
                 },
             });
             if (!user) {

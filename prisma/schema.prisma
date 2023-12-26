@@ -98,6 +98,7 @@ model user {
   password   String
   nama       String
   role       String
+  telegram   String?
   siswa      siswa[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

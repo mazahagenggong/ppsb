@@ -7,7 +7,7 @@ import axios from "axios";
 import Password from "@/components/buttons/password";
 
 const Profile = () => {
-    const {nama, username} = useUserStore();
+    const {nama, username, telegram} = useUserStore();
     const {
         register,
         handleSubmit,
@@ -15,6 +15,7 @@ const Profile = () => {
     } = useForm<any>()
     const onSubmit: SubmitHandler<any> = async (data) => {
         try {
+            showWaitLoading("Mengubah data...")
             await axios.post("/api/user/edit", data, {
                 headers: {
                     "Content-Type": "application/json",
@@ -54,8 +55,19 @@ const Profile = () => {
                                 defaultValue={username ?? ""}
                                 placeholder="Username"/>
                         </div>
+                        <div className="form-group mb-3">
+                            <label className={"mb-1"} htmlFor="username">ID Telegram</label>
+                            <input
+                                type="number"
+                                className="form-control"
+                                {...register("telegram")}
+                                defaultValue={telegram ?? ""}
+                                placeholder="ID Telegram"/>
+                        </div>
                         <center>
-                            <button type="submit" className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full m-3">Simpan</button>
+                            <button type="submit"
+                                    className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full m-3">Simpan
+                            </button>
                             <Password/>
                         </center>
                     </form>

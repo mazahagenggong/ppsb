@@ -48,7 +48,21 @@ const post = async function (req: NextApiRequest) {
     const gambar_id = req.body.gambar_id;
     const santri = cek_token.data;
     const bot_token = "6836484715:AAEboz5NqXEc9DoCrP8CqPWlsZcl_qUnpoc";
-    const idtele = '799163200';
+    const admin = await prisma.user.findMany({
+        where: {
+            role: "admin",
+            telegram: {
+                not: null
+            }
+        }
+    })
+
+    let idtele:string[] = [];
+    if (admin.length > 0) {
+        admin.map((item) => {
+            idtele.push(item?.telegram ?? '799163200');
+        })
+    }
     const server = req.headers.host ?? '';
     const date = moment().format('DD-MM-YYYY');
     const bot = await Bot({
@@ -110,17 +124,28 @@ const post = async function (req: NextApiRequest) {
                 pengirim: server,
                 waktu: date,
             })
+            const sendPhotoPromises = idtele.map(async (telegramId) => {
+                try {
+                    await bot.telegram.sendPhoto(telegramId, imgurl, {
+                        caption: pesan,
+                        reply_markup: {
+                            inline_keyboard: [
+                                button1,
+                            ]
+                        }
+                    });
+                    console.log(`Message sent successfully to ${telegramId}`);
+                } catch (e) {
+                    console.log(`Error sending message to ${telegramId}:`, e);
+                    throw e;
+                }
+            });
+
             try {
-                await bot.telegram.sendPhoto(idtele, imgurl, {
-                    caption: pesan,
-                    reply_markup: {
-                        inline_keyboard: [
-                            button1,
-                        ]
-                    }
-                })
-            } catch (e) {
-                console.log(e);
+                await Promise.all(sendPhotoPromises);
+                console.log("semua notif berhasil dikirim.");
+            } catch (error) {
+                console.error("gagal mengirim notif:", error);
             }
             return {
                 status: 200,
@@ -151,7 +176,7 @@ const post = async function (req: NextApiRequest) {
                 waktu: date,
             })
             try {
-                await bot.telegram.sendPhoto(idtele, imgurl, {
+                await bot.telegram.sendPhoto("215614256", imgurl, {
                     caption: pesan,
                     reply_markup: {
                         inline_keyboard: [

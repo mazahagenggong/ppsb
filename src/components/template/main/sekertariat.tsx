@@ -27,7 +27,7 @@ const Sekertariat = () => {
                                         priority
                                     />
                                 </div>
-                                <div className={"h-[25vh]"} style={{textDecoration: "none", textAlign: "center"}}>
+                                <div className={"h-[200px]"} style={{textDecoration: "none", textAlign: "center"}}>
                                     <p className="mt-3 text-2xl font-semibold text-black">AGUS SURAHMAN, S.Si</p>
                                     <p className="mb-2">Ketua PPSB</p>
                                     <p>No. Telp : 082236517179</p>
@@ -52,7 +52,7 @@ const Sekertariat = () => {
                                         priority
                                     />
                                 </div>
-                                <div className={"h-[25vh]"} style={{textDecoration: "none", textAlign: "center"}}>
+                                <div className={"h-[200px]"} style={{textDecoration: "none", textAlign: "center"}}>
                                     <p className="mt-3 text-2xl font-semibold text-black">MOHAMMAD JAMALUL LAIL, S.Pd</p>
                                     <p className="mb-2">Sekretaris</p>
                                     <p>No. Telp : 085733500155 / 082331103145</p>

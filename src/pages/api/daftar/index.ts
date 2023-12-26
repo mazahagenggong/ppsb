@@ -2,6 +2,7 @@ import type {NextApiRequest, NextApiResponse} from 'next'
 import Cors from 'cors'
 import prisma from "@/utils/prisma"
 import runMiddleware from "@/utils/runMiddleware"
+import {Origin} from "@/utils/validate/origin";
 
 const generateRandomCode = async (): Promise<string> => {
     const randomCode = Math.floor(100000 + Math.random() * 900000).toString().slice(0, 6);
@@ -34,6 +35,16 @@ const generatenomoreg = async (): Promise<string> => {
 }
 
 const post = async function (req: NextApiRequest) {
+    const cekOrigin = await Origin(req);
+    if (!cekOrigin.success) {
+        return {
+            status: 403,
+            data: {
+                success: false,
+                message: "Alamat tidak valid",
+            }
+        };
+    }
     const reqbody = req.body;
     const kode = await generateRandomCode();
     const nomor = await generatenomoreg();

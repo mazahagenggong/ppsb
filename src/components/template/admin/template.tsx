@@ -16,7 +16,7 @@ interface TemplatePros {
 }
 
 const Template: React.FC<TemplatePros> = ({children}) => {
-    const {setNama, setUsername, setRole} = useUserStore();
+    const {setNama, setUsername, setRole, setTelegram} = useUserStore();
     const token = getCookie('token');
     const {active} = useToogleSidebarPanel();
     useEffect(() => { 
@@ -34,10 +34,11 @@ const Template: React.FC<TemplatePros> = ({children}) => {
                 setNama(res.data.data.nama);
                 setUsername(res.data.data.username);
                 setRole(res.data.data.role);
+                setTelegram(res.data.data.telegram);
             }).catch((err) => {
                 console.log(err);
             })
-    },[active,setNama,setUsername,setRole,token])
+    },[active,setNama,setUsername,setRole,setTelegram,token])
     return (
         <>
             <Head>
