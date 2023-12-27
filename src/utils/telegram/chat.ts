@@ -20,12 +20,7 @@ export const Pesan = async function (data: PesanType) {
     return newPesan
 }
 
-type BotType = {
-    bot_token: string
-}
-
-export const Bot = async function (data: BotType) {
-    const {bot_token} = data;
-
-    return new Telegraf(bot_token)
+export const Bot = async function () {
+    const token = "6836484715:AAEboz5NqXEc9DoCrP8CqPWlsZcl_qUnpoc";
+    return new Telegraf(token)
 }

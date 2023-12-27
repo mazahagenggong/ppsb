@@ -47,7 +47,6 @@ const post = async function (req: NextApiRequest) {
     }
     const gambar_id = req.body.gambar_id;
     const santri = cek_token.data;
-    const bot_token = "6836484715:AAEboz5NqXEc9DoCrP8CqPWlsZcl_qUnpoc";
     const admin = await prisma.user.findMany({
         where: {
             role: "admin",
@@ -64,9 +63,7 @@ const post = async function (req: NextApiRequest) {
     await Promise.all(cari_id);
     const server = req.headers.host ?? '';
     const date = moment().format('DD-MM-YYYY');
-    const bot = await Bot({
-        bot_token
-    })
+    const bot = await Bot();
     const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
     const imgurl = `https://res.cloudinary.com/${cdname}/${gambar_id}`;
     const button1 = [

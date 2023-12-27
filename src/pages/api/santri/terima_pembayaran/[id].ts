@@ -1,12 +1,25 @@
-import type {NextApiRequest, NextApiResponse} from 'next'
-import Cors from 'cors'
-import runMiddleware from "@/utils/runMiddleware"
-import {cookies} from "next/headers";
+import type {NextApiRequest, NextApiResponse} from 'next';
+import Cors from 'cors';
+import runMiddleware from "@/utils/runMiddleware";
 import {Admin} from "@/utils/validate/token";
 import prisma from "@/utils/prisma";
+import {Bot, Pesan} from "@/utils/telegram/chat";
+import moment from "moment";
+import 'moment/locale/id';
 
+moment.locale('id');
+const formatDate = (createdAt: any) => {
+    if (createdAt) {
+        return moment(createdAt).format('DD MMMM YYYY');
+    } else {
+        return "";
+    }
+};
 const getdata = async function (req: NextApiRequest) {
-    const cookieStore = req.cookies;
+    const server = req.headers.host ?? '';
+    const date = moment().format('DD-MM-YYYY');
+    const bot = await Bot();
+    const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
     const token = req.cookies.token ?? null;
     if (!token) {
         return {
@@ -59,8 +72,31 @@ const getdata = async function (req: NextApiRequest) {
                 include: {
                     pembayaran: true,
                     panitia: true,
+                    gelombang: true,
                 }
             })
+            let pesan = `Nama : ${siswa?.nama}\n`;
+            pesan = pesan + `Nomor Pendaftaran : ${siswa?.nomor}\n`;
+            pesan = pesan + `Kode Login : ${siswa?.kode}\n`;
+            pesan = pesan + `Waktu Pembayaran : ${formatDate(siswa?.created_at ?? null)}\n`;
+            pesan = pesan + `Gelombang : ${siswa?.gelombang?.nama}\n`;
+            pesan = pesan + `Biaya Pendaftaran : ${siswa?.gelombang?.biaya}\n`;
+            pesan = pesan + `Metode Pembayaran : Via ${siswa?.panitia?.nama ? 'Panitia (' + siswa?.panitia?.nama + ')' : 'Transfer'}\n`;
+            pesan = pesan + `Status Pembayaran : Lunas\n`;
+            pesan = pesan + `Telah mendaftar dan melakukan pembayaran`;
+            pesan = await Pesan({
+                pesan: pesan,
+                pengirim: server,
+                waktu: date,
+            })
+            try {
+                await bot.telegram.sendPhoto("799163200", siswa?.pembayaran?.bukti ?? "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
+                    caption: pesan,
+                });
+                console.log(`Message sent successfully`);
+            } catch (e) {
+                console.log(`Error sending message :`, e);
+            }
             return {
                 status: 200,
                 data: {
@@ -82,44 +118,6 @@ const getdata = async function (req: NextApiRequest) {
     } finally {
         prisma.$disconnect();
     }
-    return {
-        status: 200,
-        data: {
-            success: true,
-            data: cek_token.data,
-            id
-        }
-    }
-    // const reqbody = req.body;
-    // const search_list = [
-    //     'nama',
-    //     'nomor'
-    // ];
-    // const status = 'semua';
-    // const sort_by = {nama: "asc"};
-    // try {
-    //     try {
-    //         const data = await siswacardverif(prisma.siswa, reqbody, search_list, sort_by);
-    //         return {
-    //             status: data.status,
-    //             data: {
-    //                 success: true,
-    //                 data: data.data
-    //             }
-    //         }
-    //     } catch (e) {
-    //         console.log(e)
-    //         return {
-    //             status: 500,
-    //             data: {
-    //                 success: false,
-    //                 message: "terjadi kesalahan",
-    //             }
-    //         }
-    //     }
-    // } finally {
-    //     prisma.$disconnect();
-    // }
 }
 export default async function handler(
     req: NextApiRequest,

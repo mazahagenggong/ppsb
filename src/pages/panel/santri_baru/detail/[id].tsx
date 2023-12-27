@@ -8,7 +8,7 @@ import {getCookie} from "cookies-next";
 import Spinner from "@/components/spinner";
 import {CldImage} from "next-cloudinary";
 import Swal from "sweetalert2";
-import {LoadingTimer} from "@/components/loading/waitLoading";
+import {LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
 import {useUserStore} from "@/utils/stores/user";
 import UploadComponent from "@/components/santri/pembayaran/uploadComponent";
 
@@ -154,6 +154,7 @@ const handleterima = (santri: any) => {
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
+                showWaitLoading("Memproses penerimaan pembayaran.")
                 await axios.post(`/api/santri/pembayaran`, {status: "terima", id: santri.id}, {
                     headers: {
                         "Content-Type": "application/json",
