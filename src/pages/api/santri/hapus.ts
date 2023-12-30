@@ -76,11 +76,13 @@ const post = async function (req: NextApiRequest) {
                     id: reqbody.id
                 }
             });
-            await prisma.alamat.delete({
-                where: {
-                    id: siswa.alamat.id
-                }
-            });
+            if (siswa.alamat){
+                await prisma.alamat.delete({
+                    where: {
+                        id: siswa.alamat.id
+                    }
+                });
+            }
             return {
                 status: 200,
                 data: {
