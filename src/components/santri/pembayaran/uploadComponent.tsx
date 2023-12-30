@@ -16,8 +16,8 @@ const UploadComponent: React.FC<UploadComponentProps> = ({data, santri}) => {
     } else {
         panitia = data;
     }
-    let snt: any | null;
-    if (!data) {
+    let snt: any;
+    if (!santri) {
         snt = null;
     } else {
         snt = santri;
