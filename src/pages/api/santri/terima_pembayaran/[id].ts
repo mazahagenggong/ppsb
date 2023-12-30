@@ -19,7 +19,6 @@ const getdata = async function (req: NextApiRequest) {
     const server = req.headers.host ?? '';
     const date = moment().format('DD-MM-YYYY');
     const bot = await Bot();
-    const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
     const token = req.cookies.token ?? null;
     if (!token) {
         return {
@@ -90,7 +89,7 @@ const getdata = async function (req: NextApiRequest) {
                 waktu: date,
             })
             try {
-                await bot.telegram.sendPhoto("799163200", siswa?.pembayaran?.bukti ?? "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
+                await bot.telegram.sendPhoto("-1001221739649", siswa?.pembayaran?.bukti ?? "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
                     caption: pesan,
                 });
                 console.log(`Message sent successfully`);

@@ -31,7 +31,6 @@ const post = async function (req: NextApiRequest) {
         'nama',
         'nomor'
     ];
-    const status = 'semua';
     const sort_by = {nama: "asc"};
     try {
         try {
