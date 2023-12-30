@@ -48,12 +48,19 @@ const Hero = () => {
                     <div className="w-full md:w-1/2">
                         <center>
                             <Image
-                                src={'/gambarpsb.png'}
+                                src={'/COVER.jpg'}
                                 alt={"gambar"}
                                 className="mb-3"
                                 width={800}
                                 height={800}
                                 priority
+                                style={{
+                                    borderRadius: "10px",
+                                    transition: "0.3s",
+                                    width: "auto",
+                                    height: "50vh"
+
+                                }}
                             />
 
                             <div className="flex flex-wrap justify-center mb-6 items-center">
