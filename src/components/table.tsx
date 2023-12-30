@@ -11,6 +11,7 @@ import Spinner from "@/components/spinner";
 import withReactContent from "sweetalert2-react-content";
 import useSWR from "swr";
 import {CloseSwal, LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
+import {useUserStore} from "@/utils/stores/user";
 
 const SweetSwal = withReactContent(Swal)
 
@@ -31,6 +32,7 @@ const Table: React.FC<TableProps> = ({data}) => {
     const [currentPage, setCurrentPage] = React.useState<number>(1);
     const {data: dt, error: err, isLoading: load, mutate} = useSWR(url, () => getData());
     const [pagedata, setPageData] = React.useState<number[]>([]);
+    const {role} = useUserStore();
 
     async function getData() {
         let data: {};
@@ -108,7 +110,7 @@ const Table: React.FC<TableProps> = ({data}) => {
                 });
                 const token = getCookie("token");
                 try {
-                    const res = await axios.post(`/api/${url}`,{
+                    const res = await axios.post(`/api/${url}`, {
                         id: id,
                     }, {
                         headers: {
@@ -141,17 +143,17 @@ const Table: React.FC<TableProps> = ({data}) => {
                         );
                         console.log(res)
                     }
-                } catch (e:any){
+                } catch (e: any) {
                     console.log(e);
                     await Swal.fire({
-                        title: 'Gagal!',
-                        html: e.response?.data?.message ?? 'Gagal menghapus data',
-                        icon: 'error',
-                        allowOutsideClick: true,
-                        showConfirmButton: false,
-                        timer: 1500,
-                    }
-                );  
+                            title: 'Gagal!',
+                            html: e.response?.data?.message ?? 'Gagal menghapus data',
+                            icon: 'error',
+                            allowOutsideClick: true,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        }
+                    );
                 }
             }
         })
@@ -224,7 +226,7 @@ const Table: React.FC<TableProps> = ({data}) => {
                                                     for (const prop of path) {
                                                         if (value && typeof value === 'object' && prop in value) {
                                                             if (item2.id === 'pembayaran.status') {
-                                                                if (value[prop] === "menunggu"){
+                                                                if (value[prop] === "menunggu") {
                                                                     value = 'Menunggu Verifikasi';
                                                                 } else {
                                                                     value = value[prop];
@@ -282,6 +284,26 @@ const Table: React.FC<TableProps> = ({data}) => {
                                                                                     }}
                                                                                 />
                                                                             );
+                                                                        case 'HapusAdmin':
+                                                                            if (role === 'admin') {
+                                                                                return (
+                                                                                    <Icon
+                                                                                        icon="line-md:account-delete"
+                                                                                        color="#d9070e"
+                                                                                        width="24"
+                                                                                        height="24"
+                                                                                        key={`hapus-${nk2}`}
+                                                                                        className={"cursor-pointer mx-2"}
+                                                                                        onClick={async () => {
+                                                                                            await handleHapus(item.id, item3.url);
+                                                                                        }}
+                                                                                    />
+                                                                                );
+                                                                            } else{
+                                                                                return (
+                                                                                    <></>
+                                                                                );
+                                                                            }
                                                                         case 'Detail':
                                                                             return (
                                                                                 <Link href={`${item3.url}${item.id}`}

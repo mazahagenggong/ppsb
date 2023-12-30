@@ -108,7 +108,7 @@ const createFormulirPDF = async (data: any) => {
       ["NPSN Sekolah Asal", `: ${data.biodata.npsn}`],
       ["Alamat Sekolah Asal", `: ${data.biodata.alamat_sekolah}`],
       ["NISN Pendaftar", `: ${data.biodata.nisn}`],
-      ["Penerima KIP", `: ${data.biodata.kip ? "Ya" : "Tidak"}`],
+      ["Penerima KIP", `: ${data.biodata.kip !== null ? (data.biodata.kip === true ? "Ya" : "Tidak") : ""}`],
       ["Nama Ayah Pendaftar", `: ${data.biodata.nama_ayah}`],
       ["NIK Ayah Pendaftar", `: ${data.biodata.nik_ayah}`],
       ["Pekerjaan Ayah Pendaftar", `: ${data.biodata.pekerjaan_ayah}`],

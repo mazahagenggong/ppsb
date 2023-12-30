@@ -158,6 +158,14 @@ const post = async function (req: NextApiRequest) {
                                 }
                             }
                         });
+                    } else {
+                        return {
+                            status: 400,
+                            data: {
+                                success: false,
+                                message: "santri belum mengupload bukti pembayaran",
+                            }
+                        }
                     }
                     const santrinya = await prisma.siswa.findUnique({
                         where: {
@@ -179,15 +187,15 @@ const post = async function (req: NextApiRequest) {
                     pesan = pesan + `Gelombang : ${santrinya?.gelombang?.nama}\n`;
                     pesan = pesan + `Biaya Pendaftaran : ${santrinya?.gelombang?.biaya}\n`;
                     pesan = pesan + `Metode Pembayaran : Via ${santrinya?.panitia?.nama ? 'Panitia (' + santrinya?.panitia?.nama + ')' : 'Transfer'}\n`;
-                    pesan = pesan + `Status Pembayaran : Menunggu Verifikasi\n`;
-                    pesan = pesan + `Telah mendaftar dan menunggu proses verifikasi pembayaran`;
+                    pesan = pesan + `Status Pembayaran : Lunas\n`;
+                    pesan = pesan + `Telah mendaftar dan melunasi pembayaran`;
                     pesan = await Pesan({
                         pesan: pesan,
                         pengirim: server,
                         waktu: date,
                     })
                     try {
-                        await bot.telegram.sendPhoto("799163200", santrinya?.pembayaran?.bukti ?? "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
+                        await bot.telegram.sendPhoto("-1001221739649", santrinya?.pembayaran?.bukti ?? "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
                             caption: pesan,
                         });
                         console.log(`Message sent successfully`);

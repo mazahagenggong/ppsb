@@ -15,7 +15,7 @@ const post = async function (req: NextApiRequest) {
             }
         };
     }
-   const validate = await Santri(token);
+    const validate = await Santri(token);
     if (!validate.success) {
         return {
             status: 401,
@@ -36,25 +36,30 @@ const post = async function (req: NextApiRequest) {
         };
     }
     const body = req.body;
-    const data = {
-        tempat_lahir: body.tempat_lahir,
+    let data: any = {
+        tempat_lahir: body.tempat_lahir.toUpperCase(),
         tanggal_lahir: new Date(body.tanggal_lahir),
         nisn: body.nisn,
         nik: body.nik,
-        kip: body.kip === 'ya' ? true : false,
         jurusan: body.jurusan,
         jumlah_saudara: parseInt(body.jumlah_saudara),
         anak_ke: parseInt(body.anak_ke),
         npsn: body.npsn,
-        alamat_sekolah: body.alamat_sekolah,
-        nama_ayah: body.nama_ayah,
+        alamat_sekolah: body.alamat_sekolah.toUpperCase(),
+        nama_ayah: body.nama_ayah.toUpperCase(),
         nik_ayah: body.nik_ayah,
-        pekerjaan_ayah: body.pekerjaan_ayah,
-        pendidikan_ayah: body.pendidikan_ayah,
-        nama_ibu: body.nama_ibu,
+        pekerjaan_ayah: body.pekerjaan_ayah.toUpperCase(),
+        pendidikan_ayah: body.pendidikan_ayah.toUpperCase(),
+        nama_ibu: body.nama_ibu.toUpperCase(),
         nik_ibu: body.nik_ibu,
-        pekerjaan_ibu: body.pekerjaan_ibu,
-        pendidikan_ibu: body.pendidikan_ibu,
+        pekerjaan_ibu: body.pekerjaan_ibu.toUpperCase(),
+        pendidikan_ibu: body.pendidikan_ibu.toUpperCase(),
+    }
+    if (body.kip && body.kip !== '') {
+        data = {
+            ...data,
+            kip: body.kip === 'ya',
+        }
     }
     const santri_id = validate?.data?.id;
     if (!santri_id) {
@@ -88,38 +93,37 @@ const post = async function (req: NextApiRequest) {
                     where: {id: santri_id},
                     data: {
                         biodata: {
-                            update: data
+                            delete: true
                         }
                     }
                 });
-            } else {
-                const bio = await prisma.biodata_tambahan.create({
-                    data: data
-                });
-                if (!bio) {
-                    return {
-                        status: 401,
-                        data: {
-                            success: false,
-                            message: "Gagal mengupdate data",
-                        }
-                    };
-                }
-                const santri = await prisma.siswa.update({
-                    where: {id: santri_id},
+            }
+            const bio = await prisma.biodata_tambahan.create({
+                data: data
+            });
+            if (!bio) {
+                return {
+                    status: 401,
                     data: {
-                        biodataId: bio.id
+                        success: false,
+                        message: "Gagal mengupdate data",
                     }
-                });
-                if (!santri) {
-                    return {
-                        status: 401,
-                        data: {
-                            success: false,
-                            message: "Gagal mengupdate data",
-                        }
-                    };
+                };
+            }
+            const santri = await prisma.siswa.update({
+                where: {id: santri_id},
+                data: {
+                    biodataId: bio.id
                 }
+            });
+            if (!santri) {
+                return {
+                    status: 401,
+                    data: {
+                        success: false,
+                        message: "Gagal mengupdate data",
+                    }
+                };
             }
             return {
                 status: 200,

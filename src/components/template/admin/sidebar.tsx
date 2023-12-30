@@ -4,6 +4,7 @@ import {useSidebarPanel} from "@/utils/stores/sidebarPanel";
 import {useUserStore} from "@/utils/stores/user";
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {LoadingTimer} from "@/components/loading/waitLoading";
 
 const Sidebar = () => {
     const {active, setActive, show, setShow} = useSidebarPanel();
@@ -166,21 +167,6 @@ const Sidebar = () => {
                             </li>
                             <li>
                                 <Link
-                                    href={"/panel/santri_baru"}
-                                    className={active === 'brosur' ? 'active' : ''}
-                                    data-bs-target="#components-nav"
-                                    data-bs-toggle="collapse"
-                                    onClick={() => {
-                                        runtoast();
-                                    }}
-                                    style={{textDecoration: "none"}}
-                                >
-                                    <Icon icon="gg:check-o" color="green" style={{marginRight: 5}}/>
-                                    <span>Brosur</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
                                     href={"/panel/user"}
                                     className={active === 'user' ? 'active' : ''}
                                     data-bs-target="#components-nav"
@@ -226,8 +212,10 @@ const Sidebar = () => {
                                 className={active === 'laporan_semua_data' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"
-                                onClick={() => {
+                                onClick={(e) => {
                                     runtoast();
+                                    LoadingTimer("Fitur masih tahap pengembangan", "info", 3000);
+                                    e.preventDefault();
                                 }}
                                 style={{textDecoration: "none"}}
                             >
@@ -241,8 +229,10 @@ const Sidebar = () => {
                                 className={active === 'data_registrasi' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"
-                                onClick={() => {
+                                onClick={(e) => {
                                     runtoast();
+                                    LoadingTimer("Fitur masih tahap pengembangan", "info", 3000);
+                                    e.preventDefault();
                                 }}
                                 style={{textDecoration: "none"}}
                             >
@@ -256,8 +246,10 @@ const Sidebar = () => {
                                 className={active === 'kartu_tes' ? 'active' : ''}
                                 data-bs-target="#components-nav"
                                 data-bs-toggle="collapse"
-                                onClick={() => {
+                                onClick={(e) => {
                                     runtoast();
+                                    LoadingTimer("Fitur masih tahap pengembangan", "info", 3000);
+                                    e.preventDefault();
                                 }}
                                 style={{textDecoration: "none"}}
                             >

@@ -26,15 +26,6 @@ const post = async function (req: NextApiRequest) {
             }
         };
     }
-    if (!req.body.gambar_id) {
-        return {
-            status: 400,
-            data: {
-                success: false,
-                message: "gambar_id tidak ada",
-            }
-        };
-    }
     const cek_token = await Santri(token);
     if (!cek_token.success) {
         return {
@@ -42,6 +33,15 @@ const post = async function (req: NextApiRequest) {
             data: {
                 success: false,
                 message: cek_token.message,
+            }
+        };
+    }
+    if (!req.body.gambar_id) {
+        return {
+            status: 400,
+            data: {
+                success: false,
+                message: "gambar_id tidak ada",
             }
         };
     }
@@ -78,13 +78,6 @@ const post = async function (req: NextApiRequest) {
     ]
     let pesan = "";
     try {
-        const pembayaran = await prisma.pembayaran.create({
-            data: {
-                bukti: gambar_id,
-                status: "menunggu",
-            }
-        });
-        const id_pembayaran = pembayaran.id;
         if (req.body.panitia) {
             const panitia = await prisma.user.findUnique({
                 where: {
@@ -100,6 +93,13 @@ const post = async function (req: NextApiRequest) {
                     }
                 };
             }
+            const pembayaran = await prisma.pembayaran.create({
+                data: {
+                    bukti: gambar_id,
+                    status: "Lunas",
+                }
+            });
+            const id_pembayaran = pembayaran.id;
             const update_santri_panitia = await prisma.siswa.update({
                 where: {id: santri?.id},
                 data: {
@@ -107,41 +107,40 @@ const post = async function (req: NextApiRequest) {
                     panitiaId: panitia.id
                 }
             });
-            pesan = pesan + `Nama : ${santri?.nama}\n`;
-            pesan = pesan + `Nomor Pendaftaran : ${santri?.nomor}\n`;
-            pesan = pesan + `Kode Login : ${santri?.kode}\n`;
-            pesan = pesan + `Waktu Pembayaran : ${formatDate(santri?.created_at ?? null)}\n`;
-            pesan = pesan + `Gelombang : ${santri?.gelombang?.nama}\n`;
-            pesan = pesan + `Biaya Pendaftaran : ${santri?.gelombang?.biaya}\n`;
-            pesan = pesan + `Metode Pembayaran : Via Panitia (${panitia.nama})\n`;
-            pesan = pesan + `Telah mengupload bukti pembayaran, Silahkan pilih tindakan`;
+            const santrinya = await prisma.siswa.findUnique({
+                where: {
+                    id: santri?.id
+                },
+                include: {
+                    pembayaran: true,
+                    panitia: true,
+                    gelombang: true,
+                }
+            });
+            const server = req.headers.host ?? '';
+            const date = moment().format('DD-MM-YYYY');
+            const bot = await Bot();
+            let pesan = `Nama : ${santrinya?.nama}\n`;
+            pesan = pesan + `Nomor Pendaftaran : ${santrinya?.nomor}\n`;
+            pesan = pesan + `Kode Login : ${santrinya?.kode}\n`;
+            pesan = pesan + `Waktu Pembayaran : ${formatDate(santrinya?.created_at ?? null)}\n`;
+            pesan = pesan + `Gelombang : ${santrinya?.gelombang?.nama}\n`;
+            pesan = pesan + `Biaya Pendaftaran : ${santrinya?.gelombang?.biaya}\n`;
+            pesan = pesan + `Metode Pembayaran : Via ${santrinya?.panitia?.nama ? 'Panitia (' + santrinya?.panitia?.nama + ')' : 'Transfer'}\n`;
+            pesan = pesan + `Status Pembayaran : Lunas\n`;
+            pesan = pesan + `Telah mendaftar dan melunasi pembayaran`;
             pesan = await Pesan({
                 pesan: pesan,
                 pengirim: server,
                 waktu: date,
             })
-            const sendPhotoPromises = idtele.map(async (telegramId) => {
-                try {
-                    await bot.telegram.sendPhoto(telegramId, imgurl, {
-                        caption: pesan,
-                        reply_markup: {
-                            inline_keyboard: [
-                                button1,
-                            ]
-                        }
-                    });
-                    console.log(`Message sent successfully to ${telegramId}`);
-                } catch (e) {
-                    console.log(`Error sending message to ${telegramId}:`, e);
-                    throw e;
-                }
-            });
-
             try {
-                await Promise.all(sendPhotoPromises);
-                console.log("semua notif berhasil dikirim.");
-            } catch (error) {
-                console.error("gagal mengirim notif:", error);
+                await bot.telegram.sendPhoto("-1001221739649", santrinya?.pembayaran?.bukti ?? "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
+                    caption: pesan,
+                });
+                console.log(`Message sent successfully`);
+            } catch (e) {
+                console.log(`Error sending message :`, e);
             }
             return {
                 status: 200,
@@ -152,6 +151,13 @@ const post = async function (req: NextApiRequest) {
                 }
             };
         } else {
+            const pembayaran = await prisma.pembayaran.create({
+                data: {
+                    bukti: gambar_id,
+                    status: "menunggu",
+                }
+            });
+            const id_pembayaran = pembayaran.id;
             const update_santri = await prisma.siswa.update({
                 where: {id: santri?.id},
                 data: {

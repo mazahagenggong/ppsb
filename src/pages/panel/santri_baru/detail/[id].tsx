@@ -11,6 +11,8 @@ import Swal from "sweetalert2";
 import {LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
 import {useUserStore} from "@/utils/stores/user";
 import UploadComponent from "@/components/santri/pembayaran/uploadComponent";
+import Biodata from "@/components/santri/biodata";
+import moment from "moment";
 
 const fetcher = async (url: string) => {
     const res = await axios.get(url, {
@@ -25,6 +27,9 @@ const Detail = () => {
     const {role, username} = useUserStore();
     const query = useRouter().query;
     const {data: santri, isLoading, error} = useSWR(query.id ? `/api/cek/siswa/${query.id}` : null, fetcher);
+    const formatDate = (createdAt: string) => {
+        return moment(createdAt).format("DD MMMM YYYY");
+    };
     return (
         <Template>
             <PanelContent title={"Detail Santri"}>
@@ -41,98 +46,325 @@ const Detail = () => {
                 {santri && (
                     <div className="container">
                         <div className="row">
-                            <center>
-                                <h3>Detail Santri:</h3>
-                            </center>
-                            <table className="table table-bordered mb-3">
-                                <tbody>
-                                <tr>
-                                    <td style={{width: "30%"}}>Nomor Pendaftaran</td>
-                                    <td style={{width: "70%"}}>{santri.nomor}</td>
-                                </tr>
-                                <tr>
-                                    <td style={{width: "30%"}}>Kode</td>
-                                    <td style={{width: "70%"}}>{santri.kode}</td>
-                                </tr>
-                                <tr>
-                                    <td style={{width: "30%"}}>Nama</td>
-                                    <td style={{width: "70%"}}>{santri.nama.toUpperCase()}</td>
-                                </tr>
-                                <tr>
-                                    <td style={{width: "30%"}}>Nomor HP</td>
-                                    <td style={{width: "70%"}}>{santri.hp}</td>
-                                </tr>
-                                <tr>
-                                    <td style={{width: "30%"}}>Sekolah Asal</td>
-                                    <td style={{width: "70%"}}>{santri.sekolah.toUpperCase()}</td>
-                                </tr>
-                                <tr>
-                                    <td style={{width: "30%"}}>Informasi Pendaftaran</td>
-                                    <td style={{width: "70%"}}>{santri.ip.toUpperCase()}</td>
-                                </tr>
-                                <tr>
-                                    <td style={{width: "30%"}}>Alamat</td>
-                                    <td style={{width: "70%"}}>{santri.alamat.alamat} RT {santri.alamat.rt} RW {santri.alamat.rw}, {santri.alamat.keldes} - {santri.alamat.keldes} - {santri.alamat.kabkot} - {santri.alamat.provinsi}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-
-                            <center>
-                                <h3>Informasi Gelombang:</h3>
-                            </center>
-                            <table className="table table-bordered mb-3">
-                                <tbody>
-                                <tr>
-                                    <td style={{width: "30%"}}>Jenis</td>
-                                    <td style={{width: "70%"}}>{santri.gelombang.nama.toUpperCase()}</td>
-                                </tr>
-                                <tr>
-                                    <td style={{width: "30%"}}>Durasi</td>
-                                    <td style={{width: "70%"}}>{santri.gelombang.keterangan}</td>
-                                </tr>
-                                <tr>
-                                    <td style={{width: "30%"}}>Biaya</td>
-                                    <td style={{width: "70%"}}>{santri.gelombang.biaya}</td>
-                                </tr>
-                                <tr>
-                                    <td style={{width: "30%"}}>Status Pembayaran</td>
-                                    <td style={{width: "70%"}}>{handleStatusPembayaran(santri)}</td>
-                                </tr>
-                                <tr>
-                                    <td style={{width: "30%"}}>Metode Pembayaran</td>
-                                    <td style={{width: "70%"}}>{handleMetodePembayaran(santri)}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-
-                            {santri.pembayaran ? (
-                                <>
-                                    <center>
-                                        <h3>Bukti Pembayaran:</h3>
-                                    </center>
-                                    <CldImage alt={'bukti'} src={santri.pembayaran.bukti} width={1500} height={1000}
-                                              className={"mb-3"}/>
-                                    {santri.pembayaran.status === 'menunggu' && role === "admin" && (
-                                        <div className={"flex flex-col md:flex-row justify-center mb-2"}>
-                                            <button className={"btn btn-primary m-2"} onClick={() => {
-                                                handleterima(santri)
-                                            }}>Terima
-                                            </button>
-                                            <button className={"btn btn-danger m-2"} onClick={() => {
-                                                handleTolak(santri)
-                                            }}>Tolak
-                                            </button>
+                            {santri.biodata ? (
+                                    <>
+                                        <div className="col-sm-12">
+                                            <h2 className="card-title">Biodata Pendaftar :</h2>
+                                            <div className="table-responsive">
+                                                <table className="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td style={{width: "25%"}}>Nomor Peserta</td>
+                                                        <td>: {santri.nomor}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kode Login</td>
+                                                        <td>: {santri.kode}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nama Lengkap</td>
+                                                        <td>: {santri.nama.toUpperCase()}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jenis Kelamin</td>
+                                                        <td>
+                                                            :{" "}
+                                                            {santri.jk === "lk"
+                                                                ? "Laki - laki"
+                                                                : "Perampuan"}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>TTL</td>
+                                                        <td>
+                                                            : {santri.biodata.tempat_lahir},{" "}
+                                                            {formatDate(santri.biodata.tanggal)}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Provinsi</td>
+                                                        <td>: {santri.alamat.provinsi}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kabupaten / Kota</td>
+                                                        <td>: {santri.alamat.kabkot}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kecamatan</td>
+                                                        <td>: {santri.alamat.kecamatan}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Desa / Kelurahan</td>
+                                                        <td>: {santri.alamat.keldes}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Detail Alamat</td>
+                                                        <td>
+                                                            :{" "}
+                                                            {`RT ${santri.alamat.rt} RW ${santri.alamat.rw}, ${santri.alamat.alamat}`}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nomor HP</td>
+                                                        <td>: {santri.hp}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-                                    )}
-                                </>
-                            ): (
-                                <>
-                                    <center>
-                                        <h3>Bantu Pembayaran:</h3>
-                                    </center>
-                                    <UploadComponent data={username}/>
-                                </>
-                            )}
+                                        <hr/>
+                                        <div className="col-sm-12">
+                                            <h2 className="card-title">Informasi Pendaftaran:</h2>
+                                            <div className="table-responsive">
+                                                <table className="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td style={{width: "25%"}}>Informasi Pendaftaran</td>
+                                                        <td>: {santri.ip}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Gelombang Pendaftaran</td>
+                                                        <td>: {santri.gelombang.nama}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Durasi</td>
+                                                        <td>: {santri.gelombang.keterangan}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Waktu pendaftaran</td>
+                                                        <td>: {formatDate(santri.created_at)}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Biaya</td>
+                                                        <td>: {santri.gelombang.biaya}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Metode Pembayaran</td>
+                                                        <td>
+                                                            :{" "}
+                                                            {santri.panitia
+                                                                ? `Via Panitia (${santri.panitia.nama})`
+                                                                : "Transfer"}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Status Pembayaran</td>
+                                                        <td>: {santri.pembayaran.status}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Terverifikasi</td>
+                                                        <td>
+                                                            : {formatDate(santri.pembayaran.updated_at)}
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div className="col-sm-12">
+                                            <h2 className="card-title">Informasi Akademik:</h2>
+                                            <div className="table-responsive">
+                                                <table className="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td style={{width: "25%"}}>Sekolah Asal</td>
+                                                        <td>: {santri.sekolah}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>NPSN</td>
+                                                        <td>: {santri.biodata.npsn}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Alamat Sekolah Asal</td>
+                                                        <td>: {santri.biodata.alamat_sekolah}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>NISN</td>
+                                                        <td>: {santri.biodata.npsn}</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Penerima KIP</td>
+                                                        <td>: {santri.biodata.kip !== null ? (santri.biodata.kip === true ? "Ya" : "Tidak") : ""}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div className="col-sm-12">
+                                            <h2 className="card-title">Data Ayah Pendaftar:</h2>
+                                            <div className="table-responsive">
+                                                <table className="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td style={{width: "25%"}}>Nama</td>
+                                                        <td>: {santri.biodata.nama_ayah}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>NIK</td>
+                                                        <td>: {santri.biodata.nik_ayah}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Pendidikan Terakhir</td>
+                                                        <td>: {santri.biodata.pendidikan_ayah}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Pekerjaan</td>
+                                                        <td>: {santri.biodata.pekerjaan_ayah}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div className="col-sm-12">
+                                            <h2 className="card-title">Data Ibu Pendaftar:</h2>
+                                            <div className="table-responsive">
+                                                <table className="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td style={{width: "25%"}}>Nama</td>
+                                                        <td>: {santri.biodata.nama_ibu}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>NIK</td>
+                                                        <td>: {santri.biodata.nik_ibu}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Pendidikan Terakhir</td>
+                                                        <td>: {santri.biodata.pendidikan_ibu}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Pekerjaan</td>
+                                                        <td>: {santri.biodata.pekerjaan_ibu}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </>
+                                ) :
+                                (
+                                    <>
+                                        <center>
+                                            <h3>Detail Santri:</h3>
+                                        </center>
+                                        <table className="table table-bordered mb-3">
+                                            <tbody>
+                                            <tr>
+                                                <td style={{width: "30%"}}>Nomor Pendaftaran</td>
+                                                <td style={{width: "70%"}}>{santri.nomor}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{width: "30%"}}>Kode</td>
+                                                <td style={{width: "70%"}}>{santri.kode}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{width: "30%"}}>Nama</td>
+                                                <td style={{width: "70%"}}>{santri.nama.toUpperCase()}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{width: "30%"}}>Nomor HP</td>
+                                                <td style={{width: "70%"}}>{santri.hp}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{width: "30%"}}>Sekolah Asal</td>
+                                                <td style={{width: "70%"}}>{santri.sekolah.toUpperCase()}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{width: "30%"}}>Informasi Pendaftaran</td>
+                                                <td style={{width: "70%"}}>{santri.ip.toUpperCase()}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{width: "30%"}}>Alamat</td>
+                                                <td style={{width: "70%"}}>{santri.alamat.alamat} RT {santri.alamat.rt} RW {santri.alamat.rw}, {santri.alamat.keldes} - {santri.alamat.keldes} - {santri.alamat.kabkot} - {santri.alamat.provinsi}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <center>
+                                            <h3>Informasi Gelombang:</h3>
+                                        </center>
+                                        <table className="table table-bordered mb-3">
+                                            <tbody>
+                                            <tr>
+                                                <td style={{width: "30%"}}>Jenis</td>
+                                                <td style={{width: "70%"}}>{santri.gelombang.nama.toUpperCase()}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{width: "30%"}}>Durasi</td>
+                                                <td style={{width: "70%"}}>{santri.gelombang.keterangan}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{width: "30%"}}>Biaya</td>
+                                                <td style={{width: "70%"}}>{santri.gelombang.biaya}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{width: "30%"}}>Status Pembayaran</td>
+                                                <td style={{width: "70%"}}>{handleStatusPembayaran(santri)}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{width: "30%"}}>Metode Pembayaran</td>
+                                                <td style={{width: "70%"}}>{handleMetodePembayaran(santri)}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </>
+                                )}
+
+                            {
+                                santri.pembayaran ? (
+                                    <>
+                                        <center>
+                                            <h3>Bukti Pembayaran:</h3>
+                                            <CldImage
+                                                alt={'bukti'}
+                                                src={santri.pembayaran.bukti}
+                                                width={1500}
+                                                height={1000}
+                                                className={"mb-3"}
+                                                style={
+                                                    {
+                                                        objectFit: "contain",
+                                                        width: "auto",
+                                                        height: "40vh"
+                                                    }
+                                                }
+                                            />
+                                        </center>
+                                        {santri.pembayaran.status === 'menunggu' && role === "admin" && (
+                                            <div className={"flex flex-col md:flex-row justify-center mb-2"}>
+                                                <button className={"btn btn-primary m-2"} onClick={() => {
+                                                    handleterima(santri)
+                                                }}>Terima
+                                                </button>
+                                                <button className={"btn btn-danger m-2"} onClick={() => {
+                                                    handleTolak(santri)
+                                                }}>Tolak
+                                                </button>
+                                            </div>
+                                        )}
+                                        {santri.pembayaran.status === 'Lunas' && (
+                                            <div>
+                                                {santri.biodata ? (
+                                                    <Biodata name={"Edit Biodata"} santri={santri}/>
+                                                ) : (
+                                                    <Biodata name={"Isi Biodata"} santri={santri}/>
+                                                )}
+                                            </div>
+                                        )}
+
+                                    </>
+                                ) : (
+                                    <>
+                                        <center>
+                                            <h3>Bantu Pembayaran:</h3>
+                                        </center>
+                                        <UploadComponent data={username} santri={santri}/>
+                                    </>
+                                )}
                         </div>
                     </div>
                 )}

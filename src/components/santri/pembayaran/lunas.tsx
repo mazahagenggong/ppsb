@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import FormulirSantri from "@/components/santri/formulir";
-import Fotosantri from "@/components/santri/pembayaran/fotosantri";
 import Finish from "@/components/santri/finish";
 
 const Lunas = (data: any) => {
@@ -13,16 +12,27 @@ const Lunas = (data: any) => {
     return (
         <>
             {!santri.biodata ? (
-                <FormulirSantri data={santri} />
+                <>
+                    <div className="alert alert-success text-center mb-3" role="alert">
+                        Bukti pembayaran biaya pendaftaran telah di verifikasi <br/><strong>Silahkan Lengkapi formulir
+                        dibawah
+                        ini</strong>
+                    </div>
+                    <hr/>
+                    <FormulirSantri data={santri} token={null} modal={null}/>
+                    <div className="alert alert-warning text-center mb-3" role="alert">
+                        Bingung dan ingin dibantu ? <br/><strong>Silahkan ke panitia PSB dengan membawa Foto Copy KK dan
+                        Foto
+                        Copy IJAZAH / Surat keterangan LULUS</strong>
+                    </div>
+                </>
             ) : (
-                !santri.biodata.foto ? (
-                    <Fotosantri />
-                ) : (
-                    <Finish data={santri} />
-                )
-            )}
+                <Finish data={santri}/>
+            )
+            }
         </>
-    );
+    )
+        ;
 };
 
 export default Lunas;

@@ -4,9 +4,17 @@ import axios from "axios";
 import {useForm, SubmitHandler, UseFormRegister} from "react-hook-form";
 import {LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
 
-const FormulirSantri = (data: any) => {
-    const {data: dataSantri} = data;
-    const token = getCookie("token_santri");
+interface FormulirSantriProps {
+    data: any;
+    token: string | null | undefined;
+    modal: any;
+}
+
+const FormulirSantri: React.FC<FormulirSantriProps> = ({data, token, modal}) => {
+    const dataSantri = data;
+    if (!token) {
+        token = getCookie("token_santri");
+    }
 
     const {
         register,
@@ -36,7 +44,7 @@ const FormulirSantri = (data: any) => {
         { label: string } & ReturnType<UseFormRegister<any>>
     >(({onChange, onBlur, name, label}, ref) => (
         <>
-            <label>{label} <strong style={{color: "red"}}>*</strong></label>
+            <label>{label}</label>
             <select name={name} ref={ref} onChange={onChange} onBlur={onBlur} className={"form-control"}
                     defaultValue={cekkip()}>
                 <option value="">-- Pilih --</option>
@@ -47,7 +55,8 @@ const FormulirSantri = (data: any) => {
     ))
 
     const cekkip = () => {
-        if (typeof dataSantri?.biodata?.kip === 'undefined') {
+        console.log(dataSantri?.biodata?.kip)
+        if (!dataSantri?.biodata?.kip) {
             return ''
         } else {
             if (dataSantri.biodata.kip === true) {
@@ -60,8 +69,11 @@ const FormulirSantri = (data: any) => {
 
     const onSubmit: SubmitHandler<any> = async (data) => {
         try {
+            if (modal) {
+                modal(false);
+            }
             showWaitLoading("Menyimpan Data");
-            const res = await axios.post("/api/santri/formulir", data, {
+            await axios.post("/api/santri/formulir", data, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
@@ -75,11 +87,6 @@ const FormulirSantri = (data: any) => {
     }
     return (
         <div className="flex flex-col">
-            <div className="alert alert-success text-center mb-3" role="alert">
-                Bukti pembayaran biaya pendaftaran telah di verifikasi <br/><strong>Silahkan Lengkapi formulir dibawah
-                ini</strong>
-            </div>
-            <hr/>
             <form className={"mb-3"} onSubmit={handleSubmit(onSubmit)}>
                 <b># BIODATA DIRI</b>
                 <div className="flex flex-col md:flex-row">
@@ -121,7 +128,7 @@ const FormulirSantri = (data: any) => {
                                defaultValue={dataSantri?.biodata?.nik}/>
                     </div>
                     <div className="form-group w-full md:w-1/2 m-2">
-                        <SelectKIP label={"Penerima KIP ?"} {...register("kip", {required: true})}/>
+                        <SelectKIP label={"Penerima KIP ?"} {...register("kip")}/>
                     </div>
                 </div>
                 <div className="flex flex-col md:flex-row">
@@ -171,7 +178,17 @@ const FormulirSantri = (data: any) => {
                     </div>
                 </div>
                 <div className="flex flex-col md:flex-row">
-                    <div className="form-group w-full m-2">
+                    <div className="form-group w-full md:w-1/3 m-2">
+                        <label htmlFor="kecamatan">RT</label>
+                        <input type="text" className="form-control" defaultValue={dataSantri.alamat.rt}
+                               disabled={true}/>
+                    </div>
+                    <div className="form-group w-full md:w-1/3 m-2">
+                        <label htmlFor="keldes">RW</label>
+                        <input type="text" className="form-control" defaultValue={dataSantri.alamat.rw}
+                               disabled={true}/>
+                    </div>
+                    <div className="form-group w-full md:w-1/3 m-2">
                         <label htmlFor="alamat">Alamat</label>
                         <input type="text" className="form-control" defaultValue={dataSantri.alamat.alamat}
                                disabled={true}/>
@@ -186,9 +203,10 @@ const FormulirSantri = (data: any) => {
                                defaultValue={dataSantri.sekolah} disabled={true}/>
                     </div>
                     <div className="form-group w-full md:w-1/2 m-2">
-                        <label htmlFor="npsn">NPSN<a
+                        <label htmlFor="npsn">NPSN <a
                             href="https://referensi.data.kemdikbud.go.id/pendidikan/dikdas"
-                            target="_blank">cari</a></label>
+                            target="_blank" style={{textDecoration: "none"}}><i
+                            className="bi bi-patch-question"></i></a></label>
                         <input type="number" className="form-control" {...register("npsn")}
                                defaultValue={dataSantri?.biodata?.npsn}/>
                     </div>
@@ -205,8 +223,8 @@ const FormulirSantri = (data: any) => {
                 <b># BIODATA AYAH</b>
                 <div className="flex flex-col md:flex-row">
                     <div className="form-group w-full md:w-1/2 m-2">
-                        <label htmlFor="nama_ayah">Nama <strong style={{color: "red"}}>*</strong></label>
-                        <input type="text" className="form-control" {...register("nama_ayah", {required: true})}
+                        <label htmlFor="nama_ayah">Nama</label>
+                        <input type="text" className="form-control" {...register("nama_ayah")}
                                placeholder="Nama ayah" defaultValue={dataSantri?.biodata?.nama_ayah}/>
                     </div>
                     <div className="form-group w-full md:w-1/2 m-2">
@@ -231,8 +249,8 @@ const FormulirSantri = (data: any) => {
                 <b># BIODATA IBU</b>
                 <div className="flex flex-col md:flex-row">
                     <div className="form-group w-full md:w-1/2 m-2">
-                        <label htmlFor="nama_ibu">Nama <strong style={{color: "red"}}>*</strong></label>
-                        <input type="text" className="form-control" {...register("nama_ibu", {required: true})}
+                        <label htmlFor="nama_ibu">Nama</label>
+                        <input type="text" className="form-control" {...register("nama_ibu")}
                                placeholder="Nama ibu" defaultValue={dataSantri?.biodata?.nama_ibu}/>
                     </div>
                     <div className="form-group w-full md:w-1/2 m-2">
@@ -258,10 +276,6 @@ const FormulirSantri = (data: any) => {
                     <button className="btn btn-primary w-full" type={"submit"}>Simpan</button>
                 </div>
             </form>
-            <div className="alert alert-warning text-center mb-3" role="alert">
-                Bingung dan ingin dibantu ? <br/><strong>Silahkan ke panitia PSB dengan membawa Foto Copy KK dan Foto
-                Copy IJAZAH / Surat keterangan LULUS</strong>
-            </div>
         </div>
     );
 };

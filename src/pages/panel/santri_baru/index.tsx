@@ -45,8 +45,8 @@ const Index = () => {
             url: "/panel/santri_baru/detail/",
         },
         {
-            name: "Hapus",
-            url :"/gs",
+            name: "HapusAdmin",
+            url :"/santri/hapus/",
         }
     ];
     const url: string = "/santri/santri_baru";

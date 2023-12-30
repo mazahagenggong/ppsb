@@ -62,7 +62,7 @@ const Daftarpsb = async (data:any) => {
     data.kabkot = data.kabkot.split("|")[1];
     data.kecamatan = data.kecamatan.split("|")[1];
     try {
-        const cek = await axios.post("api/daftar", data);
+        const cek = await axios.post("/api/daftar", data);
         return {
             success: cek.data.success,
             data: {

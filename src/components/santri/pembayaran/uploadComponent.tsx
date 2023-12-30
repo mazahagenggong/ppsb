@@ -6,14 +6,21 @@ import {getCookie} from "cookies-next";
 
 interface UploadComponentProps {
     data: string | null;
+    santri: any;
 }
 
-const UploadComponent: React.FC<UploadComponentProps> = ({data}) => {
+const UploadComponent: React.FC<UploadComponentProps> = ({data, santri}) => {
     let panitia: string | null;
     if (!data) {
         panitia = null;
     } else {
         panitia = data;
+    }
+    let snt: any | null;
+    if (!data) {
+        snt = null;
+    } else {
+        snt = santri;
     }
 
     const [uploadedImageUrl, setUploadedImageUrl] = React.useState<string | null>(null);
@@ -57,7 +64,8 @@ const UploadComponent: React.FC<UploadComponentProps> = ({data}) => {
                         return;
                     }
                 } catch (e: any) {
-                    await LoadingTimer('Gagal mengupload gambar. <br/>' + e.response.data.error.message ?? e.messege, 'error', 3000);
+                    console.log("error upload")
+                    await LoadingTimer('Gagal mengupload gambar. <br/>' + e?.response?.data?.error?.message ?? e.messege, 'error', 3000);
                     return;
                 }
             }
@@ -73,22 +81,41 @@ const UploadComponent: React.FC<UploadComponentProps> = ({data}) => {
 
             if (panitia !== null) {
                 send_data.panitia = panitia;
-            }
-
-            const save_data = await axios.post('/api/santri/upload_bayar', send_data, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${getCookie("token_santri")}`
+                const login = await axios.post('/api/auth/santri', {
+                    kode: snt.kode
+                });
+                const token = login.data.data.token;
+                const save_data = await axios.post('/api/santri/upload_bayar', send_data, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+                if (save_data.data.success) {
+                    await LoadingTimer('Berhasil mengirim bukti pembayaran.', 'success', 1500);
+                    window.location.reload();
+                } else {
+                    console.log(save_data.data)
+                    await LoadingTimer('Gagal mengirim bukti pembayaran.', 'error', 1500);
+                    return;
                 }
-            });
-            if (save_data.data.success) {
-                await LoadingTimer('Berhasil mengirim bukti pembayaran.', 'success', 1500);
-                window.location.reload();
             } else {
-                await LoadingTimer('Gagal mengirim bukti pembayaran.', 'error', 1500);
-                return;
+                const save_data = await axios.post('/api/santri/upload_bayar', send_data, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${getCookie("token_santri")}`
+                    }
+                });
+                if (save_data.data.success) {
+                    await LoadingTimer('Berhasil mengirim bukti pembayaran.', 'success', 1500);
+                    window.location.reload();
+                } else {
+                    await LoadingTimer('Gagal mengirim bukti pembayaran.', 'error', 1500);
+                    return;
+                }
             }
         } catch (e) {
+            console.log(e)
             await LoadingTimer('Gagal mengirim bukti pembayaran.', 'error', 1500);
             return;
         }

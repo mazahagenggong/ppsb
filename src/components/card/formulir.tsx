@@ -9,14 +9,6 @@ const Formulir = (data: any) => {
     };
     return (
         <>
-            <center className={"mb-3"}>
-                <CldImage
-                    alt={"foto"}
-                    src={dataSantri.biodata.foto}
-                    width={300}
-                    height={300}
-                />
-            </center>
             <div className="card w-full">
                 <div className="card-body">
                     <div className="row">
@@ -26,7 +18,7 @@ const Formulir = (data: any) => {
                                 <table className="table">
                                     <tbody>
                                     <tr>
-                                        <td>Nomor Peserta</td>
+                                        <td style={{width: "25%"}}>Nomor Peserta</td>
                                         <td>: {dataSantri.nomor}</td>
                                     </tr>
                                     <tr>
@@ -91,7 +83,7 @@ const Formulir = (data: any) => {
                                 <table className="table">
                                     <tbody>
                                     <tr>
-                                        <td>Informasi Pendaftaran</td>
+                                        <td style={{width: "25%"}}>Informasi Pendaftaran</td>
                                         <td>: {dataSantri.ip}</td>
                                     </tr>
                                     <tr>
@@ -140,7 +132,7 @@ const Formulir = (data: any) => {
                                 <table className="table">
                                     <tbody>
                                     <tr>
-                                        <td>Sekolah Asal</td>
+                                        <td  style={{width: "25%"}}>Sekolah Asal</td>
                                         <td>: {dataSantri.sekolah}</td>
                                     </tr>
                                     <tr>
@@ -158,7 +150,7 @@ const Formulir = (data: any) => {
 
                                     <tr>
                                         <td>Penerima KIP</td>
-                                        <td>: {dataSantri.biodata.kip ? "Ya" : "Tidak"}</td>
+                                        <td>: {dataSantri.biodata.kip !== null ? (dataSantri.biodata.kip === true ? "Ya" : "Tidak") : ""}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -171,7 +163,7 @@ const Formulir = (data: any) => {
                                 <table className="table">
                                     <tbody>
                                     <tr>
-                                        <td>Nama</td>
+                                        <td style={{width: "25%"}}>Nama</td>
                                         <td>: {dataSantri.biodata.nama_ayah}</td>
                                     </tr>
                                     <tr>
@@ -197,7 +189,7 @@ const Formulir = (data: any) => {
                                 <table className="table">
                                     <tbody>
                                     <tr>
-                                        <td>Nama</td>
+                                        <td style={{width: "25%"}}>Nama</td>
                                         <td>: {dataSantri.biodata.nama_ibu}</td>
                                     </tr>
                                     <tr>

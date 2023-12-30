@@ -66,13 +66,13 @@ const post = async function (req: NextApiRequest) {
         }
         const createAlamatResult = await prisma.alamat.create({
             data: {
-                alamat: reqbody.alamat,
+                alamat: reqbody.alamat.toUpperCase(),
                 rt: parseInt(reqbody.rt),
                 rw: parseInt(reqbody.rw),
-                keldes: reqbody.keldes,
-                kecamatan: reqbody.kecamatan,
-                kabkot: reqbody.kabkot,
-                provinsi: reqbody.provinsi,
+                keldes: reqbody.keldes.toUpperCase(),
+                kecamatan: reqbody.kecamatan.toUpperCase(),
+                kabkot: reqbody.kabkot.toUpperCase(),
+                provinsi: reqbody.provinsi.toUpperCase(),
             }
         });
 

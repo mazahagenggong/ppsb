@@ -1,7 +1,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import cloudinary from "@/utils/cloud";
 import formidable from 'formidable';
-import {Santri} from "@/utils/validate/token";
+import {Panitia, Santri} from "@/utils/validate/token";
 
 
 export const config = {
@@ -10,18 +10,29 @@ export const config = {
     },
 };
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const token = req.cookies.token_santri;
-    if (!token || token === "") {
-        res.status(401).json({error: 'Unauthorized'});
-        return;
-    }
-    const cek_token = await Santri(token);
-
-    if (!cek_token.success) {
-        return res.status(401).json({
-            success: false,
-            message: cek_token.message,
-        });
+    const token_santri = req.cookies.token_santri;
+    const token_panitia = req.cookies.token;
+    if (!token_santri || token_santri === "") {
+        if (!token_panitia || token_panitia === "") {
+            res.status(401).json({error: 'Unauthorized'});
+            return;
+        } else {
+            const cek_token_panitia = await Panitia(token_panitia);
+            if (!cek_token_panitia.success) {
+                return res.status(401).json({
+                    success: false,
+                    message: cek_token_panitia.message,
+                });
+            }
+        }
+    } else {
+        const cek_token_santri = await Santri(token_santri);
+        if (!cek_token_santri.success) {
+            return res.status(401).json({
+                success: false,
+                message: cek_token_santri.message,
+            });
+        }
     }
     if (req.method === 'POST') {
         const form = formidable();

@@ -150,7 +150,6 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                 CloseSwal();
             }
         }, [lprov, lkabkot, lkec, lkeldes]);
-        const htmlContent = '<h1>Hello, this is HTML content!</h1><p>Some text...</p>';
         return (
             <React.Fragment>
                 {!savedlogin ? (
