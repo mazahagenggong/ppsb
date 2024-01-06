@@ -29,7 +29,7 @@ const Profile = () => {
     }
     return (
         <>
-            <div className="card">
+            <div className="">
                 <div className="card-header">
                     <h4 className="card-title">Profile</h4>
                 </div>
