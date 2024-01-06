@@ -31,10 +31,10 @@ const LoadingTimer = (text: string, icon: SweetAlertIcon, time: number) => {
     let title;
     switch (icon) {
         case 'success':
-            title = <strong>Mantap</strong>;
+            title = <strong>Sae</strong>;
             break;
         case 'error':
-            title = <strong>Ooops!</strong>;
+            title = <strong>Adduuuh!</strong>;
             break;
         case "warning":
             title = <strong>Perhatian</strong>;
@@ -43,10 +43,10 @@ const LoadingTimer = (text: string, icon: SweetAlertIcon, time: number) => {
             title = <strong>Info</strong>;
             break;
         case "question":
-            title = <strong>Yakin?</strong>;
+            title = <strong>Ongguen?</strong>;
             break;
         default:
-            title = <strong>Harap bersabar</strong>;
+            title = <strong>Nantek lun ghi...</strong>;
             break;
     }
     return MySwal.fire({
