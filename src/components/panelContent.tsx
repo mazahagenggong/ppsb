@@ -12,7 +12,7 @@ const PanelContent : React.FC<ContentPros> = ({children, title}) => {
     useEffect(() => { 
         if (isMounted) {
             toast('🚀 Halaman Selesai dimuat', {
-                position: "top-center",
+                position: "bottom-center",
                 autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,

@@ -10,7 +10,7 @@ const Navbar = () => {
     const [expanded, setExpanded] = React.useState<boolean>(false);
     const runtoast = () => {
         toast('🚀 Memuat Halaman', {
-            position: "top-center",
+            position: "bottom-center",
             autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
