@@ -1422,11 +1422,6 @@ h6 {
         transform: rotate(360deg);
     }
 }
-section {
-    padding: 60px 0;
-    overflow: hidden;
-}
-
 .section-title {
     text-align: center;
     padding-bottom: 30px;
@@ -1438,32 +1433,28 @@ section {
     text-transform: uppercase;
     margin-bottom: 20px;
     padding-bottom: 20px;
-    position: relative;
     color: #37517e;
 }
 
-.section-title h2::before {
+.section-title h2::before,
+.section-title h2::after {
     content: "";
-    position: absolute;
     display: block;
+}
+
+.section-title h2::before {
     width: 120px;
     height: 1px;
     background: #ddd;
-    bottom: 1px;
-    left: calc(50% - 60px);
+    margin: 0 auto 10px; /* Adjust margin as needed */
 }
 
 .section-title h2::after {
-    content: "";
-    position: absolute;
-    display: block;
     width: 40px;
     height: 3px;
     background: #067808;
-    bottom: 0;
-    left: calc(50% - 20px);
+    margin: 0 auto; /* Adjust margin as needed */
 }
-
 .section-title p {
     margin-bottom: 0;
 }

@@ -172,7 +172,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     htmlFor="jk">
                                     Jenis Kelamin
                                 </label>
-                                <div className="relative">
+                                <div>
                                     <select
                                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-3"
                                         id="jk" value={jk ?? ""} onChange={(e) => setjk(e.target.value)} required={true}>
@@ -196,7 +196,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     htmlFor="ip">
                                     Info Pendaftaran
                                 </label>
-                                <div className="relative">
+                                <div>
                                     <select
                                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-3"
                                         id="ip" value={ip ?? ""} onChange={(e) => setip(e.target.value)} required={true}>
@@ -247,7 +247,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     htmlFor="provinsi">
                                     Provinsi
                                 </label>
-                                <div className="relative">
+                                <div>
                                     <select
                                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-3"
                                         id="provinsi" value={selectedProv ?? ""} onChange={(e) => {
@@ -274,7 +274,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     htmlFor="kabkot">
                                     Kabupaten / Kota
                                 </label>
-                                <div className="relative">
+                                <div>
                                     <select
                                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-3"
                                         id="kabkot" value={selectedKabkot ?? ""} onChange={(e) => {
@@ -301,7 +301,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     htmlFor="kecamatan">
                                     Kecamatan
                                 </label>
-                                <div className="relative">
+                                <div>
                                     <select
                                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-3"
                                         id="kecamatan" value={selectedKecamatan ?? ""} onChange={(e) => {
@@ -328,7 +328,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     htmlFor="keldes">
                                     Desa / Kelurahan
                                 </label>
-                                <div className="relative">
+                                <div>
                                     <select
                                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-3"
                                         id="keldes" value={selectedKeldes ?? ""} onChange={(e) => {
@@ -355,7 +355,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     htmlFor="rt">
                                     RT
                                 </label>
-                                <div className="relative">
+                                <div>
                                     <select
                                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-3"
                                         id="rt" value={rt ?? ""} onChange={(e) => {
@@ -382,7 +382,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     htmlFor="rw">
                                     RW
                                 </label>
-                                <div className="relative">
+                                <div>
                                     <select
                                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-3"
                                         id="rw" value={rw ?? ""} onChange={(e) => {

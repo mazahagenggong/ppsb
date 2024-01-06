@@ -66,26 +66,26 @@ const Index = () => {
                     <h1>Terjadi Kesalahan</h1>
                 )}
                 {data && (
-                    <div className={"flex flex-row md:flex-col"}>
-                        <div className={"flex flex-col w-full md:w-1/4 p-6 rounded-lg shadow bg-blue-700 m-3"}>
+                    <div className={"flex flex-col md:flex-row"}>
+                        <div className={"flex flex-col w-[80vw] md:w-1/4 p-6 rounded-lg shadow bg-blue-700 m-3"}>
                             <center>
                                 <h1 className={"text-white text-2xl font-bold"}>Total Pendaftar</h1>
                                 <p className={"text-white text-2xl font-bold"}>{totalPendaftar}</p>
                             </center>
                         </div>
-                        <div className={"flex flex-col w-full md:w-1/4 p-6 rounded-lg shadow bg-green-700 m-3"}>
+                        <div className={"flex flex-col w-[80vw] md:w-1/4 p-6 rounded-lg shadow bg-green-700 m-3"}>
                             <center>
                                 <h1 className={"text-white text-2xl font-bold"}>Terverifikasi</h1>
                                 <p className={"text-white text-2xl font-bold"}>{totalTerverifikasi}</p>
                             </center>
                         </div>
-                        <div className={"flex flex-col w-full md:w-1/4 p-6 rounded-lg shadow bg-yellow-700 m-3"}>
+                        <div className={"flex flex-col w-[80vw] md:w-1/4 p-6 rounded-lg shadow bg-yellow-700 m-3"}>
                             <center>
                                 <h1 className={"text-white text-2xl font-bold"}>Menunggu Verifikasi</h1>
                                 <p className={"text-white text-2xl font-bold"}>{totalMenunggu}</p>
                             </center>
                         </div>
-                        <div className={"flex flex-col w-full md:w-1/4 p-6 rounded-lg shadow bg-red-700 m-3"}>
+                        <div className={"flex flex-col w-[80vw] md:w-1/4 p-6 rounded-lg shadow bg-red-700 m-3"}>
                             <center>
                                 <h1 className={"text-white text-2xl font-bold"}>Belum Verifikasi</h1>
                                 <p className={"text-white text-2xl font-bold"}>{totalBelum}</p>

@@ -164,12 +164,11 @@ const Table: React.FC<TableProps> = ({data}) => {
                 <div className="row justify-content-center">
                     <div className="col-md-6">
                         <form id="search-form">
-                            <div className="input-group mb-3">
+                            <div className="input mb-3">
                                 <label htmlFor="search-input"></label>
                                 <input type="text" className="form-control"
                                        placeholder={`Cari ${nama}`}
                                        name="cari"
-                                       id="search-input"
                                        onChange={(event) => {
                                            setCurrentPage(1);
                                            setKeyword(event.target.value)
