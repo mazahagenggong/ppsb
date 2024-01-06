@@ -71,7 +71,9 @@ export default function Login() {
                 <div className="card mb-3 md:w-1/4 text-left">
                     <div className="card-body">
                         <div className="pt-4 pb-2">
-                            <h5 className="card-title text-center pb-0 fs-4">Login</h5>
+                            <center>
+                                <h5 className="card-title text-center pb-0 fs-4">Login</h5>
+                            </center>
                         </div>
 
                         <form className="row g-3 needs-validation" noValidate>

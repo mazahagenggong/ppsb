@@ -24,7 +24,7 @@ const Login: React.FC = () => {
                     }
                 });
                 if (data.success) {
-                    LoadingTimer("Login berhasil", "success", 1500);
+                    await LoadingTimer("Login berhasil", "success", 1500);
                     setCookie("token_santri", data.data.token);
                     window.location.href = "/santri";
                 } else {
