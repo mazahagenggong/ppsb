@@ -1442,15 +1442,8 @@ h6 {
     display: block;
 }
 
-.section-title h2::before {
-    width: 120px;
-    height: 1px;
-    background: #ddd;
-    margin: 0 auto 10px; /* Adjust margin as needed */
-}
-
 .section-title h2::after {
-    width: 40px;
+    width: 55px;
     height: 3px;
     background: #067808;
     margin: 0 auto; /* Adjust margin as needed */

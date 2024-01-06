@@ -3,7 +3,6 @@ import Cors from 'cors'
 import runMiddleware from "@/utils/runMiddleware"
 import {Admin} from "@/utils/validate/token";
 import prisma from "@/utils/prisma";
-import {siswacardverif} from "@/utils/card";
 
 const post = async function (req: NextApiRequest) {
     const token = req.headers.authorization?.split(' ')[1];
