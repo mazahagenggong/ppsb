@@ -65,7 +65,7 @@ export default function Login() {
                             height={500}
                             priority
                         />
-                        <span className={"text-4xl text-black font-bold"}>PPSB MA Zainul Hasan 1</span>
+                        <span className={"text-4xl text-black font-bold"}>Beta PPSB MA Zainul Hasan 1</span>
                     </Link>
                 </div>
                 <div className="card mb-3 md:w-1/4 text-left">
