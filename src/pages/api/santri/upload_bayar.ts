@@ -134,11 +134,12 @@ const post = async function (req: NextApiRequest) {
                 pengirim: server,
                 waktu: date,
             })
+            const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
+            const imgurl = `https://res.cloudinary.com/${cdname}/${santrinya?.pembayaran?.bukti}`;
             try {
-                const kirim =await bot.telegram.sendPhoto("-1001221739649", santrinya?.pembayaran?.bukti ?? "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
+                const kirim = await bot.telegram.sendPhoto("-1001221739649", santrinya?.pembayaran?.bukti ? imgurl : "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
                     caption: pesan,
                 });
-                await bot.telegram.sendMessage("-1002048691666", `dari psb: \n${JSON.stringify(kirim)}`);
                 console.log(`Message sent successfully`);
             } catch (e) {
                 await bot.telegram.sendMessage("-1002048691666", `dari psb: \n${JSON.stringify(e)}`);

@@ -194,8 +194,10 @@ const post = async function (req: NextApiRequest) {
                         pengirim: server,
                         waktu: date,
                     })
+                    const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
+                    const imgurl = `https://res.cloudinary.com/${cdname}/${santrinya?.pembayaran?.bukti}`;
                     try {
-                        await bot.telegram.sendPhoto("-1001221739649", santrinya?.pembayaran?.bukti ?? "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
+                        await bot.telegram.sendPhoto("-1001221739649", santrinya?.pembayaran?.bukti ? imgurl :  "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
                             caption: pesan,
                         });
                         console.log(`Message sent successfully`);
@@ -223,7 +225,6 @@ const post = async function (req: NextApiRequest) {
             } finally {
                 prisma.$disconnect();
             }
-            break;
         default:
             return {
                 status: 400,

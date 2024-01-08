@@ -88,8 +88,10 @@ const getdata = async function (req: NextApiRequest) {
                 pengirim: server,
                 waktu: date,
             })
+            const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
+            const imgurl = `https://res.cloudinary.com/${cdname}/${siswa?.pembayaran?.bukti}`;
             try {
-                await bot.telegram.sendPhoto("-1001221739649", siswa?.pembayaran?.bukti ?? "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
+                await bot.telegram.sendPhoto("-1001221739649", siswa?.pembayaran?.bukti ? imgurl :  "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
                     caption: pesan,
                 });
                 console.log(`Message sent successfully`);
