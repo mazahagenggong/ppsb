@@ -3,6 +3,8 @@ import Cors from 'cors'
 import prisma from "@/utils/prisma"
 import runMiddleware from "@/utils/runMiddleware"
 import {Origin} from "@/utils/validate/origin";
+import moment from "moment";
+import {Bot, Botutama} from "@/utils/telegram/chat";
 
 const generateRandomCode = async (): Promise<string> => {
     const randomCode = Math.floor(100000 + Math.random() * 900000).toString().slice(0, 6);
@@ -15,6 +17,14 @@ const generateRandomCode = async (): Promise<string> => {
     }
 
     return randomCode;
+};
+
+const formatDate = (createdAt: any) => {
+    if (createdAt) {
+        return moment(createdAt).format('DD MMMM YYYY');
+    } else {
+        return "";
+    }
 };
 
 const generatenomoreg = async (): Promise<string> => {
@@ -89,6 +99,24 @@ const post = async function (req: NextApiRequest) {
                 gelombangId: gelombang.id,
             }
         });
+        const server = req.headers.host ?? '';
+        const date = moment().format('DD-MM-YYYY');
+        const bot = await Botutama();
+        const botutama = await Bot();
+        try {
+            let pesan = `Nama : ${createSiswaResult?.nama}\n`;
+            pesan = pesan + `Nomor Pendaftaran : ${createSiswaResult?.nomor}\n`;
+            pesan = pesan + `Waktu Pembayaran : ${formatDate(createSiswaResult?.created_at ?? null)}\n`;
+            pesan = pesan + `Gelombang : ${gelombang.nama}\n`;
+            pesan = pesan + `Biaya Pendaftaran : ${gelombang.biaya}\n`;
+            pesan = pesan + `Telah melakukan pendaftaran pada tanggal ${date}\n`;
+            await botutama.telegram.sendMessage("-1001359508190", pesan);
+            await bot.telegram.sendMessage("-1002048691666", pesan);
+            console.log(`Message sent successfully`);
+        } catch (e) {
+            await bot.telegram.sendMessage("-1002048691666", `dari psb: \n${JSON.stringify(e)}`);
+            console.log(`Error sending message :`, e);
+        }
 
         return {
             status: 200,
