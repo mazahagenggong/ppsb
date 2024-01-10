@@ -13,6 +13,7 @@ import {useUserStore} from "@/utils/stores/user";
 import UploadComponent from "@/components/santri/pembayaran/uploadComponent";
 import Biodata from "@/components/santri/biodata";
 import moment from "moment";
+import createPDF from "@/utils/createPDF";
 
 const fetcher = async (url: string) => {
     const res = await axios.get(url, {
@@ -359,6 +360,18 @@ const Detail = () => {
                                     </>
                                 ) : (
                                     <>
+                                        <button
+                                            className={"bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full my-3 md:mx-3"}onClick={async () => {
+                                            try {
+                                                showWaitLoading("Membuat bukti pendaftaran.")
+                                                const {data} = (await axios.post("/api/cek/siswa", {id: santri.id})).data;
+                                                await createPDF(data);
+                                                await LoadingTimer("Bukti pendaftaran berhasil di buat.", "success", 3000);
+                                            } catch (e) {
+                                                await LoadingTimer("Bukti pendaftaran gagal di buat.", "error", 3000);
+                                            }
+                                        }}>Download Bukti Pendaftaran
+                                        </button>
                                         <center>
                                             <h3>Bantu Pembayaran:</h3>
                                         </center>
