@@ -111,7 +111,7 @@ const post = async function (req: NextApiRequest) {
             pesan = pesan + `Biaya Pendaftaran : ${gelombang.biaya}\n`;
             pesan = pesan + `Telah melakukan pendaftaran pada tanggal ${date}\n`;
             await botutama.telegram.sendMessage("-1001359508190", pesan);
-            await bot.telegram.sendMessage("-1002048691666", pesan);
+            await bot.telegram.sendMessage("-1001221739649", pesan);
             console.log(`Message sent successfully`);
         } catch (e) {
             await bot.telegram.sendMessage("-1002048691666", `dari psb: \n${JSON.stringify(e)}`);
