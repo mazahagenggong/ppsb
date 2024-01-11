@@ -26,6 +26,6 @@ export const Bot = async function () {
 }
 
 export const Botutama = async function () {
-    const token = "1157398763:AAHTYwM2H46rQAjJPzQ6hDdrLgmfDrs-qqk/";
+    const token = "1157398763:AAHTYwM2H46rQAjJPzQ6hDdrLgmfDrs-qqk";
     return new Telegraf(token)
 }

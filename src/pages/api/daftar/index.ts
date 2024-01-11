@@ -122,7 +122,7 @@ const post = async function (req: NextApiRequest) {
                 pengirim: server,
                 waktu: date,
             })
-            const kirim1 = await botutama.telegram.sendMessage("-1001359508190", pesan);
+            const kirim1 = await botutama.telegram.sendMessage("-1001229984666", pesan);
             const kirim2 = await bot.telegram.sendMessage("-1001221739649", pesan);
             console.log(`Message sent successfully`, kirim1, kirim2);
         } catch (e) {
