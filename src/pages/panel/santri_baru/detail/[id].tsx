@@ -79,7 +79,7 @@ const Detail = () => {
                                                         <td>TTL</td>
                                                         <td>
                                                             : {santri.biodata.tempat_lahir},{" "}
-                                                            {formatDate(santri.biodata.tanggal)}
+                                                            {formatDate(santri.biodata.tanggal_lahir)}
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -361,16 +361,17 @@ const Detail = () => {
                                 ) : (
                                     <>
                                         <button
-                                            className={"bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full my-3 md:mx-3"}onClick={async () => {
-                                            try {
-                                                showWaitLoading("Membuat bukti pendaftaran.")
-                                                const {data} = (await axios.post("/api/cek/siswa", {id: santri.id})).data;
-                                                await createPDF(data);
-                                                await LoadingTimer("Bukti pendaftaran berhasil di buat.", "success", 3000);
-                                            } catch (e) {
-                                                await LoadingTimer("Bukti pendaftaran gagal di buat.", "error", 3000);
-                                            }
-                                        }}>Download Bukti Pendaftaran
+                                            className={"bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full my-3 md:mx-3"}
+                                            onClick={async () => {
+                                                try {
+                                                    showWaitLoading("Membuat bukti pendaftaran.")
+                                                    const {data} = (await axios.post("/api/cek/siswa", {id: santri.id})).data;
+                                                    await createPDF(data);
+                                                    await LoadingTimer("Bukti pendaftaran berhasil di buat.", "success", 3000);
+                                                } catch (e) {
+                                                    await LoadingTimer("Bukti pendaftaran gagal di buat.", "error", 3000);
+                                                }
+                                            }}>Download Bukti Pendaftaran
                                         </button>
                                         <center>
                                             <h3>Bantu Pembayaran:</h3>
