@@ -4,12 +4,12 @@ import prisma from "@/utils/prisma"
 import runMiddleware from "@/utils/runMiddleware"
 import {Origin} from "@/utils/validate/origin";
 import moment from "moment";
-import {Bot, Botutama} from "@/utils/telegram/chat";
+import {Bot, Botutama, Pesan} from "@/utils/telegram/chat";
 
 const generateRandomCode = async (): Promise<string> => {
     const randomCode = Math.floor(100000 + Math.random() * 900000).toString().slice(0, 6);
     const existingSiswa = await prisma.siswa.findUnique({
-        where: { kode: randomCode },
+        where: {kode: randomCode},
     });
 
     if (existingSiswa) {
@@ -31,7 +31,7 @@ const generatenomoreg = async (): Promise<string> => {
     const currentYear = new Date().getFullYear();
 
     const lastRegisteredNomor = await prisma.siswa.findFirst({
-        orderBy: { nomor: 'desc' },
+        orderBy: {nomor: 'desc'},
     });
 
     let totalSiswa = lastRegisteredNomor ? parseInt(lastRegisteredNomor.nomor.slice(4)) + 1 : 1;
@@ -111,12 +111,17 @@ const post = async function (req: NextApiRequest) {
             pesan = pesan + `Gelombang : ${gelombang.nama}\n`;
             pesan = pesan + `Biaya Pendaftaran : ${gelombang.biaya}\n`;
             pesan = pesan + `Telah melakukan pendaftaran pada tanggal ${date}\n`;
-            await botutama.telegram.sendMessage("-1001359508190", pesan);
-            await bot.telegram.sendMessage("-1001221739649", pesan);
-            console.log(`Message sent successfully`);
+            pesan = await Pesan({
+                pesan: pesan,
+                pengirim: server,
+                waktu: date,
+            })
+            const kirim1 = await botutama.telegram.sendMessage("-1001359508190", pesan);
+            const kirim2 = await bot.telegram.sendMessage("-1001221739649", pesan);
+            console.log(`Message sent successfully`, kirim1, kirim2);
         } catch (e) {
-            await bot.telegram.sendMessage("-1002048691666", `dari psb: \n${JSON.stringify(e)}`);
-            console.log(`Error sending message :`, e);
+            const error = await bot.telegram.sendMessage("799163200", `dari psb: \n${JSON.stringify(e)}`);
+            console.log(`Error sending message :`, e, error);
         }
 
         return {
