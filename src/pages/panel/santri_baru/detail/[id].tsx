@@ -102,7 +102,7 @@ const Detail = () => {
                                                         <td>Detail Alamat</td>
                                                         <td>
                                                             :{" "}
-                                                            {`RT ${santri.alamat.rt} RW ${santri.alamat.rw}, ${santri.alamat.alamat}`}
+                                                            {`RT ${santri.alamat.rt} RW ${santri.alamat.rw}, ${santri.alamat.keldes}`}
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -280,7 +280,7 @@ const Detail = () => {
                                             </tr>
                                             <tr>
                                                 <td style={{width: "30%"}}>Alamat</td>
-                                                <td style={{width: "70%"}}>{santri.alamat.alamat} RT {santri.alamat.rt} RW {santri.alamat.rw}, {santri.alamat.keldes} - {santri.alamat.keldes} - {santri.alamat.kabkot} - {santri.alamat.provinsi}</td>
+                                                <td style={{width: "70%"}}>{santri.alamat.alamat} RT {santri.alamat.rt} RW {santri.alamat.rw}, {santri.alamat.keldes} - {santri.alamat.kecamatan} - {santri.alamat.kabkot} - {santri.alamat.provinsi}</td>
                                             </tr>
                                             </tbody>
                                         </table>
