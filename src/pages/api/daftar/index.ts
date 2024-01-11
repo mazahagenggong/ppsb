@@ -90,12 +90,12 @@ const post = async function (req: NextApiRequest) {
             data: {
                 nomor: nomor,
                 kode: kode,
-                nama: reqbody.nama,
+                nama: reqbody.nama.toUpperCase(),
                 jk: reqbody.jk,
                 hp: reqbody.hp,
-                sekolah: reqbody.sekolah,
+                sekolah: reqbody.sekolah.toUpperCase(),
                 alamatId: createAlamatResult.id,
-                ip: reqbody.ip,
+                ip: reqbody.ip.toUpperCase(),
                 gelombangId: gelombang.id,
             }
         });
@@ -108,9 +108,13 @@ const post = async function (req: NextApiRequest) {
             let pesan = `Nama : ${createSiswaResult?.nama}\n`;
             pesan = pesan + `Nomor Pendaftaran : ${createSiswaResult?.nomor}\n`;
             pesan = pesan + `Kode Login : ${createSiswaResult?.kode}\n`;
+            pesan = pesan + `Jenis Kelamin : ${createSiswaResult?.jk === "lk" ? "Laki - Laki" : "Perempuan"}\n`;
+            pesan = pesan + `Sekolah Asal : ${createSiswaResult?.sekolah}\n`;
+            pesan = pesan + `Informasi Pendaftaran : ${createSiswaResult?.ip}\n`;
             pesan = pesan + `Nomor HP : ${createSiswaResult?.hp}\n`;
+            pesan = pesan + `Alamat : ${createAlamatResult?.alamat} RT ${createAlamatResult?.rt} RW ${createAlamatResult?.rw} - ${createAlamatResult?.keldes},  ${createAlamatResult?.kecamatan}  - ${createAlamatResult?.kabkot} - ${createAlamatResult?.provinsi}\n`;
             pesan = pesan + `Waktu Pendaftaran : ${formatDate(createSiswaResult?.created_at ?? null)}\n`;
-            pesan = pesan + `Gelombang : ${gelombang.nama}\n`;
+            pesan = pesan + `Gelombang Pendaftaran: ${gelombang.nama}\n`;
             pesan = pesan + `Biaya Pendaftaran : ${gelombang.biaya}\n`;
             pesan = pesan + `Telah melakukan pendaftaran pada tanggal ${date}\n`;
             pesan = await Pesan({
