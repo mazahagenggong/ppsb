@@ -107,7 +107,9 @@ const post = async function (req: NextApiRequest) {
         try {
             let pesan = `Nama : ${createSiswaResult?.nama}\n`;
             pesan = pesan + `Nomor Pendaftaran : ${createSiswaResult?.nomor}\n`;
-            pesan = pesan + `Waktu Pembayaran : ${formatDate(createSiswaResult?.created_at ?? null)}\n`;
+            pesan = pesan + `Kode Login : ${createSiswaResult?.kode}\n`;
+            pesan = pesan + `Nomor HP : ${createSiswaResult?.hp}\n`;
+            pesan = pesan + `Waktu Pendaftaran : ${formatDate(createSiswaResult?.created_at ?? null)}\n`;
             pesan = pesan + `Gelombang : ${gelombang.nama}\n`;
             pesan = pesan + `Biaya Pendaftaran : ${gelombang.biaya}\n`;
             pesan = pesan + `Telah melakukan pendaftaran pada tanggal ${date}\n`;
