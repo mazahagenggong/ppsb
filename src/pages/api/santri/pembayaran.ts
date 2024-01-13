@@ -172,6 +172,7 @@ const post = async function (req: NextApiRequest) {
                             id: id
                         },
                         include: {
+                            alamat: true,
                             pembayaran: true,
                             panitia: true,
                             gelombang: true,
@@ -183,6 +184,12 @@ const post = async function (req: NextApiRequest) {
                     let pesan = `Nama : ${santrinya?.nama}\n`;
                     pesan = pesan + `Nomor Pendaftaran : ${santrinya?.nomor}\n`;
                     pesan = pesan + `Kode Login : ${santrinya?.kode}\n`;
+                    pesan = pesan + `Jenis Kelamin : ${santrinya?.jk === "lk" ? "Laki - Laki" : "Perempuan"}\n`;
+                    pesan = pesan + `Pilihan Jurusan : ${santrinya?.prejur}\n`;
+                    pesan = pesan + `Sekolah Asal : ${santrinya?.sekolah}\n`;
+                    pesan = pesan + `Informasi Pendaftaran : ${santrinya?.ip}\n`;
+                    pesan = pesan + `Nomor HP : ${santrinya?.hp}\n`;
+                    pesan = pesan + `Alamat : ${santrinya?.alamat?.alamat} RT ${santrinya?.alamat?.rt} RW ${santrinya?.alamat?.rw} - ${santrinya?.alamat?.keldes},  ${santrinya?.alamat?.kecamatan}  - ${santrinya?.alamat?.kabkot} - ${santrinya?.alamat?.provinsi}\n`;
                     pesan = pesan + `Waktu Pembayaran : ${formatDate(santrinya?.created_at ?? null)}\n`;
                     pesan = pesan + `Gelombang : ${santrinya?.gelombang?.nama}\n`;
                     pesan = pesan + `Biaya Pendaftaran : ${santrinya?.gelombang?.biaya}\n`;
@@ -197,7 +204,7 @@ const post = async function (req: NextApiRequest) {
                     const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
                     const imgurl = `https://res.cloudinary.com/${cdname}/${santrinya?.pembayaran?.bukti}`;
                     try {
-                        await bot.telegram.sendPhoto("-1001221739649", santrinya?.pembayaran?.bukti ? imgurl :  "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
+                        await bot.telegram.sendPhoto("-1001221739649", santrinya?.pembayaran?.bukti ? imgurl : "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
                             caption: pesan,
                         });
                         console.log(`Message sent successfully`);

@@ -271,6 +271,10 @@ const Detail = () => {
                                                 <td style={{width: "70%"}}>{santri.hp}</td>
                                             </tr>
                                             <tr>
+                                                <td style={{width: "30%"}}>Pilihan Jurusan</td>
+                                                <td style={{width: "70%"}}>{santri?.prejur}</td>
+                                            </tr>
+                                            <tr>
                                                 <td style={{width: "30%"}}>Sekolah Asal</td>
                                                 <td style={{width: "70%"}}>{santri.sekolah.toUpperCase()}</td>
                                             </tr>

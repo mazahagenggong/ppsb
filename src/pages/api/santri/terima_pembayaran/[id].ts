@@ -69,6 +69,7 @@ const getdata = async function (req: NextApiRequest) {
                     id: id
                 },
                 include: {
+                    alamat: true,
                     pembayaran: true,
                     panitia: true,
                     gelombang: true,
@@ -77,6 +78,12 @@ const getdata = async function (req: NextApiRequest) {
             let pesan = `Nama : ${siswa?.nama}\n`;
             pesan = pesan + `Nomor Pendaftaran : ${siswa?.nomor}\n`;
             pesan = pesan + `Kode Login : ${siswa?.kode}\n`;
+            pesan = pesan + `Jenis Kelamin : ${siswa?.jk === "lk" ? "Laki - Laki" : "Perempuan"}\n`;
+            pesan = pesan + `Pilihan Jurusan : ${siswa?.prejur}\n`;
+            pesan = pesan + `Sekolah Asal : ${siswa?.sekolah}\n`;
+            pesan = pesan + `Informasi Pendaftaran : ${siswa?.ip}\n`;
+            pesan = pesan + `Nomor HP : ${siswa?.hp}\n`;
+            pesan = pesan + `Alamat : ${siswa?.alamat?.alamat} RT ${siswa?.alamat?.rt} RW ${siswa?.alamat?.rw} - ${siswa?.alamat?.keldes},  ${siswa?.alamat?.kecamatan}  - ${siswa?.alamat?.kabkot} - ${siswa?.alamat?.provinsi}\n`;
             pesan = pesan + `Waktu Pembayaran : ${formatDate(siswa?.created_at ?? null)}\n`;
             pesan = pesan + `Gelombang : ${siswa?.gelombang?.nama}\n`;
             pesan = pesan + `Biaya Pendaftaran : ${siswa?.gelombang?.biaya}\n`;
@@ -91,7 +98,7 @@ const getdata = async function (req: NextApiRequest) {
             const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
             const imgurl = `https://res.cloudinary.com/${cdname}/${siswa?.pembayaran?.bukti}`;
             try {
-                await bot.telegram.sendPhoto("-1001221739649", siswa?.pembayaran?.bukti ? imgurl :  "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
+                await bot.telegram.sendPhoto("-1001221739649", siswa?.pembayaran?.bukti ? imgurl : "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
                     caption: pesan,
                 });
                 console.log(`Message sent successfully`);
