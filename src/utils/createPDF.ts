@@ -46,13 +46,14 @@ const createPDF = async (data: any) => {
             ['Kode Login', `: ${data.kode}`],
             ['Nama lengkap', `: ${data.nama}`],
             ['Jenis Kelamin', `: ${data.jk === "lk" ? "Laki-laki" : "Perempuan"}`],
+            ['Pilihan Jurusan', `: ${data?.prejur ?? "Belum memilih"}`],
             ['Nomor HP', `: ${data.hp}`],
         ],
         startY: fy + 5,
         theme: 'striped',
         columnStyles: {
-            0: { cellWidth: 60 },
-            1: { cellWidth: 120 },
+            0: {cellWidth: 60},
+            1: {cellWidth: 120},
         },
         didDrawPage: function (data: any) {
             if (data.cursor.y) {
@@ -73,8 +74,8 @@ const createPDF = async (data: any) => {
         startY: fy + 5,
         theme: 'striped',
         columnStyles: {
-            0: { cellWidth: 60 },
-            1: { cellWidth: 120 },
+            0: {cellWidth: 60},
+            1: {cellWidth: 120},
         },
         didDrawPage: function (data: any) {
             if (data.cursor.y) {
@@ -93,8 +94,8 @@ const createPDF = async (data: any) => {
         startY: fy + 5,
         theme: 'striped',
         columnStyles: {
-            0: { cellWidth: 60 },
-            1: { cellWidth: 120 },
+            0: {cellWidth: 60},
+            1: {cellWidth: 120},
         },
         didDrawPage: function (data: any) {
             if (data.cursor.y) {
@@ -113,8 +114,8 @@ const createPDF = async (data: any) => {
         startY: fy + 5,
         theme: 'striped',
         columnStyles: {
-            0: { cellWidth: 60 },
-            1: { cellWidth: 120 },
+            0: {cellWidth: 60},
+            1: {cellWidth: 120},
         },
         didDrawPage: function (data: any) {
             if (data.cursor.y) {
