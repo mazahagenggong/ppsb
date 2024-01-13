@@ -89,8 +89,8 @@ const Daftarpsb = async (data: any) => {
         pesan = pesan + `Nomor HP : ${cek.data.datasiswa?.hp}\n`;
         pesan = pesan + `Alamat : ${cek.data.dataalamat?.alamat} RT ${cek.data.dataalamat?.rt} RW ${cek.data.dataalamat?.rw} - ${cek.data.dataalamat?.keldes},  ${cek.data.dataalamat?.kecamatan}  - ${cek.data.dataalamat?.kabkot} - ${cek.data.dataalamat?.provinsi}\n`;
         pesan = pesan + `Waktu Pendaftaran : ${formatDate(cek.data.datasiswa?.created_at ?? null)}\n`;
-        pesan = pesan + `Gelombang Pendaftaran: ${cek.data.datasiswa.gelombang.nama}\n`;
-        pesan = pesan + `Biaya Pendaftaran : ${cek.data.datasiswa.gelombang.biaya}\n`;
+        pesan = pesan + `Gelombang Pendaftaran: ${cek.data.datasiswa?.gelombang.nama}\n`;
+        pesan = pesan + `Biaya Pendaftaran : ${cek.data.datasiswa?.gelombang.biaya}\n`;
         pesan = pesan + `Telah melakukan pendaftaran pada tanggal ${date}\n`;
         pesan = await Pesan({
             pesan: pesan,
