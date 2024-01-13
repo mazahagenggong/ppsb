@@ -13,6 +13,9 @@ const nullkat = (jenis: string) => {
         case "ip":
             keterangan = "Informasi Pendaftaran belum di pilih";
             break;
+        case "prejur":
+            keterangan = "Jurusan belum di pilih";
+            break;
         case "hp":
             keterangan = "Nomor HP belum di isi";
             break;
@@ -49,7 +52,7 @@ const nullkat = (jenis: string) => {
     }
     return keterangan;
 }
-const Daftarpsb = async (data:any) => {
+const Daftarpsb = async (data: any) => {
     for (const key in data) {
         if (data[key] === null || data[key] === "") {
             return {

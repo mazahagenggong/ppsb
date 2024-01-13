@@ -19,6 +19,7 @@ model siswa {
   hp           String
   sekolah      String
   ip           String
+  prejur       String?
   alamatId     String?           @db.ObjectId
   alamat       alamat?           @relation(fields: [alamatId], references: [id])
   pembayaranId String?           @db.ObjectId

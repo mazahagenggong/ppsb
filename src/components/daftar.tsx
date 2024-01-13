@@ -27,6 +27,8 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
             setjk,
             ip,
             setip,
+            prejur,
+            setprejur,
             hp,
             sethp,
             sekolah,
@@ -175,7 +177,8 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                 <div>
                                     <select
                                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-3"
-                                        id="jk" value={jk ?? ""} onChange={(e) => setjk(e.target.value)} required={true}>
+                                        id="jk" value={jk ?? ""} onChange={(e) => setjk(e.target.value)}
+                                        required={true}>
                                         <option>-- Pilih --</option>
                                         <option value="lk">Laki - Laki</option>
                                         <option value="pr">Perempuan</option>
@@ -199,7 +202,8 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                 <div>
                                     <select
                                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-3"
-                                        id="ip" value={ip ?? ""} onChange={(e) => setip(e.target.value)} required={true}>
+                                        id="ip" value={ip ?? ""} onChange={(e) => setip(e.target.value)}
+                                        required={true}>
                                         <option>-- Pilih --</option>
                                         <option value="medsos">Media Sosial</option>
                                         <option value="website">Website</option>
@@ -217,7 +221,32 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full md:w-1/2 px-3 md:mb-0">
+                            <div className="w-full md:w-1/3 px-3 md:mb-0">
+                                <label
+                                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                    htmlFor="ip">
+                                    Pilih Jurusan
+                                </label>
+                                <div>
+                                    <select
+                                        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-3"
+                                        id="ip" value={prejur ?? ""} onChange={(e) => setprejur(e.target.value)}
+                                        required={true}>
+                                        <option>-- Pilih --</option>
+                                        <option value="PK">Program Keagamaan (PK)</option>
+                                        <option value="IPAS">Ilmu Alam dan Sosial (IPAS)</option>
+                                    </select>
+                                    <div
+                                        className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 20 20">
+                                            <path
+                                                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="w-full md:w-1/3 px-3 md:mb-0">
                                 <label
                                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     htmlFor="nohp">
@@ -228,7 +257,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     id="nohp" type="number" placeholder="08**********" value={hp ?? ""}
                                     onChange={(e) => sethp(e.target.value)} required={true}/>
                             </div>
-                            <div className="w-full md:w-1/2 px-3 md:mb-0">
+                            <div className="w-full md:w-1/3 px-3 md:mb-0">
                                 <label
                                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     htmlFor="nohp">
@@ -236,7 +265,8 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                 </label>
                                 <input
                                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="nohp" type="text" value={sekolah ?? ""} onChange={(e) => setsekolah(e.target.value)}
+                                    id="nohp" type="text" value={sekolah ?? ""}
+                                    onChange={(e) => setsekolah(e.target.value)}
                                     required={true}/>
                             </div>
                         </div>
@@ -427,6 +457,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                         nama: nama?.toUpperCase(),
                                         jk: jk,
                                         ip: ip?.toUpperCase(),
+                                        prejur: prejur,
                                         hp: hp,
                                         sekolah: sekolah?.toUpperCase(),
                                         provinsi: selectedProv,

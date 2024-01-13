@@ -7,6 +7,8 @@ export interface DaftarFormProps {
     setjk: (value: string | null) => void;
     ip: string | null;
     setip: (value: string | null) => void;
+    prejur: string | null;
+    setprejur: (value: string | null) => void;
     hp: string | null;
     sethp: (value: string | null) => void;
     sekolah: string | null;

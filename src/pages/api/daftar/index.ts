@@ -96,6 +96,7 @@ const post = async function (req: NextApiRequest) {
                 sekolah: reqbody.sekolah.toUpperCase(),
                 alamatId: createAlamatResult.id,
                 ip: reqbody.ip.toUpperCase(),
+                prejur: reqbody.prejur.toUpperCase(),
                 gelombangId: gelombang.id,
             }
         });
@@ -109,6 +110,7 @@ const post = async function (req: NextApiRequest) {
             pesan = pesan + `Nomor Pendaftaran : ${createSiswaResult?.nomor}\n`;
             pesan = pesan + `Kode Login : ${createSiswaResult?.kode}\n`;
             pesan = pesan + `Jenis Kelamin : ${createSiswaResult?.jk === "lk" ? "Laki - Laki" : "Perempuan"}\n`;
+            pesan = pesan + `Pilihan Jurusan : ${createSiswaResult?.prejur}\n`;
             pesan = pesan + `Sekolah Asal : ${createSiswaResult?.sekolah}\n`;
             pesan = pesan + `Informasi Pendaftaran : ${createSiswaResult?.ip}\n`;
             pesan = pesan + `Nomor HP : ${createSiswaResult?.hp}\n`;

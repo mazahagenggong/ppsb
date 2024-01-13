@@ -30,7 +30,7 @@ const FormulirSantri: React.FC<FormulirSantriProps> = ({data, token, modal}) => 
         <>
             <label>{label} <strong style={{color: "red"}}>*</strong></label>
             <select name={name} ref={ref} onChange={onChange} onBlur={onBlur} className={"form-control"}
-                    defaultValue={dataSantri?.biodata?.jurusan ? dataSantri.biodata.jurusan : ''}>
+                    defaultValue={dataSantri?.biodata?.jurusan ?? (dataSantri?.prejur ?? "")}>
                 <option value="">-- Pilih Jurusan --</option>
                 <option value="PK">Ilmu Agama Islam (PK)</option>
                 <option value="IPAS">Ilmu Alam dan Sosial (IPAS)</option>
