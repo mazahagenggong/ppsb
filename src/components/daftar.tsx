@@ -234,7 +234,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                         required={true}>
                                         <option>-- Pilih --</option>
                                         <option value="PK">Program Keagamaan (PK)</option>
-                                        <option value="IPAS">Ilmu Alam dan Sosial (IPAS)</option>
+                                        <option value="IPAS">Program Umum (IPAS)</option>
                                     </select>
                                     <div
                                         className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">

@@ -101,41 +101,12 @@ const post = async function (req: NextApiRequest) {
             }
         });
         const server = req.headers.host ?? '';
-        const date = moment().format('DD-MM-YYYY');
-        const bot = await Botutama();
-        const botutama = await Bot();
-
-        try {
-            let pesan = `Nama : ${createSiswaResult?.nama}\n`;
-            pesan = pesan + `Nomor Pendaftaran : ${createSiswaResult?.nomor}\n`;
-            pesan = pesan + `Kode Login : ${createSiswaResult?.kode}\n`;
-            pesan = pesan + `Jenis Kelamin : ${createSiswaResult?.jk === "lk" ? "Laki - Laki" : "Perempuan"}\n`;
-            pesan = pesan + `Pilihan Jurusan : ${createSiswaResult?.prejur}\n`;
-            pesan = pesan + `Sekolah Asal : ${createSiswaResult?.sekolah}\n`;
-            pesan = pesan + `Informasi Pendaftaran : ${createSiswaResult?.ip}\n`;
-            pesan = pesan + `Nomor HP : ${createSiswaResult?.hp}\n`;
-            pesan = pesan + `Alamat : ${createAlamatResult?.alamat} RT ${createAlamatResult?.rt} RW ${createAlamatResult?.rw} - ${createAlamatResult?.keldes},  ${createAlamatResult?.kecamatan}  - ${createAlamatResult?.kabkot} - ${createAlamatResult?.provinsi}\n`;
-            pesan = pesan + `Waktu Pendaftaran : ${formatDate(createSiswaResult?.created_at ?? null)}\n`;
-            pesan = pesan + `Gelombang Pendaftaran: ${gelombang.nama}\n`;
-            pesan = pesan + `Biaya Pendaftaran : ${gelombang.biaya}\n`;
-            pesan = pesan + `Telah melakukan pendaftaran pada tanggal ${date}\n`;
-            pesan = await Pesan({
-                pesan: pesan,
-                pengirim: server,
-                waktu: date,
-            })
-            const kirim1 = await botutama.telegram.sendMessage("-1001229984666", pesan);
-            const kirim2 = await bot.telegram.sendMessage("-1001221739649", pesan);
-            console.log(`Message sent successfully`, kirim1, kirim2);
-        } catch (e) {
-            const error = await bot.telegram.sendMessage("799163200", `dari psb: \n${JSON.stringify(e)}`);
-            console.log(`Error sending message :`, e, error);
-        }
 
         return {
             status: 200,
             data: {
                 success: true,
+                server: server,
                 datasiswa: createSiswaResult,
                 dataalamat: createAlamatResult,
                 message: "Data berhasil disimpan",
@@ -143,11 +114,13 @@ const post = async function (req: NextApiRequest) {
         };
 
     } catch (error) {
+        const server = req.headers.host ?? '';
         console.log(error)
         return {
             status: 400,
             data: {
                 success: false,
+                server: server,
                 message: "Gagal mendaftar",
                 error: error instanceof Error ? error.message : "Unknown error",
             }
