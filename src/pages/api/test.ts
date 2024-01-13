@@ -3,7 +3,7 @@ import Cors from 'cors'
 import runMiddleware from "@/utils/runMiddleware"
 import moment from "moment/moment";
 import 'moment/locale/id';
-import {KirimUtama, Pesan} from "@/utils/telegram/chat";
+import {KirimPribadi, Pesan} from "@/utils/telegram/chat";
 
 moment.locale('id');
 
@@ -16,7 +16,7 @@ const getdata = async function (req: NextApiRequest) {
         waktu: date,
         pengirim: server,
     });
-    const kirim = await KirimUtama(pesan);
+    const kirim = await KirimPribadi(pesan);
     if (kirim.success) {
         return {
             status: 200,
