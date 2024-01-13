@@ -28,6 +28,8 @@ const Daftar = () => {
         setjk,
         ip,
         setip,
+        prejur,
+        setprejur,
         hp,
         sethp,
         sekolah,
@@ -68,6 +70,8 @@ const Daftar = () => {
                                     setjk={setjk}
                                     ip={ip}
                                     setip={setip}
+                                    prejur={prejur}
+                                    setprejur={setprejur}
                                     hp={hp}
                                     sethp={sethp}
                                     sekolah={sekolah}

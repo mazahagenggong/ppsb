@@ -4,11 +4,13 @@ type SiswaStore = {
     nama: string | null;
     jk: string | null;
     ip: string | null;
+    prejur: string | null;
     hp: string | null;
     sekolah: string | null;
     setnama: (value: string | null) => void;
     setjk: (value: string | null) => void;
     setip: (value: string | null) => void;
+    setprejur: (value: string | null) => void;
     sethp: (value: string | null) => void;
     setsekolah: (value: string | null) => void;
 };
@@ -34,11 +36,13 @@ export const useSiswaStore = create<SiswaStore>((set) => ({
     nama: null,
     jk: null,
     ip: null,
+    prejur: null,
     hp: null,
     sekolah: null,
     setnama: (value) => set({nama: value}),
     setjk: (value) => set({jk: value}),
     setip: (value) => set({ip: value}),
+    setprejur: (value) => set({prejur: value}),
     sethp: (value) => set({hp: value}),
     setsekolah: (value) => set({sekolah: value}),
 }));
