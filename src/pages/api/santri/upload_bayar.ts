@@ -5,7 +5,7 @@ import {Santri} from "@/utils/validate/token";
 import prisma from "@/utils/prisma";
 import moment from "moment/moment";
 import 'moment/locale/id';
-import {Pesan, Bot} from "@/utils/telegram/chat";
+import {Pesan, KirimFotoSekret, KirimPribadi, KirimButtonGambar} from "@/utils/telegram/chat";
 
 moment.locale('id');
 const formatDate = (createdAt: any) => {
@@ -63,7 +63,6 @@ const post = async function (req: NextApiRequest) {
     await Promise.all(cari_id);
     const server = req.headers.host ?? '';
     const date = moment().format('DD-MM-YYYY');
-    const bot = await Bot();
     const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
     const imgurl = `https://res.cloudinary.com/${cdname}/${gambar_id}`;
     const button1 = [
@@ -120,7 +119,6 @@ const post = async function (req: NextApiRequest) {
             });
             const server = req.headers.host ?? '';
             const date = moment().format('DD-MM-YYYY');
-            const bot = await Bot();
             let pesan = `Nama : ${santrinya?.nama}\n`;
             pesan = pesan + `Nomor Pendaftaran : ${santrinya?.nomor}\n`;
             pesan = pesan + `Kode Login : ${santrinya?.kode}\n`;
@@ -144,12 +142,10 @@ const post = async function (req: NextApiRequest) {
             const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
             const imgurl = `https://res.cloudinary.com/${cdname}/${santrinya?.pembayaran?.bukti}`;
             try {
-                const kirim = await bot.telegram.sendPhoto("-1001221739649", santrinya?.pembayaran?.bukti ? imgurl : "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
-                    caption: pesan,
-                });
+                await KirimFotoSekret(pesan, imgurl);
                 console.log(`Message sent successfully`);
             } catch (e) {
-                await bot.telegram.sendMessage("-1002048691666", `dari psb: \n${JSON.stringify(e)}`);
+                await KirimPribadi(`dari psb: \n${JSON.stringify(e)}`);
                 console.log(`Error sending message :`, e);
             }
             return {
@@ -189,17 +185,10 @@ const post = async function (req: NextApiRequest) {
             })
             const sendPhotoPromises = idtele.map(async (telegramId) => {
                 try {
-                    await bot.telegram.sendPhoto(telegramId, imgurl, {
-                        caption: pesan,
-                        reply_markup: {
-                            inline_keyboard: [
-                                button1,
-                            ]
-                        }
-                    });
+                    await KirimButtonGambar(pesan, imgurl, button1, telegramId);
                     console.log(`Message sent successfully to ${telegramId}`);
                 } catch (e) {
-                    console.log(`Error sending message to ${telegramId}:`, e);
+                    await KirimPribadi(`dari psb: \n${JSON.stringify(e)}`);
                     throw e;
                 }
             });
@@ -208,6 +197,8 @@ const post = async function (req: NextApiRequest) {
                 await Promise.all(sendPhotoPromises);
                 console.log("semua notif berhasil dikirim.");
             } catch (error) {
+                const pesan = `dari psb: \n${JSON.stringify(error)}`;
+                await KirimPribadi(pesan);
                 console.error("gagal mengirim notif:", error);
             }
             return {

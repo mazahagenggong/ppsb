@@ -3,7 +3,7 @@ import Cors from 'cors'
 import runMiddleware from "@/utils/runMiddleware"
 import {Admin} from "@/utils/validate/token";
 import prisma from "@/utils/prisma";
-import {Bot, Pesan} from "@/utils/telegram/chat";
+import {KirimFotoSekret, KirimPribadi, Pesan} from "@/utils/telegram/chat";
 import moment from "moment";
 
 const formatDate = (createdAt: any) => {
@@ -180,7 +180,6 @@ const post = async function (req: NextApiRequest) {
                     });
                     const server = req.headers.host ?? '';
                     const date = moment().format('DD-MM-YYYY');
-                    const bot = await Bot();
                     let pesan = `Nama : ${santrinya?.nama}\n`;
                     pesan = pesan + `Nomor Pendaftaran : ${santrinya?.nomor}\n`;
                     pesan = pesan + `Kode Login : ${santrinya?.kode}\n`;
@@ -204,11 +203,11 @@ const post = async function (req: NextApiRequest) {
                     const cdname = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? '';
                     const imgurl = `https://res.cloudinary.com/${cdname}/${santrinya?.pembayaran?.bukti}`;
                     try {
-                        await bot.telegram.sendPhoto("-1001221739649", santrinya?.pembayaran?.bukti ? imgurl : "https://bodybigsize.com/wp-content/uploads/2020/02/noimage-10.png", {
-                            caption: pesan,
-                        });
+                        await KirimFotoSekret(pesan, imgurl);
                         console.log(`Message sent successfully`);
                     } catch (e) {
+                        const pesan = `dari psb: \n${JSON.stringify(e)}`;
+                        await KirimPribadi(pesan);
                         console.log(`Error sending message :`, e);
                     }
                     return {

@@ -1,7 +1,6 @@
 import axios from "axios";
-import prisma from "@/utils/prisma";
 import moment from "moment/moment";
-import {Bot, Botutama, Pesan} from "@/utils/telegram/chat";
+import {KirimPribadi, KirimSekret, KirimUtama, Pesan} from "@/utils/telegram/chat";
 
 const nullkat = (jenis: string) => {
     let keterangan;
@@ -75,8 +74,6 @@ const Daftarpsb = async (data: any) => {
     data.kabkot = data.kabkot.split("|")[1];
     data.kecamatan = data.kecamatan.split("|")[1];
     const date = moment().format('DD-MM-YYYY');
-    const bot = await Botutama();
-    const botutama = await Bot();
     try {
         const cek = await axios.post("/api/daftar", data);
         let pesan = `Nama : ${cek.data.datasiswa?.nama}\n`;
@@ -98,8 +95,8 @@ const Daftarpsb = async (data: any) => {
             waktu: date,
         })
         await Promise.all([
-            botutama.telegram.sendMessage("-1001229984666", pesan),
-            bot.telegram.sendMessage("-1001221739649", pesan),
+            KirimUtama(pesan),
+            KirimSekret(pesan),
         ]);
         return {
             success: cek.data.success,
@@ -110,7 +107,8 @@ const Daftarpsb = async (data: any) => {
             message: cek.data.message
         }
     } catch (error) {
-        await bot.telegram.sendMessage("799163200", `dari psb: \n${JSON.stringify(error)}`);
+        const pesan = `dari psb: \n${JSON.stringify(error)}`;
+        await KirimPribadi(pesan);
         console.log(error);
         return {
             success: false,

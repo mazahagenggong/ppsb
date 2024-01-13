@@ -4,7 +4,7 @@ import prisma from "@/utils/prisma"
 import runMiddleware from "@/utils/runMiddleware"
 import {Origin} from "@/utils/validate/origin";
 import moment from "moment";
-import {Bot, Botutama, Pesan} from "@/utils/telegram/chat";
+import {KirimPribadi, KirimSekret, KirimUtama, Pesan} from "@/utils/telegram/chat";
 
 const generateRandomCode = async (): Promise<string> => {
     const randomCode = Math.floor(100000 + Math.random() * 900000).toString().slice(0, 6);
@@ -101,11 +101,41 @@ const post = async function (req: NextApiRequest) {
             }
         });
         const server = req.headers.host ?? '';
+        const date = moment().format('DD-MM-YYYY');
+
+        try {
+            let pesan = `Nama : ${createSiswaResult?.nama}\n`;
+            pesan = pesan + `Nomor Pendaftaran : ${createSiswaResult?.nomor}\n`;
+            pesan = pesan + `Kode Login : ${createSiswaResult?.kode}\n`;
+            pesan = pesan + `Jenis Kelamin : ${createSiswaResult?.jk === "lk" ? "Laki - Laki" : "Perempuan"}\n`;
+            pesan = pesan + `Pilihan Jurusan : ${createSiswaResult?.prejur}\n`;
+            pesan = pesan + `Sekolah Asal : ${createSiswaResult?.sekolah}\n`;
+            pesan = pesan + `Informasi Pendaftaran : ${createSiswaResult?.ip}\n`;
+            pesan = pesan + `Nomor HP : ${createSiswaResult?.hp}\n`;
+            pesan = pesan + `Alamat : ${createAlamatResult?.alamat} RT ${createAlamatResult?.rt} RW ${createAlamatResult?.rw} - ${createAlamatResult?.keldes},  ${createAlamatResult?.kecamatan}  - ${createAlamatResult?.kabkot} - ${createAlamatResult?.provinsi}\n`;
+            pesan = pesan + `Waktu Pendaftaran : ${formatDate(createSiswaResult?.created_at ?? null)}\n`;
+            pesan = pesan + `Gelombang Pendaftaran: ${gelombang.nama}\n`;
+            pesan = pesan + `Biaya Pendaftaran : ${gelombang.biaya}\n`;
+            pesan = pesan + `Telah melakukan pendaftaran pada tanggal ${date}\n`;
+            pesan = await Pesan({
+                pesan: pesan,
+                pengirim: server,
+                waktu: date,
+            })
+            await Promise.all([
+                KirimUtama(pesan),
+                KirimSekret(pesan),
+            ]);
+        } catch (e) {
+            const pesan = `dari psb: \n${JSON.stringify(e)}`;
+            await KirimPribadi(pesan);
+            console.log(`Error sending message :`, e);
+        }
+
         return {
             status: 200,
             data: {
                 success: true,
-                server: server,
                 datasiswa: createSiswaResult,
                 dataalamat: createAlamatResult,
                 message: "Data berhasil disimpan",
@@ -113,13 +143,11 @@ const post = async function (req: NextApiRequest) {
         };
 
     } catch (error) {
-        const server = req.headers.host ?? '';
         console.log(error)
         return {
             status: 400,
             data: {
                 success: false,
-                server: server,
                 message: "Gagal mendaftar",
                 error: error instanceof Error ? error.message : "Unknown error",
             }

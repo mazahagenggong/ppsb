@@ -1,5 +1,5 @@
 import moment from "moment";
-import {Telegraf} from 'telegraf';
+import axios from "axios";
 
 type PesanType = {
     pesan: string,
@@ -20,12 +20,119 @@ export const Pesan = async function (data: PesanType) {
     return newPesan
 }
 
-export const Bot = async function () {
+export const KirimFotoSekret = async function (pesan: string, foto: string) {
     const token = "6836484715:AAEboz5NqXEc9DoCrP8CqPWlsZcl_qUnpoc";
-    return new Telegraf(token)
+    try {
+        const apiUrl = `https://api.telegram.org/bot${token}/sendPhoto`;
+        const kirim = await axios.post(apiUrl, {
+            chat_id: "-1001221739649",
+            photo: foto,
+            caption: pesan,
+        });
+        return {
+            success: true,
+            message: "berhasil kirim pesan",
+            data: kirim.data
+        };
+    } catch (e) {
+        return {
+            success: false,
+            message: "gagal kirim pesan",
+            error: e
+        };
+    }
 }
 
-export const Botutama = async function () {
+export const KirimSekret = async function (pesan: string) {
+    const token = "6836484715:AAEboz5NqXEc9DoCrP8CqPWlsZcl_qUnpoc";
+    try {
+        const apiUrl = `https://api.telegram.org/bot${token}/sendMessage`;
+        const kirim = await axios.post(apiUrl, {
+            chat_id: "-1001221739649",
+            text: pesan,
+        });
+        return {
+            success: true,
+            message: "berhasil kirim pesan",
+            data: kirim.data
+        };
+    } catch (e) {
+        return {
+            success: false,
+            message: "gagal kirim pesan",
+            error: e
+        };
+    }
+}
+
+export const KirimUtama = async function (pesan: string) {
     const token = "1157398763:AAHTYwM2H46rQAjJPzQ6hDdrLgmfDrs-qqk";
-    return new Telegraf(token)
+    try {
+        const apiUrl = `https://api.telegram.org/bot${token}/sendMessage`;
+        const kirim = await axios.post(apiUrl, {
+            chat_id: "-1001229984666",
+            text: pesan,
+        });
+        return {
+            success: true,
+            message: "berhasil kirim pesan",
+            data: kirim.data
+        };
+    } catch (e) {
+        return {
+            success: false,
+            message: "gagal kirim pesan",
+            error: e
+        };
+    }
+}
+
+export const KirimPribadi = async function (pesan: string) {
+    const token = "6836484715:AAEboz5NqXEc9DoCrP8CqPWlsZcl_qUnpoc";
+    try {
+        const apiUrl = `https://api.telegram.org/bot${token}/sendMessage`;
+        const kirim = await axios.post(apiUrl, {
+            chat_id: "799163200",
+            text: pesan,
+        });
+        return {
+            success: true,
+            message: "berhasil kirim pesan",
+            data: kirim.data
+        };
+    } catch (e) {
+        return {
+            success: false,
+            message: "gagal kirim pesan",
+            error: e
+        };
+    }
+}
+
+export const KirimButtonGambar = async function (id: string, pesan: string, button: any, image: string) {
+    const token = "6836484715:AAEboz5NqXEc9DoCrP8CqPWlsZcl_qUnpoc";
+    try {
+        const apiUrl = `https://api.telegram.org/bot${token}/sendPhoto`;
+        const kirim = await axios.post(apiUrl, {
+            chat_id: id,
+            photo: image,
+            caption: pesan,
+            reply_markup: {
+                inline_keyboard: [
+                    button,
+                ]
+            }
+        });
+        return {
+            success: true,
+            message: "berhasil kirim pesan",
+            data: kirim.data
+        };
+    } catch (e) {
+        return {
+            success: false,
+            message: "gagal kirim pesan",
+            error: e
+        };
+    }
 }

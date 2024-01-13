@@ -3,7 +3,7 @@ import Cors from 'cors'
 import runMiddleware from "@/utils/runMiddleware"
 import moment from "moment/moment";
 import 'moment/locale/id';
-import {Pesan, Botutama} from "@/utils/telegram/chat";
+import {Pesan, KirimFotoSekret} from "@/utils/telegram/chat";
 
 moment.locale('id');
 
@@ -11,32 +11,52 @@ const getdata = async function (req: NextApiRequest) {
 
     const server = req.headers.host ?? '';
     const date = moment().format('DD-MM-YYYY');
-    const bot = await Botutama();
     const pesan = await Pesan({
         pesan: `Testing Notifikasi`,
         waktu: date,
         pengirim: server,
     });
-    try {
-        await bot.telegram.sendMessage("-1001229984666", pesan);
+    const kirim = await KirimFotoSekret(pesan, "https://cdn.pixabay.com/photo/2014/06/03/19/38/road-sign-361514_960_720.png");
+    if (kirim.success) {
         return {
             status: 200,
             data: {
                 success: true,
                 message: "berhasil kirim pesan",
+                data: kirim.data
             }
         };
-    } catch (e) {
+    } else {
         return {
             status: 200,
             data: {
                 success: false,
                 message: "gagal kirim pesan",
-                error: e
+                error: kirim.error
             }
         };
-
     }
+
+    // try {
+    //     await bot.telegram.sendMessage("-1001229984666", pesan);
+    //     return {
+    //         status: 200,
+    //         data: {
+    //             success: true,
+    //             message: "berhasil kirim pesan",
+    //         }
+    //     };
+    // } catch (e) {
+    //     return {
+    //         status: 200,
+    //         data: {
+    //             success: false,
+    //             message: "gagal kirim pesan",
+    //             error: e
+    //         }
+    //     };
+    //
+    // }
 }
 export default async function handler(
     req: NextApiRequest,
