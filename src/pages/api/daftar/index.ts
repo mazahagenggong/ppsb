@@ -101,7 +101,6 @@ const post = async function (req: NextApiRequest) {
             }
         });
         const server = req.headers.host ?? '';
-
         return {
             status: 200,
             data: {

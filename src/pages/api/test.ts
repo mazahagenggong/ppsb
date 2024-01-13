@@ -1,40 +1,24 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import Cors from 'cors'
 import runMiddleware from "@/utils/runMiddleware"
-import {Santri} from "@/utils/validate/token";
-import prisma from "@/utils/prisma";
 import moment from "moment/moment";
 import 'moment/locale/id';
-import {Pesan, Bot} from "@/utils/telegram/chat";
+import {Pesan, Botutama} from "@/utils/telegram/chat";
 
 moment.locale('id');
 
 const getdata = async function (req: NextApiRequest) {
-    const bot_token = "6836484715:AAEboz5NqXEc9DoCrP8CqPWlsZcl_qUnpoc";
-    const admin = await prisma.user.findMany({
-        where: {
-            role: "admin",
-            telegram: {
-                not: null
-            }
-        }
-    })
 
-    let idtele: string[] = [];
-    const cari_id = admin.map((item) => {
-        idtele.push(item?.telegram ?? '799163200');
-    })
-    await Promise.all(cari_id);
     const server = req.headers.host ?? '';
     const date = moment().format('DD-MM-YYYY');
-    const bot = await Bot();
+    const bot = await Botutama();
     const pesan = await Pesan({
-        pesan: `Ada santri yang mengupload bukti pembayaran`,
+        pesan: `Testing Notifikasi`,
         waktu: date,
         pengirim: server,
     });
     try {
-        await bot.telegram.sendMessage(idtele[0], pesan);
+        await bot.telegram.sendMessage("-1001229984666", pesan);
         return {
             status: 200,
             data: {
@@ -44,10 +28,11 @@ const getdata = async function (req: NextApiRequest) {
         };
     } catch (e) {
         return {
-            status: 500,
+            status: 200,
             data: {
                 success: false,
                 message: "gagal kirim pesan",
+                error: e
             }
         };
 
