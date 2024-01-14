@@ -47,7 +47,7 @@ const createFormulirPDF = async (data: any) => {
             ["Nomor Peserta", `: ${data.nomor}`],
             ["Nama lengkap", `: ${data.nama.toUpperCase()}`],
             ["Jenis Kelamin", `: ${data.jk === "lk" ? "Laki-laki" : "Perempuan"}`],
-            ["Tempat, Tanggal Lahir", `: ${formatDate(data.biodata.tanggal_lahir)}`],
+            ["Tempat, Tanggal Lahir", `: ${data.biodata.tempat_lahir}, ${formatDate(data.biodata.tanggal_lahir)}`],
             [
                 "Alamat",
                 `: ${data.alamat.alamat} RT ${data.alamat.rt} RW ${data.alamat.rw}, ${data.alamat.keldes}`,
@@ -74,6 +74,7 @@ const createFormulirPDF = async (data: any) => {
     doc.text("Informasi Pendaftaran:", 10, fy, {align: "left"});
     autoTable(doc, {
         body: [
+            ["Pilihan Jurusan", `: ${data.biodata.jurusan}`],
             ["Jenis Gelombang (info)", `: ${data.gelombang.nama} (${data.ip})`],
             ["Durasi Gelombang", `: ${data.gelombang.keterangan}`],
             ["Waktu Pendaftaran", `: ${formatDate(data.created_at)}`],
