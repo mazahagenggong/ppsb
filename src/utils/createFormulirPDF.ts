@@ -17,7 +17,7 @@ const createFormulirPDF = async (data: any) => {
     const doc = new jsPDF({
         orientation: "p",
         unit: "mm",
-        format: "legal",
+        format: "A4",
     });
 
     let fy = 3;
@@ -28,7 +28,7 @@ const createFormulirPDF = async (data: any) => {
     doc.addImage(`${app_url}/assets/img/kop.jpg`, "JPEG", cx, fy, iw, ih);
 
     fy = fy + ih;
-    const hbpp = 7;
+    const hbpp = 5;
     doc.setFont("times", "bold");
     doc.setFontSize(16);
     doc.text("Formulir Pendaftaran PSB 2024", 105, fy + hbpp, {
@@ -58,17 +58,20 @@ const createFormulirPDF = async (data: any) => {
             ],
             ["Nomor HP", `: ${data.hp}`],
         ],
-        startY: fy + 5,
+        startY: fy + 3,
         theme: "striped",
         columnStyles: {
             0: {cellWidth: 60},
             1: {cellWidth: 120},
         },
+        styles:{
+            fontSize: 10
+        },
         didDrawPage: function (data: any) {
             if (data.cursor.y) {
                 fy = data.cursor?.y + 5;
             }
-        },
+        }
     });
 
     doc.text("Informasi Pendaftaran:", 10, fy, {align: "left"});
@@ -89,15 +92,18 @@ const createFormulirPDF = async (data: any) => {
                 `: ${formatDate(data.pembayaran.updated_at)}`,
             ],
         ],
-        startY: fy + 5,
+        startY: fy + 3,
         theme: "striped",
         columnStyles: {
             0: {cellWidth: 60},
             1: {cellWidth: 120},
         },
+        styles: {
+            fontSize: 10
+        },
         didDrawPage: function (data: any) {
             if (data.cursor.y) {
-                fy = data.cursor?.y + 7;
+                fy = data.cursor?.y + 5;
             }
         },
     });
@@ -125,6 +131,9 @@ const createFormulirPDF = async (data: any) => {
             0: {cellWidth: 60},
             1: {cellWidth: 120},
         },
+        styles:{
+            fontSize: 10
+        },
         didDrawPage: function (data: any) {
             if (data.cursor.y) {
                 fy = data.cursor?.y + 5;
@@ -132,12 +141,14 @@ const createFormulirPDF = async (data: any) => {
         },
     });
 
+    doc.addPage();
     const pageWidth = doc.internal.pageSize.getWidth();
     const imageWidth = 30;
     const imageHight = 30;
     const centerX = (pageWidth - imageWidth) / 2;
-    doc.addImage(url, "JPEG", centerX, fy, imageWidth, imageHight);
-    fy = fy + 5 + imageHight;
+    let fy2 = 3;
+    doc.addImage(url, "JPEG", centerX, fy2, imageWidth, imageHight);
+    fy2 = fy2 + 5 + imageHight;
     autoTable(doc, {
         body: [
             [
@@ -145,8 +156,11 @@ const createFormulirPDF = async (data: any) => {
                 "• Silahkan melampirkan kelengkapan data berupa Ijazah SD/MI, Kartu Keluarga (KK), Akta Kelahiran, dan Ijazah MTs/SMP (bisa menyusul)",
             ],
         ],
-        startY: fy,
+        startY: fy2,
         theme: "striped",
+        styles:{
+            fontSize: 10
+        },
     });
     const namaurl = data.nama.toUpperCase().replace(/\s/g, "-");
     doc.save(`Formulir-Pendaftaran-${namaurl}.pdf`);

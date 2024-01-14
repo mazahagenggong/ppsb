@@ -109,6 +109,7 @@ const createPDF = async (data: any) => {
         body: [
             ['Sekolah Asal', `: ${data.sekolah.toUpperCase()}`],
             ['Info Pendaftaran', `: ${data.ip.toUpperCase()}`],
+            ['Pilihan Jurusan', `: ${data.prejur.toUpperCase()}`],
             ['Waktu Pendaftaran', `: ${formatDate(data.created_at)}`]
         ],
         startY: fy + 5,
