@@ -1,5 +1,4 @@
 import React from 'react';
-import {CldImage} from "next-cloudinary";
 import moment from "moment/moment";
 
 const Formulir = (data: any) => {
@@ -82,6 +81,10 @@ const Formulir = (data: any) => {
                             <div className="table-responsive">
                                 <table className="table">
                                     <tbody>
+                                    <tr>
+                                        <td style={{width: "25%"}}>Pilihan Jurusan</td>
+                                        <td>: {dataSantri.biodata.jurusan}</td>
+                                    </tr>
                                     <tr>
                                         <td style={{width: "25%"}}>Informasi Pendaftaran</td>
                                         <td>: {dataSantri.ip}</td>
