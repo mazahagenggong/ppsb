@@ -32,8 +32,8 @@ const FormulirSantri: React.FC<FormulirSantriProps> = ({data, token, modal}) => 
             <select name={name} ref={ref} onChange={onChange} onBlur={onBlur} className={"form-control"}
                     defaultValue={dataSantri?.biodata?.jurusan ?? (dataSantri?.prejur ?? "")}>
                 <option value="">-- Pilih Jurusan --</option>
-                <option value="PK">Program Keagamaan (PK)</option>
-                <option value="IPAS">Program Umum (IPAS)</option>
+                <option value="PK">Program Keagamaan</option>
+                <option value="UMUM">Program Umum</option>
             </select>
         </>
     ))

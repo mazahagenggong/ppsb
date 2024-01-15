@@ -233,8 +233,8 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                         id="ip" value={prejur ?? ""} onChange={(e) => setprejur(e.target.value)}
                                         required={true}>
                                         <option>-- Pilih --</option>
-                                        <option value="PK">Program Keagamaan (PK)</option>
-                                        <option value="IPAS">Program Umum (IPAS)</option>
+                                        <option value="PK">Program Keagamaan</option>
+                                        <option value="UMUM">Program Umum</option>
                                     </select>
                                     <div
                                         className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
