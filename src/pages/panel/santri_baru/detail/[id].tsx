@@ -68,7 +68,7 @@ const Detail = () => {
                                                     </tr>
                                                     <tr>
                                                         <td style={{width: "30%"}}>Pilihan Jurusan</td>
-                                                        <td style={{width: "70%"}}>{santri?.biodata?.jurusan}</td>
+                                                        <td style={{width: "70%"}}>: {santri?.biodata?.jurusan}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Jenis Kelamin</td>
