@@ -67,12 +67,16 @@ const Detail = () => {
                                                         <td>: {santri.nama.toUpperCase()}</td>
                                                     </tr>
                                                     <tr>
+                                                        <td style={{width: "30%"}}>Pilihan Jurusan</td>
+                                                        <td style={{width: "70%"}}>{santri?.biodata?.jurusan}</td>
+                                                    </tr>
+                                                    <tr>
                                                         <td>Jenis Kelamin</td>
                                                         <td>
                                                             :{" "}
                                                             {santri.jk === "lk"
                                                                 ? "Laki - laki"
-                                                                : "Perampuan"}
+                                                                : "Perempuan"}
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -115,7 +119,7 @@ const Detail = () => {
                                         </div>
                                         <hr/>
                                         <div className="col-sm-12">
-                                            <h2 className="card-title">Informasi Pendaftaran:</h2>
+                                        <h2 className="card-title">Informasi Pendaftaran:</h2>
                                             <div className="table-responsive">
                                                 <table className="table">
                                                     <tbody>
@@ -267,12 +271,21 @@ const Detail = () => {
                                                 <td style={{width: "70%"}}>{santri.nama.toUpperCase()}</td>
                                             </tr>
                                             <tr>
-                                                <td style={{width: "30%"}}>Nomor HP</td>
-                                                <td style={{width: "70%"}}>{santri.hp}</td>
+                                                <td>Jenis Kelamin</td>
+                                                <td>
+                                                    :{" "}
+                                                    {santri.jk === "lk"
+                                                        ? "Laki - laki"
+                                                        : "Perempuan"}
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td style={{width: "30%"}}>Pilihan Jurusan</td>
                                                 <td style={{width: "70%"}}>{santri?.prejur}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{width: "30%"}}>Nomor HP</td>
+                                                <td style={{width: "70%"}}>{santri.hp}</td>
                                             </tr>
                                             <tr>
                                                 <td style={{width: "30%"}}>Sekolah Asal</td>

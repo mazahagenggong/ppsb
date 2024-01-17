@@ -9,13 +9,12 @@ import {Admin} from "@/utils/validate/token";
 moment.locale('id');
 
 const getdata = async function (req: NextApiRequest) {
-    const cek_token = await Admin("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmZkY2JkZDE0NDIzZjM3NzE2ZTk3ZiIsImlhdCI6MTcwNTQ2ODI4MCwiZXhwIjoxNzA1NTU0NjgwfQ.qpwujYvGAvNF7NA_PdTs8VfniBjuXagBj4DroBQOgDI");
+    // const cek_token = await Admin("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmZkY2JkZDE0NDIzZjM3NzE2ZTk3ZiIsImlhdCI6MTcwNTQ2ODI4MCwiZXhwIjoxNzA1NTU0NjgwfQ.qpwujYvGAvNF7NA_PdTs8VfniBjuXagBj4DroBQOgDI");
     return {
         status: 200,
         data: {
-            success: true,
-            message: "berhasil kirim pesan",
-            data: cek_token
+            success: "test route",
+            data: "testing"
         }
     }
     // const server = req.headers.host ?? '';
