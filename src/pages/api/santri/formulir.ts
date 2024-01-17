@@ -113,6 +113,7 @@ const post = async function (req: NextApiRequest) {
             const santri = await prisma.siswa.update({
                 where: {id: santri_id},
                 data: {
+                    hp: body.hp,
                     biodataId: bio.id
                 }
             });

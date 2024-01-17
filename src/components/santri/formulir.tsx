@@ -137,8 +137,8 @@ const FormulirSantri: React.FC<FormulirSantriProps> = ({data, token, modal}) => 
                     </div>
                     <div className="form-group w-full md:w-1/2 m-2">
                         <label htmlFor="no_hp">Nomor Handphone</label>
-                        <input type="number" className="form-control" defaultValue={dataSantri.hp}
-                               placeholder="08xxxxxxxx" disabled={true}/>
+                        <input type="number" className="form-control" {...register("hp")} defaultValue={dataSantri.hp}
+                               placeholder="08xxxxxxxx"/>
                     </div>
                 </div>
                 <div className="flex flex-col md:flex-row">
