@@ -60,6 +60,21 @@ const post = async function (req: NextApiRequest) {
     const nomor = await generatenomoreg();
 
     try {
+        const cek_ganda = await prisma.siswa.findFirst({
+            where: {
+                nama: reqbody.nama.toUpperCase(),
+                hp: reqbody.hp,
+            },
+        });
+        if (cek_ganda) {
+            return {
+                status: 400,
+                data: {
+                    success: false,
+                    message: "Data sudah pernah didaftarkan",
+                }
+            };
+        }
         const gelombang = await prisma.gelombang.findFirst({
             where: {
                 active: true,
@@ -76,13 +91,13 @@ const post = async function (req: NextApiRequest) {
         }
         const createAlamatResult = await prisma.alamat.create({
             data: {
-                alamat: reqbody.alamat.toUpperCase(),
+                alamat: reqbody.alamat.toUpperCase().trim(),
                 rt: parseInt(reqbody.rt),
                 rw: parseInt(reqbody.rw),
-                keldes: reqbody.keldes.toUpperCase(),
-                kecamatan: reqbody.kecamatan.toUpperCase(),
-                kabkot: reqbody.kabkot.toUpperCase(),
-                provinsi: reqbody.provinsi.toUpperCase(),
+                keldes: reqbody.keldes.toUpperCase().trim(),
+                kecamatan: reqbody.kecamatan.toUpperCase().trim(),
+                kabkot: reqbody.kabkot.toUpperCase().trim(),
+                provinsi: reqbody.provinsi.toUpperCase().trim(),
             }
         });
 
@@ -90,13 +105,13 @@ const post = async function (req: NextApiRequest) {
             data: {
                 nomor: nomor,
                 kode: kode,
-                nama: reqbody.nama.toUpperCase(),
+                nama: reqbody.nama.toUpperCase().trim(),
                 jk: reqbody.jk,
                 hp: reqbody.hp,
-                sekolah: reqbody.sekolah.toUpperCase(),
+                sekolah: reqbody.sekolah.toUpperCase().trim(),
                 alamatId: createAlamatResult.id,
-                ip: reqbody.ip.toUpperCase(),
-                prejur: reqbody.prejur.toUpperCase(),
+                ip: reqbody.ip.toUpperCase().trim(),
+                prejur: reqbody.prejur.toUpperCase().trim(),
                 gelombangId: gelombang.id,
             }
         });

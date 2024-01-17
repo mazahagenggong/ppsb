@@ -3,6 +3,8 @@ import Cors from 'cors'
 import runMiddleware from "@/utils/runMiddleware"
 import {Admin} from "@/utils/validate/token";
 import prisma from "@/utils/prisma";
+import axios from "axios";
+import {KirimUtama} from "@/utils/telegram/chat";
 
 const post = async function (req: NextApiRequest) {
     const token = req.headers.authorization?.split(' ')[1];
@@ -37,6 +39,17 @@ const post = async function (req: NextApiRequest) {
     }
     try {
         try {
+            let deleter: string;
+            if (!cek_token?.data?.telegram) {
+                deleter = cek_token?.data?.nama ?? "@";
+            } else {
+                try {
+                    const cek_deleter = await axios.get(`https://api.telegram.org/bot${process.env.BOT_TOKEN}/getChat?chat_id=${cek_token?.data?.telegram}`);
+                    deleter = `@${cek_deleter?.data?.result?.username}` ?? "@";
+                } catch (e) {
+                    deleter = cek_token?.data?.nama ?? "@";
+                }
+            }
             const siswa = await prisma.siswa.findUnique({
                 where: {
                     id: reqbody.id
@@ -82,6 +95,7 @@ const post = async function (req: NextApiRequest) {
                     }
                 });
             }
+            await KirimUtama(`Data santri "${siswa.nama}" (${siswa.nomor}) telah dihapus oleh ${deleter}`);
             return {
                 status: 200,
                 data: {

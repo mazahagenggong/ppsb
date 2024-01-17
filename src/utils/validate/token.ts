@@ -19,6 +19,7 @@ export const Admin = async (token: string) => {
                     username: true,
                     nama: true,
                     role: true,
+                    telegram: true,
                 },
             });
             if (!user) {

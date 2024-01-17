@@ -4,38 +4,47 @@ import runMiddleware from "@/utils/runMiddleware"
 import moment from "moment/moment";
 import 'moment/locale/id';
 import {KirimPribadi, Pesan} from "@/utils/telegram/chat";
+import {Admin} from "@/utils/validate/token";
 
 moment.locale('id');
 
 const getdata = async function (req: NextApiRequest) {
-
-    const server = req.headers.host ?? '';
-    const date = moment().format('DD-MM-YYYY');
-    const pesan = await Pesan({
-        pesan: `Testing Notifikasi`,
-        waktu: date,
-        pengirim: server,
-    });
-    const kirim = await KirimPribadi(pesan);
-    if (kirim.success) {
-        return {
-            status: 200,
-            data: {
-                success: true,
-                message: "berhasil kirim pesan",
-                data: kirim.data
-            }
-        };
-    } else {
-        return {
-            status: 200,
-            data: {
-                success: false,
-                message: "gagal kirim pesan",
-                error: kirim.error
-            }
-        };
+    const cek_token = await Admin("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NmZkY2JkZDE0NDIzZjM3NzE2ZTk3ZiIsImlhdCI6MTcwNTQ2ODI4MCwiZXhwIjoxNzA1NTU0NjgwfQ.qpwujYvGAvNF7NA_PdTs8VfniBjuXagBj4DroBQOgDI");
+    return {
+        status: 200,
+        data: {
+            success: true,
+            message: "berhasil kirim pesan",
+            data: cek_token
+        }
     }
+    // const server = req.headers.host ?? '';
+    // const date = moment().format('DD-MM-YYYY');
+    // const pesan = await Pesan({
+    //     pesan: `Testing Notifikasi`,
+    //     waktu: date,
+    //     pengirim: server,
+    // });
+    // const kirim = await KirimPribadi(pesan);
+    // if (kirim.success) {
+    //     return {
+    //         status: 200,
+    //         data: {
+    //             success: true,
+    //             message: "berhasil kirim pesan",
+    //             data: kirim.data
+    //         }
+    //     };
+    // } else {
+    //     return {
+    //         status: 200,
+    //         data: {
+    //             success: false,
+    //             message: "gagal kirim pesan",
+    //             error: kirim.error
+    //         }
+    //     };
+    // }
 }
 export default async function handler(
     req: NextApiRequest,
