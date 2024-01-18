@@ -62,7 +62,7 @@ const post = async function (req: NextApiRequest) {
     try {
         const cek_ganda = await prisma.siswa.findFirst({
             where: {
-                nama: reqbody.nama.toUpperCase(),
+                nama: reqbody.nama.toUpperCase().trim(),
                 hp: reqbody.hp,
             },
         });
