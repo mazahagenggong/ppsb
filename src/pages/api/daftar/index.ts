@@ -63,7 +63,7 @@ const post = async function (req: NextApiRequest) {
         const cek_ganda = await prisma.siswa.findFirst({
             where: {
                 nama: reqbody.nama.toUpperCase().trim(),
-                hp: reqbody.hp,
+                hp: reqbody.hp.trim(),
             },
         });
         if (cek_ganda) {
@@ -107,7 +107,7 @@ const post = async function (req: NextApiRequest) {
                 kode: kode,
                 nama: reqbody.nama.toUpperCase().trim(),
                 jk: reqbody.jk,
-                hp: reqbody.hp,
+                hp: reqbody.hp.trim(),
                 sekolah: reqbody.sekolah.toUpperCase().trim(),
                 alamatId: createAlamatResult.id,
                 ip: reqbody.ip.toUpperCase().trim(),
