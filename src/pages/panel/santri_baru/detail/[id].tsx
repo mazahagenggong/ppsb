@@ -186,7 +186,7 @@ const Detail = () => {
                                                     </tr>
                                                     <tr>
                                                         <td>NISN</td>
-                                                        <td>: {santri.biodata.npsn}</td>
+                                                        <td>: {santri.biodata.nisn}</td>
                                                     </tr>
 
                                                     <tr>

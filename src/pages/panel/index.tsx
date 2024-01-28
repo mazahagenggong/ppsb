@@ -6,6 +6,8 @@ import useSWR from "swr";
 import axios from "axios";
 import {getCookie} from "cookies-next";
 import Spinner from "@/components/spinner";
+import Link from "next/link";
+import {useUserStore} from "@/utils/stores/user";
 
 const fetcher = async (url: string) => {
     const res = await axios.get(url, {
@@ -17,6 +19,7 @@ const fetcher = async (url: string) => {
     return res.data;
 }
 const Index = () => {
+    const {role} = useUserStore();
     const {setActive, setShow} = useSidebarPanel();
     const {data, isLoading, error} = useSWR('/api/semuapendaftar', fetcher, {refreshInterval: 1000});
     const [totalPendaftar, setTotalPendaftar] = React.useState(0);
@@ -41,7 +44,7 @@ const Index = () => {
                     if (item.pembayaran && item.pembayaran.status === "menunggu") {
                         totalMenunggu++;
                     }
-                    if(!item.pembayaran) {
+                    if (!item.pembayaran) {
                         totalBelum++;
                     }
                 });
@@ -67,12 +70,12 @@ const Index = () => {
                 )}
                 {data && (
                     <div className={"flex flex-col md:flex-row"}>
-                        <div className={"flex flex-col w-[80vw] md:w-1/4 p-6 rounded-lg shadow bg-blue-700 m-3"}>
-                            <center>
-                                <h1 className={"text-white text-2xl font-bold"}>Total Pendaftar</h1>
-                                <p className={"text-white text-2xl font-bold"}>{totalPendaftar}</p>
-                            </center>
-                        </div>
+                        <Link href={"/panel/santri_baru"} className={"flex flex-col w-[80vw] md:w-1/4 p-6 rounded-lg shadow bg-blue-700 m-3 text-decoration-none"}>
+                                <center>
+                                    <h1 className={"text-white text-2xl font-bold"}>Total Pendaftar</h1>
+                                    <p className={"text-white text-2xl font-bold"}>{totalPendaftar}</p>
+                                </center>
+                        </Link>
                         <div className={"flex flex-col w-[80vw] md:w-1/4 p-6 rounded-lg shadow bg-green-700 m-3"}>
                             <center>
                                 <h1 className={"text-white text-2xl font-bold"}>Terverifikasi</h1>
