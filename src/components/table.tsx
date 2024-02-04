@@ -12,6 +12,7 @@ import withReactContent from "sweetalert2-react-content";
 import useSWR from "swr";
 import {CloseSwal, LoadingTimer, showWaitLoading} from "@/components/loading/waitLoading";
 import {useUserStore} from "@/utils/stores/user";
+import { toast } from 'react-toastify';
 
 const SweetSwal = withReactContent(Swal)
 
@@ -68,6 +69,16 @@ const Table: React.FC<TableProps> = ({data}) => {
 
     useEffect(() => {
         mutate().then(() => {
+            toast(`🚀 data selesai dimuat`, {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
             return;
         });
     }, [keyword, currentPage, mutate]);
@@ -171,7 +182,17 @@ const Table: React.FC<TableProps> = ({data}) => {
                                        name="cari"
                                        onChange={(event) => {
                                            setCurrentPage(1);
-                                           setKeyword(event.target.value)
+                                           setKeyword(event.target.value);
+                                           toast(`🚀 mencari data: ${event.target.value}`, {
+                                               position: "bottom-center",
+                                               autoClose: 3000,
+                                               hideProgressBar: false,
+                                               closeOnClick: true,
+                                               pauseOnHover: true,
+                                               draggable: true,
+                                               progress: undefined,
+                                               theme: "light",
+                                           });
                                        }}
                                        onKeyDown={handleKeyPress}/>
                             </div>

@@ -31,7 +31,7 @@ const Pagination: React.FC<PaginationProps> = ({currentPage, itemsPerPage, total
                 {getPageRange().map((page, key) => (
                     <li
                         key={key}
-                        className={`page-item ${page === currentPage ? "active" : ""}`}
+                        className={`page-item`}
                         onClick={() => {
                             if (typeof page === "number") {
                                 onPageChange(page);
@@ -46,7 +46,7 @@ const Pagination: React.FC<PaginationProps> = ({currentPage, itemsPerPage, total
                             }
                         }}
                     >
-                        <button className="page-link">{page}</button>
+                        <button className={`btn ${page === currentPage ? "btn-primary" : "btn-outline-secondary"} m-1`}>{page}</button>
                     </li>
                 ))}
             </ul>
