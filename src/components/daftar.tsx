@@ -31,6 +31,8 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
             setprejur,
             hp,
             sethp,
+            sa,
+            setsa,
             sekolah,
             setsekolah,
             selectedProv,
@@ -48,22 +50,23 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
             alamat,
             setalamat,
         } = props;
+        const gitloc = 'https://cdn.jsdelivr.net/gh/abunaum/lokasi@main';
         const {
             data: provinsi,
             isLoading: lprov,
-        } = useSWR('https://cdn.jsdelivr.net/gh/abunaum/lokasi@main/allprov.json', cekLokasi);
+        } = useSWR(`${gitloc}/allprov.json`, cekLokasi);
         const {
             data: kabkot,
             isLoading: lkabkot,
-        } = useSWR(selectedProv !== null ? `https://cdn.jsdelivr.net/gh/abunaum/lokasi@main/provinsi/${selectedProv.split("|")[0]}.json` : '', cekLokasi);
+        } = useSWR(selectedProv !== null ? `${gitloc}/provinsi/${selectedProv.split("|")[0]}.json` : '', cekLokasi);
         const {
             data: kec,
             isLoading: lkec,
-        } = useSWR(selectedKabkot !== null ? `https://cdn.jsdelivr.net/gh/abunaum/lokasi@main/kabupaten/${selectedKabkot.split("|")[0]}.json` : '', cekLokasi);
+        } = useSWR(selectedKabkot !== null ? `${gitloc}/kabupaten/${selectedKabkot.split("|")[0]}.json` : '', cekLokasi);
         const {
             data: keldes,
             isLoading: lkeldes,
-        } = useSWR(selectedKecamatan !== null ? `https://cdn.jsdelivr.net/gh/abunaum/lokasi@main/kecamatan/${selectedKecamatan.split("|")[0]}.json` : '', cekLokasi);
+        } = useSWR(selectedKecamatan !== null ? `${gitloc}/kecamatan/${selectedKecamatan.split("|")[0]}.json` : '', cekLokasi);
         let rtrw: any = [];
         for (let i = 1; i <= 100; i++) {
             rtrw.push(i);
@@ -221,7 +224,8 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full md:w-1/3 px-3 md:mb-0">
+                            <div
+                                className={`w-full md:w-${sa === "Lainnya" ? "1/4" : "1/3"} px-3 md:mb-0`}>
                                 <label
                                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     htmlFor="ip">
@@ -246,7 +250,8 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full md:w-1/3 px-3 md:mb-0">
+                            <div
+                                className={`w-full md:w-${sa === "Lainnya" ? "1/4" : "1/3"} px-3 md:mb-0`}>
                                 <label
                                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     htmlFor="nohp">
@@ -257,18 +262,47 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     id="nohp" type="number" placeholder="08**********" value={hp ?? ""}
                                     onChange={(e) => sethp(e.target.value)} required={true}/>
                             </div>
-                            <div className="w-full md:w-1/3 px-3 md:mb-0">
+                            <div
+                                className={`w-full md:w-${sa === "Lainnya" ? "1/4" : "1/3"} px-3 md:mb-0`}>
                                 <label
                                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    htmlFor="nohp">
+                                    htmlFor="sa">
                                     Sekolah Asal
                                 </label>
-                                <input
-                                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="nohp" type="text" value={sekolah ?? ""}
-                                    onChange={(e) => setsekolah(e.target.value)}
-                                    required={true}/>
+                                <div>
+                                    <select
+                                        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-3"
+                                        id="sa" value={sa ?? ""} onChange={(e) => setsa(e.target.value)}
+                                        required={true}>
+                                        <option>-- Pilih --</option>
+                                        <option value="MTS ZAINUL HASAN 1 GENGGONG">MTs ZAHA 1</option>
+                                        <option value="SMP ZAINUL HASAN 1 GENGGONG">SMP ZAHA 1</option>
+                                        <option value="Lainnya">Lainnya</option>
+                                    </select>
+                                    <div
+                                        className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 20 20">
+                                            <path
+                                                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                                        </svg>
+                                    </div>
+                                </div>
                             </div>
+                            {sa === "Lainnya" && (
+                                <div className="w-full md:w-1/4 px-3 md:mb-0">
+                                    <label
+                                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                        htmlFor="nohp">
+                                        Sekolah Asal
+                                    </label>
+                                    <input
+                                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                        id="nohp" type="text" value={sekolah ?? ""}
+                                        onChange={(e) => setsekolah(e.target.value)}
+                                        required={true}/>
+                                </div>
+                            )}
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-3">
                             <div className="w-full md:w-1/3 px-3 md:mb-0">
@@ -453,23 +487,46 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                 async (e) => {
                                     e.preventDefault();
                                     props.ubahTampilan("loading");
-                                    const cek: ResponseDaftar = await Daftarpsb({
+                                    let setdatanya: any = {
                                         nama: nama?.toUpperCase(),
                                         jk: jk,
                                         ip: ip?.toUpperCase(),
                                         prejur: prejur,
                                         hp: hp,
-                                        sekolah: sekolah?.toUpperCase(),
                                         provinsi: selectedProv,
                                         kabkot: selectedKabkot,
                                         kecamatan: selectedKecamatan,
                                         keldes: selectedKeldes,
                                         rt: rt,
                                         rw: rw,
-                                        alamat: alamat,
-                                    });
+                                        alamat: alamat
+                                    };
+                                    if (sa === null || sa === "-- Pilih --") {
+                                        setdatanya.sekolah = null
+                                    } else {
+                                        if (sa !== "Lainnya") {
+                                            setdatanya.sekolah = sa?.toUpperCase()
+                                        } else {
+                                            if (sekolah === null || sekolah ==="") {
+                                                props.ubahTampilan("awal");
+                                                await MySwal.fire({
+                                                    position: "center",
+                                                    icon: "error",
+                                                    title: "Oops!",
+                                                    html: "<p>Sekolah asal belum di isi</p>",
+                                                    showConfirmButton: false,
+                                                    timer: 3000
+                                                });
+                                                return
+                                            } else {
+                                                setdatanya.sekolah = sekolah?.toUpperCase()
+                                            }
+                                        }
+                                    }
+
+                                    const cek: ResponseDaftar = await Daftarpsb(setdatanya);
+                                    console.log(cek)
                                     if (!cek.success) {
-                                        props.ubahTampilan("awal");
                                         await MySwal.fire({
                                             position: "center",
                                             icon: "error",
@@ -478,7 +535,7 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                             showConfirmButton: false,
                                             timer: 3000
                                         });
-                                        console.log(cek)
+                                        props.ubahTampilan("awal");
                                         return;
                                     }
                                     const cekstorage = localStorage.getItem('savedlogin');
@@ -493,15 +550,16 @@ const DaftarForm: React.FC<DaftarFormProps> = (props: DaftarFormProps) => {
                                     const encryptdata = encrypt(JSON.stringify(newdata));
                                     localStorage.setItem('savedlogin', encryptdata);
 
-                                    props.ubahTampilan("awal");
                                     await MySwal.fire({
                                         position: "center",
                                         icon: "success",
                                         title: "Mantap.",
-                                        html: "<p>Pendaftaran berhasil.</p>" + "<br>" + "<p>Silahkan downloads dan login</p>",
+                                        html: "<p>Pendaftaran berhasil.</p>" + "<br>" + "<p>Silahkan downloads bukti pendaftaran dan login</p>",
                                         showConfirmButton: false,
                                         timer: 3000
                                     });
+                                    props.ubahTampilan("awal");
+                                    return;
                                 }
                             }>
                                 Daftar

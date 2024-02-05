@@ -11,6 +11,8 @@ export interface DaftarFormProps {
     setprejur: (value: string | null) => void;
     hp: string | null;
     sethp: (value: string | null) => void;
+    sa: string | null;
+    setsa: (value: string | null) => void;
     sekolah: string | null;
     setsekolah: (value: string | null) => void;
     selectedProv: string | null;

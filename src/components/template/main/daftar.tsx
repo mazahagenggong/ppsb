@@ -32,6 +32,8 @@ const Daftar = () => {
         setprejur,
         hp,
         sethp,
+        sa,
+        setsa,
         sekolah,
         setsekolah
     } = siswaStore;
@@ -74,6 +76,8 @@ const Daftar = () => {
                                     setprejur={setprejur}
                                     hp={hp}
                                     sethp={sethp}
+                                    sa={sa}
+                                    setsa={setsa}
                                     sekolah={sekolah}
                                     setsekolah={setsekolah}
                                     selectedProv={selectedProv}

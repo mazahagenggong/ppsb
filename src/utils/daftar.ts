@@ -99,21 +99,32 @@ const Daftarpsb = async (data: any) => {
             KirimSekret(pesan),
         ]);
         return {
-            success: cek.data.success,
+            success: true,
             data: {
                 siswa: cek.data.datasiswa,
                 alamat: cek.data.dataalamat
             },
-            message: cek.data.message
+            message: "berhasil mendaftar"
         }
-    } catch (error) {
-        const pesan = `dari psb: \n${JSON.stringify(error)}`;
-        await KirimPribadi(pesan);
-        console.log(error);
-        return {
-            success: false,
-            message: "Gagal mendaftar"
+    } catch (error:any) {
+        if (error.response && error.response.status === 400) {
+            const pesan = `dari psb: \nutils error\n${JSON.stringify(error.response)}`;
+            await KirimPribadi(pesan);
+            return {
+                success: false,
+                message: error.response.data.message,
+                error: error
+            };
+        } else {
+            const pesan = `dari psb: \nutils error\n${JSON.stringify(error)}`;
+            await KirimPribadi(pesan);
+            return {
+                success: false,
+                message: "Gagal mendaftar",
+                error: error
+            }
         }
+
     }
 };
 

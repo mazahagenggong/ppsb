@@ -26,11 +26,6 @@ const Index = () => {
         },
     ];
 
-    const reload = async() => {
-        setTablewiew(false);
-        await new Promise(resolve => setTimeout(resolve, 500));
-        setTablewiew(true);
-    }
     useEffect(() => {
         const initializeSidebar = () => {
             setActive('santri_baru');

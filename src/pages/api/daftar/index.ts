@@ -39,9 +39,7 @@ const generatenomoreg = async (): Promise<string> => {
     if (!lastRegisteredNomor && totalSiswa === 1) {
         totalSiswa = 1;
     }
-    const nomorReg = `${currentYear}${totalSiswa.toString().padStart(4, '0')}`;
-
-    return nomorReg;
+    return `${currentYear}${totalSiswa.toString().padStart(4, '0')}`;
 }
 
 const post = async function (req: NextApiRequest) {
@@ -141,10 +139,10 @@ const post = async function (req: NextApiRequest) {
                 KirimUtama(pesan),
                 KirimSekret(pesan),
             ]);
-        } catch (e) {
-            const pesan = `dari psb: \n${JSON.stringify(e)}`;
+        } catch (error:any) {
+            const pesan = `dari psb: \napi error\n${JSON.stringify(error)}`;
             await KirimPribadi(pesan);
-            console.log(`Error sending message :`, e);
+            console.log(`Error sending message :`, error);
         }
 
         return {
