@@ -5,7 +5,7 @@ import {Santri} from "@/utils/validate/token";
 import prisma from "@/utils/prisma";
 import moment from "moment/moment";
 import 'moment/locale/id';
-import {Pesan, KirimFotoSekret, KirimPribadi, KirimButtonGambar} from "@/utils/telegram/chat";
+import {Pesan, KirimFotoSekret, KirimPribadi, KirimButtonGambar, KirimFotoPribadi} from "@/utils/telegram/chat";
 
 moment.locale('id');
 const formatDate = (createdAt: any) => {
@@ -77,6 +77,19 @@ const post = async function (req: NextApiRequest) {
     ]
     let pesan = "";
     try {
+        if (req.body.jalur && req.body.prestasi){
+            const prestasi = await prisma.prestasi.create({
+                data: {
+                    jenis: req.body.prestasi
+                }
+            });
+            await prisma.siswa.update({
+                where: {id: santri?.id},
+                data: {
+                    prestasiId: prestasi.id
+                }
+            });
+        }
         if (req.body.panitia) {
             const panitia = await prisma.user.findUnique({
                 where: {
@@ -114,6 +127,7 @@ const post = async function (req: NextApiRequest) {
                     alamat: true,
                     pembayaran: true,
                     panitia: true,
+                    prestasi: true,
                     gelombang: true,
                 }
             });
@@ -130,8 +144,30 @@ const post = async function (req: NextApiRequest) {
             pesan = pesan + `Alamat : ${santrinya?.alamat?.alamat} RT ${santrinya?.alamat?.rt} RW ${santrinya?.alamat?.rw} - ${santrinya?.alamat?.keldes},  ${santrinya?.alamat?.kecamatan}  - ${santrinya?.alamat?.kabkot} - ${santrinya?.alamat?.provinsi}\n`;
             pesan = pesan + `Waktu Pembayaran : ${formatDate(santrinya?.created_at ?? null)}\n`;
             pesan = pesan + `Gelombang : ${santrinya?.gelombang?.nama}\n`;
-            pesan = pesan + `Biaya Pendaftaran : ${santrinya?.gelombang?.biaya}\n`;
-            pesan = pesan + `Metode Pembayaran : Via ${santrinya?.panitia?.nama ? 'Panitia (' + santrinya?.panitia?.nama + ')' : 'Transfer'}\n`;
+            if (santrinya?.prestasi){
+                let pres;
+                switch (santrinya.prestasi.jenis) {
+                    case "tahfidz":
+                        pres = "Tahfidz 5 juz"
+                        break;
+                    case "alfiyah":
+                        pres = "Hafal nadzam alfiyah 500 bait"
+                        break;
+                    case "porseni":
+                        pres = "Juara Porseni minimal tingkat kabupaten"
+                        break;
+                    case "peringkat_kelas":
+                        pres = "Peringkat 1 - 3 di kelas 9"
+                        break;
+                    default:
+                        pres = "unknown error"
+                }
+                pesan = pesan + `Biaya Pendaftaran : Gratis (Prestasi)\n`;
+                pesan = pesan + `Jenis Prestasi : ${pres} ${santrinya?.panitia?.nama ? '- Panitia (' + santrinya?.panitia?.nama + ')' : ''}\n`;
+            } else {
+                pesan = pesan + `Biaya Pendaftaran : ${santrinya?.gelombang?.biaya}\n`;
+                pesan = pesan + `Metode Pembayaran : Via ${santrinya?.panitia?.nama ? 'Panitia (' + santrinya?.panitia?.nama + ')' : 'Transfer'}\n`;
+            }
             pesan = pesan + `Status Pembayaran : Lunas\n`;
             pesan = pesan + `Telah mendaftar dan melunasi pembayaran`;
             pesan = await Pesan({
@@ -175,8 +211,30 @@ const post = async function (req: NextApiRequest) {
             pesan = pesan + `Kode Login : ${santri?.kode}\n`;
             pesan = pesan + `Waktu Pembayaran : ${formatDate(santri?.created_at ?? null)}\n`;
             pesan = pesan + `Gelombang : ${santri?.gelombang?.nama}\n`;
-            pesan = pesan + `Biaya Pendaftaran : ${santri?.gelombang?.biaya}\n`;
-            pesan = pesan + `Metode Pembayaran : Via Transfer\n`;
+            if (santri?.prestasi){
+                let pres;
+                switch (santri.prestasi.jenis) {
+                    case "tahfidz":
+                        pres = "Tahfidz 5 juz"
+                        break;
+                    case "alfiyah":
+                        pres = "Hafal nadzam alfiyah 500 bait"
+                        break;
+                    case "porseni":
+                        pres = "Juara Porseni minimal tingkat kabupaten"
+                        break;
+                    case "peringkat_kelas":
+                        pres = "Peringkat 1 - 3 di kelas 9"
+                        break;
+                    default:
+                        pres = "unknown error"
+                }
+                pesan = pesan + `Biaya Pendaftaran : Gratis (Prestasi)\n`;
+                pesan = pesan + `Jenis Prestasi : ${pres}\n`;
+            } else {
+                pesan = pesan + `Biaya Pendaftaran : ${santri?.gelombang?.biaya}\n`;
+                pesan = pesan + `Metode Pembayaran : Via Transfer\n`;
+            }
             pesan = pesan + `Telah mengupload bukti pembayaran, Silahkan pilih tindakan`;
             pesan = await Pesan({
                 pesan: pesan,

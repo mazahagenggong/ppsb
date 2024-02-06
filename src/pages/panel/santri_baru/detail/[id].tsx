@@ -119,7 +119,7 @@ const Detail = () => {
                                         </div>
                                         <hr/>
                                         <div className="col-sm-12">
-                                        <h2 className="card-title">Informasi Pendaftaran:</h2>
+                                            <h2 className="card-title">Informasi Pendaftaran:</h2>
                                             <div className="table-responsive">
                                                 <table className="table">
                                                     <tbody>
@@ -141,16 +141,11 @@ const Detail = () => {
                                                     </tr>
                                                     <tr>
                                                         <td>Biaya</td>
-                                                        <td>: {santri.gelombang.biaya}</td>
+                                                        <td>{santri.prestasi ? ": Gratis" : `: ${santri.gelombang.biaya}`}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Metode Pembayaran</td>
-                                                        <td>
-                                                            :{" "}
-                                                            {santri.panitia
-                                                                ? `Via Panitia (${santri.panitia.nama})`
-                                                                : "Transfer"}
-                                                        </td>
+                                                        <td>{santri.prestasi ? "Jenis Prestasi" : "Metode Pembayaran"}</td>
+                                                        <td>{santri.prestasi ? `: ${handlePrestasi(santri.prestasi.jenis, santri)}` : `: ${handleMetodePembayaran(santri)}`}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Status Pembayaran</td>
@@ -173,7 +168,7 @@ const Detail = () => {
                                                 <table className="table">
                                                     <tbody>
                                                     <tr>
-                                                        <td style={{width: "25%"}}>Sekolah Asal</td>
+                                                    <td style={{width: "25%"}}>Sekolah Asal</td>
                                                         <td>: {santri.sekolah}</td>
                                                     </tr>
                                                     <tr>
@@ -317,15 +312,15 @@ const Detail = () => {
                                             </tr>
                                             <tr>
                                                 <td style={{width: "30%"}}>Biaya</td>
-                                                <td style={{width: "70%"}}>{santri.gelombang.biaya}</td>
+                                                <td style={{width: "70%"}}>{santri.prestasi ? "Gratis" : santri.gelombang.biaya}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{width: "30%"}}>{santri.prestasi ? "Jenis Prestasi" : "Metode Pembayaran"}</td>
+                                                <td style={{width: "70%"}}>{santri.prestasi ? handlePrestasi(santri.prestasi.jenis, santri) : handleMetodePembayaran(santri)}</td>
                                             </tr>
                                             <tr>
                                                 <td style={{width: "30%"}}>Status Pembayaran</td>
                                                 <td style={{width: "70%"}}>{handleStatusPembayaran(santri)}</td>
-                                            </tr>
-                                            <tr>
-                                                <td style={{width: "30%"}}>Metode Pembayaran</td>
-                                                <td style={{width: "70%"}}>{handleMetodePembayaran(santri)}</td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -390,8 +385,9 @@ const Detail = () => {
                                                 }
                                             }}>Download Bukti Pendaftaran
                                         </button>
+                                        <hr className={"m-3"}/>
                                         <center>
-                                            <h3>Bantu Pembayaran:</h3>
+                                            <h3 className={"font-bold mb-3"}>Bantu Pembayaran:</h3>
                                         </center>
                                         <UploadComponent data={username} santri={santri}/>
                                     </>
@@ -491,6 +487,35 @@ const handleMetodePembayaran = (santri: any) => {
     } else {
         return 'Terjadi Kesalahan'
     }
+}
+
+
+const handlePrestasi = (jenis: string, santri: any) => {
+    let pres;
+    let pan;
+    switch (jenis) {
+        case "tahfidz":
+            pres = "Tahfidz 5 juz"
+            break;
+        case "alfiyah":
+            pres = "Hafal nadzam alfiyah 500 bait"
+            break;
+        case "porseni":
+            pres = "Juara Porseni minimal tingkat kabupaten"
+            break;
+        case "peringkat_kelas":
+            pres = "Peringkat 1 - 3 di kelas 9"
+            break;
+        default:
+            pres = "unknown error"
+    }
+    if (santri.panitia) {
+        pan = `- Panitia (${santri.panitia.nama})`
+    } else {
+        pan = ''
+    }
+    return `${pres} ${pan}`
+
 }
 
 export default Detail;

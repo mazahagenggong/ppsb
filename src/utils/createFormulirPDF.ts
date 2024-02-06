@@ -8,6 +8,53 @@ moment.locale("id");
 const formatDate = (createdAt: string) => {
     return moment(createdAt).format("DD MMMM YYYY");
 };
+
+const handlePrestasi = (jenis: string, santri: any) => {
+    let pres;
+    let pan;
+    switch (jenis) {
+        case "tahfidz":
+            pres = "Tahfidz 5 juz"
+            break;
+        case "alfiyah":
+            pres = "Hafal nadzam alfiyah 500 bait"
+            break;
+        case "porseni":
+            pres = "Juara Porseni minimal tingkat kabupaten"
+            break;
+        case "peringkat_kelas":
+            pres = "Peringkat 1 - 3 di kelas 9"
+            break;
+        default:
+            pres = "unknown error"
+    }
+    if (santri.panitia) {
+        pan = `- Panitia (${santri.panitia.nama})`
+    } else {
+        pan = ''
+    }
+    return `${pres} ${pan}`
+
+}
+const handleMetodePembayaran = (santri: any) => {
+    if (!santri.pembayaran) {
+        return 'Belum Melakukan Pembayaran'
+    } else if (santri.pembayaran.status === 'menunggu') {
+        if (santri.panitia) {
+            return `Panitia (${santri.panitia.nama})`
+        } else {
+            return 'Transfer'
+        }
+    } else if (santri.pembayaran.status === 'Lunas') {
+        if (santri.panitia) {
+            return `Panitia (${santri.panitia.nama})`
+        } else {
+            return 'Transfer'
+        }
+    } else {
+        return 'Terjadi Kesalahan'
+    }
+}
 const createFormulirPDF = async (data: any) => {
     const protocol = window.location.protocol;
     const host = window.location.host;
@@ -81,10 +128,10 @@ const createFormulirPDF = async (data: any) => {
             ["Jenis Gelombang (info)", `: ${data.gelombang.nama} (${data.ip})`],
             ["Durasi Gelombang", `: ${data.gelombang.keterangan}`],
             ["Waktu Pendaftaran", `: ${formatDate(data.created_at)}`],
-            ["Biaya", `: ${data.gelombang.biaya}`],
+            ["Biaya", `: ${data.prestasi ? "Gratis" : data.gelombang.biaya}`],
             [
-                "Metode Pembayaran",
-                `: ${data.panitia ? `Via Panitia (${data.panitia.nama})` : "Transfer"}`,
+                data.prestasi ? "Jalur Prestasi" : "Metode Pembayaran",
+                `${data.prestasi ? `: ${handlePrestasi(data.prestasi.jenis, data)}` : `: ${handleMetodePembayaran(data)}`}`,
             ],
             ["Status Pembayaran", `: ${data.pembayaran.status}`],
             [

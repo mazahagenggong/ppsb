@@ -24,6 +24,8 @@ model siswa {
   alamat       alamat?           @relation(fields: [alamatId], references: [id])
   pembayaranId String?           @db.ObjectId
   pembayaran   pembayaran?       @relation(fields: [pembayaranId], references: [id])
+  prestasiId   String?           @db.ObjectId
+  prestasi     prestasi?         @relation(fields: [prestasiId], references: [id])
   gelombangId  String?           @db.ObjectId
   gelombang    gelombang?        @relation(fields: [gelombangId], references: [id])
   panitiaId    String?           @db.ObjectId
@@ -74,6 +76,14 @@ model pembayaran {
   siswa      siswa[]
   status     String
   bukti      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model prestasi {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  siswa      siswa[]
+  jenis      String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }

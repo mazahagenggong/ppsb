@@ -7,7 +7,7 @@ import axios from "axios";
 import {getCookie} from "cookies-next";
 import Spinner from "@/components/spinner";
 import Link from "next/link";
-import {useUserStore} from "@/utils/stores/user";
+import {useIndexStore, } from "@/utils/stores/indexdata";
 
 const fetcher = async (url: string) => {
     const res = await axios.get(url, {
@@ -19,13 +19,20 @@ const fetcher = async (url: string) => {
     return res.data;
 }
 const Index = () => {
-    const {role} = useUserStore();
     const {setActive, setShow} = useSidebarPanel();
     const {data, isLoading, error} = useSWR('/api/semuapendaftar', fetcher, {refreshInterval: 1000});
-    const [totalPendaftar, setTotalPendaftar] = React.useState(0);
-    const [totalTerverifikasi, setTotalTerverifikasi] = React.useState(0);
-    const [totalMenunggu, setTotalMenunggu] = React.useState(0);
-    const [totalBelum, setTotalBelum] = React.useState(0);
+    const {
+        totalPendaftar,
+        totalMenunggu,
+        totalTerverifikasi,
+        totalBelum,
+        Zaha,
+        settotalMenunggu,
+        settotalTerverifikasi,
+        settotalPendaftar,
+        settotalBelum,
+        setZaha
+    } = useIndexStore();
     useEffect(() => {
         const initializeSidebar = () => {
             setActive('null');
@@ -33,12 +40,14 @@ const Index = () => {
         };
         const aturdata = async () => {
             if (data && data.data.length > 0) {
-                setTotalPendaftar(data.data.length);
+                settotalPendaftar(data.data.length);
+                let terverivikasi: any[] = [];
                 let totalTerverifikasi = 0;
                 let totalMenunggu = 0;
                 let totalBelum = 0;
                 await data.data.map((item: any) => {
                     if (item.pembayaran && item.pembayaran.status === "Lunas") {
+                        terverivikasi.push(item)
                         totalTerverifikasi++;
                     }
                     if (item.pembayaran && item.pembayaran.status === "menunggu") {
@@ -48,15 +57,22 @@ const Index = () => {
                         totalBelum++;
                     }
                 });
-                setTotalTerverifikasi(totalTerverifikasi);
-                setTotalMenunggu(totalMenunggu);
-                setTotalBelum(totalBelum);
+                settotalTerverifikasi(terverivikasi.length);
+                settotalMenunggu(totalMenunggu);
+                settotalBelum(totalBelum);
+
+                const filterData = (item: any): boolean => {
+                    return item.sekolah.includes("ZAINUL HASAN");
+                };
+                const hasilFilter = terverivikasi.filter(filterData);
+                setZaha(hasilFilter)
             }
         }
 
         aturdata();
         initializeSidebar();
     }, [setActive, setShow, data]);
+    console.log(Zaha)
     return (
         <Template>
             <PanelContent title={"Dashboard"}>

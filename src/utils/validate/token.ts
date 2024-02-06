@@ -115,6 +115,7 @@ export const Santri = async (token: string) => {
                 include: {
                     alamat: true,
                     pembayaran: true,
+                    prestasi: true,
                     gelombang: true,
                     panitia: true,
                     biodata: true,

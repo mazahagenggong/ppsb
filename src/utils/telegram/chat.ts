@@ -108,6 +108,28 @@ export const KirimPribadi = async function (pesan: string) {
         };
     }
 }
+export const KirimFotoPribadi = async function (pesan: string, foto: string) {
+    const token = "6836484715:AAEboz5NqXEc9DoCrP8CqPWlsZcl_qUnpoc";
+    try {
+        const apiUrl = `https://api.telegram.org/bot${token}/sendPhoto`;
+        const kirim = await axios.post(apiUrl, {
+            chat_id: "799163200",
+            photo: foto,
+            caption: pesan,
+        });
+        return {
+            success: true,
+            message: "berhasil kirim pesan",
+            data: kirim.data
+        };
+    } catch (e) {
+        return {
+            success: false,
+            message: "gagal kirim pesan",
+            error: e
+        };
+    }
+}
 
 export const KirimButtonGambar = async function (id: string, pesan: string, button: any, image: string) {
     const token = "6836484715:AAEboz5NqXEc9DoCrP8CqPWlsZcl_qUnpoc";

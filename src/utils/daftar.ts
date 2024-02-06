@@ -76,28 +76,33 @@ const Daftarpsb = async (data: any) => {
     const date = moment().format('DD-MM-YYYY');
     try {
         const cek = await axios.post("/api/daftar", data);
-        let pesan = `Nama : ${cek.data.datasiswa?.nama}\n`;
-        pesan = pesan + `Nomor Pendaftaran : ${cek.data.datasiswa?.nomor}\n`;
-        pesan = pesan + `Kode Login : ${cek.data.datasiswa?.kode}\n`;
-        pesan = pesan + `Jenis Kelamin : ${cek.data.datasiswa?.jk === "lk" ? "Laki - Laki" : "Perempuan"}\n`;
-        pesan = pesan + `Pilihan Jurusan : ${cek.data.datasiswa?.prejur}\n`;
-        pesan = pesan + `Sekolah Asal : ${cek.data.datasiswa?.sekolah}\n`;
-        pesan = pesan + `Informasi Pendaftaran : ${cek.data.datasiswa?.ip}\n`;
-        pesan = pesan + `Nomor HP : ${cek.data.datasiswa?.hp}\n`;
-        pesan = pesan + `Alamat : ${cek.data.dataalamat?.alamat} RT ${cek.data.dataalamat?.rt} RW ${cek.data.dataalamat?.rw} - ${cek.data.dataalamat?.keldes},  ${cek.data.dataalamat?.kecamatan}  - ${cek.data.dataalamat?.kabkot} - ${cek.data.dataalamat?.provinsi}\n`;
-        pesan = pesan + `Waktu Pendaftaran : ${formatDate(cek.data.datasiswa?.created_at ?? null)}\n`;
-        pesan = pesan + `Gelombang Pendaftaran: ${cek.data.datasiswa?.gelombang.nama}\n`;
-        pesan = pesan + `Biaya Pendaftaran : ${cek.data.datasiswa?.gelombang.biaya}\n`;
-        pesan = pesan + `Telah melakukan pendaftaran pada tanggal ${date}\n`;
-        pesan = await Pesan({
-            pesan: pesan,
-            pengirim: cek.data.server,
-            waktu: date,
-        })
-        await Promise.all([
-            KirimUtama(pesan),
-            KirimSekret(pesan),
-        ]);
+        try {
+            let pesan = `Nama : ${cek.data.datasiswa?.nama}\n`;
+            pesan = pesan + `Nomor Pendaftaran : ${cek.data.datasiswa?.nomor}\n`;
+            pesan = pesan + `Kode Login : ${cek.data.datasiswa?.kode}\n`;
+            pesan = pesan + `Jenis Kelamin : ${cek.data.datasiswa?.jk === "lk" ? "Laki - Laki" : "Perempuan"}\n`;
+            pesan = pesan + `Pilihan Jurusan : ${cek.data.datasiswa?.prejur}\n`;
+            pesan = pesan + `Sekolah Asal : ${cek.data.datasiswa?.sekolah}\n`;
+            pesan = pesan + `Informasi Pendaftaran : ${cek.data.datasiswa?.ip}\n`;
+            pesan = pesan + `Nomor HP : ${cek.data.datasiswa?.hp}\n`;
+            pesan = pesan + `Alamat : ${cek.data.dataalamat?.alamat} RT ${cek.data.dataalamat?.rt} RW ${cek.data.dataalamat?.rw} - ${cek.data.dataalamat?.keldes},  ${cek.data.dataalamat?.kecamatan}  - ${cek.data.dataalamat?.kabkot} - ${cek.data.dataalamat?.provinsi}\n`;
+            pesan = pesan + `Waktu Pendaftaran : ${formatDate(cek.data.datasiswa?.created_at ?? null)}\n`;
+            pesan = pesan + `Gelombang Pendaftaran: ${cek.data.datasiswa?.gelombang.nama}\n`;
+            pesan = pesan + `Biaya Pendaftaran : ${cek.data.datasiswa?.gelombang.biaya}\n`;
+            pesan = pesan + `Telah melakukan pendaftaran pada tanggal ${date}\n`;
+            pesan = await Pesan({
+                pesan: pesan,
+                pengirim: cek.data.server,
+                waktu: date,
+            })
+            await Promise.all([
+                KirimUtama(pesan),
+                KirimSekret(pesan),
+            ]);
+        } catch (e) {
+            const pesan = `dari psb: \nutils error\n${JSON.stringify(e)}`;
+            await KirimPribadi(pesan);
+        }
         return {
             success: true,
             data: {

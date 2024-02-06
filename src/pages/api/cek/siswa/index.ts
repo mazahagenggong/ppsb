@@ -34,6 +34,7 @@ const post = async function (req: NextApiRequest) {
                 gelombang: true,
                 panitia: true,
                 pembayaran: true,
+                prestasi: true,
             }
         })
         if (!ceksiswa) {
