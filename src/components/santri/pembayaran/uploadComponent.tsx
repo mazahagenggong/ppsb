@@ -45,7 +45,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({data, santri}) => {
             await LoadingTimer('Jalur pendaftaran belum di pilih.', 'error', 1500);
             return;
         }
-        if (jalur && prestasi === "") {
+        if (jalur === "prestasi" && prestasi === "") {
             await LoadingTimer('Prestasi belum di pilih.', 'error', 1500);
             return;
         }
