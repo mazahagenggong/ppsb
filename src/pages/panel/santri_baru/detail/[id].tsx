@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PanelContent from "@/components/panelContent";
 import Template from "@/components/template/admin/template";
 import {useRouter} from "next/router";
@@ -14,6 +14,7 @@ import UploadComponent from "@/components/santri/pembayaran/uploadComponent";
 import Biodata from "@/components/santri/biodata";
 import moment from "moment";
 import createPDF from "@/utils/createPDF";
+import {EditNamaTD, EditNamaModal} from "@/components/modal/edit_nama";
 
 const fetcher = async (url: string) => {
     const res = await axios.get(url, {
@@ -27,7 +28,7 @@ const fetcher = async (url: string) => {
 const Detail = () => {
     const {role, username} = useUserStore();
     const query = useRouter().query;
-    const {data: santri, isLoading, error} = useSWR(query.id ? `/api/cek/siswa/${query.id}` : null, fetcher);
+    const {data: santri, isLoading, error, mutate} = useSWR(query.id ? `/api/cek/siswa/${query.id}` : null, fetcher);
     const formatDate = (createdAt: string) => {
         return moment(createdAt).format("DD MMMM YYYY");
     };
@@ -62,10 +63,7 @@ const Detail = () => {
                                                         <td>Kode Login</td>
                                                         <td>: {santri.kode}</td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>Nama Lengkap</td>
-                                                        <td>: {santri.nama.toUpperCase()}</td>
-                                                    </tr>
+                                                    <EditNamaTD data={santri} />
                                                     <tr>
                                                         <td style={{width: "30%"}}>Pilihan Jurusan</td>
                                                         <td style={{width: "70%"}}>: {santri?.biodata?.jurusan}</td>
@@ -168,7 +166,7 @@ const Detail = () => {
                                                 <table className="table">
                                                     <tbody>
                                                     <tr>
-                                                    <td style={{width: "25%"}}>Sekolah Asal</td>
+                                                        <td style={{width: "25%"}}>Sekolah Asal</td>
                                                         <td>: {santri.sekolah}</td>
                                                     </tr>
                                                     <tr>
@@ -326,6 +324,8 @@ const Detail = () => {
                                         </table>
                                     </>
                                 )}
+
+                            <EditNamaModal data={santri} mutate={mutate} />
 
                             {
                                 santri.pembayaran ? (

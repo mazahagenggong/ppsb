@@ -99,6 +99,11 @@ export default function Login() {
                                     name="password"
                                     className="form-control"
                                     value={password}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            handleLogin();
+                                        }
+                                    }}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required/>
                             </div>
@@ -110,6 +115,11 @@ export default function Login() {
                                         type="checkbox"
                                         name="remember"
                                         checked={remember}
+                                        onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            handleLogin();
+                                        }
+                                    }}
                                         onChange={(e) => setRemember(e.target.checked)}/>
                                     <label className="form-check-label" htmlFor="rememberMe">Ingat saya</label>
                                 </div>
@@ -118,7 +128,12 @@ export default function Login() {
                                 <button
                                     className="btn btn-primary w-100"
                                     type="button"
-                                    onClick={handleLogin}>
+                                    onClick={handleLogin}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            handleLogin();
+                                        }
+                                    }}>
                                     Login
                                 </button>
                             </div>
