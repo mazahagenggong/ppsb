@@ -259,10 +259,7 @@ const Detail = () => {
                                                 <td style={{width: "30%"}}>Kode</td>
                                                 <td style={{width: "70%"}}>{santri.kode}</td>
                                             </tr>
-                                            <tr>
-                                                <td style={{width: "30%"}}>Nama</td>
-                                                <td style={{width: "70%"}}>{santri.nama.toUpperCase()}</td>
-                                            </tr>
+                                            <EditNamaTD data={santri} />
                                             <tr>
                                                 <td>Jenis Kelamin</td>
                                                 <td>
