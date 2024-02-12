@@ -15,7 +15,6 @@ import Biodata from "@/components/santri/biodata";
 import moment from "moment";
 import createPDF from "@/utils/createPDF";
 import {EditNamaTD, EditNamaModal} from "@/components/modal/edit_nama";
-import Prestasi from "@/components/test/prestasi";
 
 const fetcher = async (url: string) => {
     const res = await axios.get(url, {
