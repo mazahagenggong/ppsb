@@ -15,7 +15,7 @@ export const EditNamaTD = (data: any) => {
     return (
         <tr className={"cursor-pointer"} onClick={() => handleNamaClick()}>
             <td>Nama Lengkap</td>
-            <td>: {santri.nama.toUpperCase()}</td>
+            <td>{santri.nama.toUpperCase()}</td>
         </tr>
     );
 };
@@ -58,10 +58,6 @@ export const EditNamaModal = ({ data, mutate }: { data: any, mutate: any }) => {
     }
     return (
         <>
-            <tr className={"cursor-pointer"} onClick={() => handleNamaClick()}>
-                <td>Nama Lengkap</td>
-                <td>: {santri.nama.toUpperCase()}</td>
-            </tr>
             <Modal isOpen={modalNama} onClose={handleCloseModal}>
                 <h3 className={"text-center mb-3"}>Edit Nama</h3>
                 <form className="w-full max-w-full mb-3">

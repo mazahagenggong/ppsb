@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PanelContent from "@/components/panelContent";
 import Template from "@/components/template/admin/template";
 import {useRouter} from "next/router";
@@ -15,6 +15,7 @@ import Biodata from "@/components/santri/biodata";
 import moment from "moment";
 import createPDF from "@/utils/createPDF";
 import {EditNamaTD, EditNamaModal} from "@/components/modal/edit_nama";
+import Prestasi from "@/components/test/prestasi";
 
 const fetcher = async (url: string) => {
     const res = await axios.get(url, {
@@ -32,6 +33,7 @@ const Detail = () => {
     const formatDate = (createdAt: string) => {
         return moment(createdAt).format("DD MMMM YYYY");
     };
+    console.log(santri)
     return (
         <Template>
             <PanelContent title={"Detail Santri"}>
@@ -53,25 +55,24 @@ const Detail = () => {
                                         <div className="col-sm-12">
                                             <h2 className="card-title">Biodata Pendaftar :</h2>
                                             <div className="table-responsive">
-                                                <table className="table">
+                                                <table className="table table-bordered mb-3">
                                                     <tbody>
                                                     <tr>
-                                                        <td style={{width: "25%"}}>Nomor Peserta</td>
-                                                        <td>: {santri.nomor}</td>
+                                                        <td style={{width: "30%"}}>Nomor Peserta</td>
+                                                        <td>{santri.nomor}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Kode Login</td>
-                                                        <td>: {santri.kode}</td>
+                                                        <td>{santri.kode}</td>
                                                     </tr>
                                                     <EditNamaTD data={santri} />
                                                     <tr>
                                                         <td style={{width: "30%"}}>Pilihan Jurusan</td>
-                                                        <td style={{width: "70%"}}>: {santri?.biodata?.jurusan}</td>
+                                                        <td style={{width: "70%"}}>{santri?.biodata?.jurusan}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Jenis Kelamin</td>
                                                         <td>
-                                                            :{" "}
                                                             {santri.jk === "lk"
                                                                 ? "Laki - laki"
                                                                 : "Perempuan"}
@@ -80,36 +81,35 @@ const Detail = () => {
                                                     <tr>
                                                         <td>TTL</td>
                                                         <td>
-                                                            : {santri.biodata.tempat_lahir},{" "}
+                                                            {santri.biodata.tempat_lahir},{" "}
                                                             {formatDate(santri.biodata.tanggal_lahir)}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>Provinsi</td>
-                                                        <td>: {santri.alamat.provinsi}</td>
+                                                        <td>{santri.alamat.provinsi}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Kabupaten / Kota</td>
-                                                        <td>: {santri.alamat.kabkot}</td>
+                                                        <td>{santri.alamat.kabkot}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Kecamatan</td>
-                                                        <td>: {santri.alamat.kecamatan}</td>
+                                                        <td>{santri.alamat.kecamatan}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Desa / Kelurahan</td>
-                                                        <td>: {santri.alamat.keldes}</td>
+                                                        <td>{santri.alamat.keldes}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Detail Alamat</td>
                                                         <td>
-                                                            :{" "}
                                                             {`RT ${santri.alamat.rt} RW ${santri.alamat.rw}, ${santri.alamat.keldes}`}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>Nomor HP</td>
-                                                        <td>: {santri.hp}</td>
+                                                        <td>{santri.hp}</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -119,40 +119,40 @@ const Detail = () => {
                                         <div className="col-sm-12">
                                             <h2 className="card-title">Informasi Pendaftaran:</h2>
                                             <div className="table-responsive">
-                                                <table className="table">
+                                                <table className="table table-bordered mb-3">
                                                     <tbody>
                                                     <tr>
-                                                        <td style={{width: "25%"}}>Informasi Pendaftaran</td>
-                                                        <td>: {santri.ip}</td>
+                                                        <td style={{width: "30%"}}>Informasi Pendaftaran</td>
+                                                        <td>{santri.ip}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Gelombang Pendaftaran</td>
-                                                        <td>: {santri.gelombang.nama}</td>
+                                                        <td>{santri.gelombang.nama}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Durasi</td>
-                                                        <td>: {santri.gelombang.keterangan}</td>
+                                                        <td>{santri.gelombang.keterangan}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Waktu pendaftaran</td>
-                                                        <td>: {formatDate(santri.created_at)}</td>
+                                                        <td>{formatDate(santri.created_at)}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Biaya</td>
-                                                        <td>{santri.prestasi ? ": Gratis" : `: ${santri.gelombang.biaya}`}</td>
+                                                        <td>{santri.prestasi ? "Gratis" : `${santri.gelombang.biaya}`}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>{santri.prestasi ? "Jenis Prestasi" : "Metode Pembayaran"}</td>
-                                                        <td>{santri.prestasi ? `: ${handlePrestasi(santri.prestasi.jenis, santri)}` : `: ${handleMetodePembayaran(santri)}`}</td>
+                                                        <td>{santri.prestasi ? `${handlePrestasi(santri.prestasi.jenis, santri)}` : `${handleMetodePembayaran(santri)}`}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Status Pembayaran</td>
-                                                        <td>: {santri.pembayaran.status}</td>
+                                                        <td>{santri.pembayaran.status}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Terverifikasi</td>
                                                         <td>
-                                                            : {formatDate(santri.pembayaran.updated_at)}
+                                                            {formatDate(santri.pembayaran.updated_at)}
                                                         </td>
                                                     </tr>
                                                     </tbody>
@@ -163,28 +163,28 @@ const Detail = () => {
                                         <div className="col-sm-12">
                                             <h2 className="card-title">Informasi Akademik:</h2>
                                             <div className="table-responsive">
-                                                <table className="table">
+                                                <table className="table table-bordered mb-3">
                                                     <tbody>
                                                     <tr>
-                                                        <td style={{width: "25%"}}>Sekolah Asal</td>
-                                                        <td>: {santri.sekolah}</td>
+                                                        <td style={{width: "30%"}}>Sekolah Asal</td>
+                                                        <td>{santri.sekolah}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>NPSN</td>
-                                                        <td>: {santri.biodata.npsn}</td>
+                                                        <td>{santri.biodata.npsn}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Alamat Sekolah Asal</td>
-                                                        <td>: {santri.biodata.alamat_sekolah}</td>
+                                                        <td>{santri.biodata.alamat_sekolah}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>NISN</td>
-                                                        <td>: {santri.biodata.nisn}</td>
+                                                        <td>{santri.biodata.nisn}</td>
                                                     </tr>
 
                                                     <tr>
                                                         <td>Penerima KIP</td>
-                                                        <td>: {santri.biodata.kip !== null ? (santri.biodata.kip === true ? "Ya" : "Tidak") : ""}</td>
+                                                        <td>{santri.biodata.kip !== null ? (santri.biodata.kip === true ? "Ya" : "Tidak") : ""}</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -194,23 +194,23 @@ const Detail = () => {
                                         <div className="col-sm-12">
                                             <h2 className="card-title">Data Ayah Pendaftar:</h2>
                                             <div className="table-responsive">
-                                                <table className="table">
+                                                <table className="table table-bordered mb-3">
                                                     <tbody>
                                                     <tr>
-                                                        <td style={{width: "25%"}}>Nama</td>
-                                                        <td>: {santri.biodata.nama_ayah}</td>
+                                                        <td style={{width: "30%"}}>Nama</td>
+                                                        <td>{santri.biodata.nama_ayah}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>NIK</td>
-                                                        <td>: {santri.biodata.nik_ayah}</td>
+                                                        <td>{santri.biodata.nik_ayah}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Pendidikan Terakhir</td>
-                                                        <td>: {santri.biodata.pendidikan_ayah}</td>
+                                                        <td>{santri.biodata.pendidikan_ayah}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Pekerjaan</td>
-                                                        <td>: {santri.biodata.pekerjaan_ayah}</td>
+                                                        <td>{santri.biodata.pekerjaan_ayah}</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -220,23 +220,23 @@ const Detail = () => {
                                         <div className="col-sm-12">
                                             <h2 className="card-title">Data Ibu Pendaftar:</h2>
                                             <div className="table-responsive">
-                                                <table className="table">
+                                                <table className="table table-bordered mb-3">
                                                     <tbody>
                                                     <tr>
-                                                        <td style={{width: "25%"}}>Nama</td>
-                                                        <td>: {santri.biodata.nama_ibu}</td>
+                                                        <td style={{width: "30%"}}>Nama</td>
+                                                        <td>{santri.biodata.nama_ibu}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>NIK</td>
-                                                        <td>: {santri.biodata.nik_ibu}</td>
+                                                        <td>{santri.biodata.nik_ibu}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Pendidikan Terakhir</td>
-                                                        <td>: {santri.biodata.pendidikan_ibu}</td>
+                                                        <td>{santri.biodata.pendidikan_ibu}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Pekerjaan</td>
-                                                        <td>: {santri.biodata.pekerjaan_ibu}</td>
+                                                        <td>{santri.biodata.pekerjaan_ibu}</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -263,7 +263,7 @@ const Detail = () => {
                                             <tr>
                                                 <td>Jenis Kelamin</td>
                                                 <td>
-                                                    :{" "}
+                                                    {" "}
                                                     {santri.jk === "lk"
                                                         ? "Laki - laki"
                                                         : "Perempuan"}
