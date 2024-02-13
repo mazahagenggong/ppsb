@@ -4,6 +4,7 @@ import {useSidebarPanel} from "@/utils/stores/sidebarPanel";
 import PanelContent from "@/components/panelContent";
 import Countdata from "@/components/dashboard/countdata";
 import Gelombang from "@/components/dashboard/gelombang";
+import Sekolah from "@/components/dashboard/sekolah";
 
 const Index = () => {
     const {setActive, setShow} = useSidebarPanel();
@@ -20,8 +21,12 @@ const Index = () => {
             <PanelContent title={"Dashboard"}>
                 <center>
                     <Countdata/>
-                    <hr className={"m-5"} />
-                    <Gelombang/>
+                    <hr className={"m-5"}/>
+                    <p className={"text-2xl"}>Grafik Pendaftar:</p>
+                    <div className={"flex flex-col md:flex-row"}>
+                        <Gelombang/>
+                        <Sekolah/>
+                    </div>
                 </center>
             </PanelContent>
         </Template>

@@ -48,7 +48,7 @@ const Gelombang = () => {
             },
             title: {
                 display: true,
-                text: 'Grafik gelombang pendaftaran',
+                text: 'Gelombang Pendaftaran',
             },
         },
     };
@@ -93,7 +93,7 @@ const Gelombang = () => {
     return (
         <>
             {data && (
-                <>
+                <div className={"w-full md:w-1/2 my-3 md:mx-3"}>
                     <Bar options={options} data={data}/>
                     <p className={"m-3 text-2xl"}>Detail Data:</p>
                     <div className="table-responsive">
@@ -139,7 +139,7 @@ const Gelombang = () => {
                             </tbody>
                         </table>
                     </div>
-                </>
+                </div>
             )}
         </>
     );
