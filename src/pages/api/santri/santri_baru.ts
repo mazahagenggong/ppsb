@@ -31,7 +31,7 @@ const post = async function (req: NextApiRequest) {
         'nama',
         'nomor'
     ];
-    const sort_by = {nama: "asc"};
+    const sort_by = {nomor: "asc"};
     try {
         try {
             const data = await siswacard(prisma.siswa, reqbody, search_list, sort_by);
