@@ -15,6 +15,7 @@ import Biodata from "@/components/santri/biodata";
 import moment from "moment";
 import createPDF from "@/utils/createPDF";
 import {EditNamaTD, EditNamaModal} from "@/components/modal/edit_nama";
+import {Icon} from "@iconify/react";
 
 const fetcher = async (url: string) => {
     const res = await axios.get(url, {
@@ -64,7 +65,7 @@ const Detail = () => {
                                                         <td>Kode Login</td>
                                                         <td>{santri.kode}</td>
                                                     </tr>
-                                                    <EditNamaTD data={santri} />
+                                                    <EditNamaTD data={santri}/>
                                                     <tr>
                                                         <td style={{width: "30%"}}>Pilihan Jurusan</td>
                                                         <td style={{width: "70%"}}>{santri?.biodata?.jurusan}</td>
@@ -108,7 +109,22 @@ const Detail = () => {
                                                     </tr>
                                                     <tr>
                                                         <td>Nomor HP</td>
-                                                        <td>{santri.hp}</td>
+                                                        <td className={"flex flex-row cursor-pointer"} onClick={() => {
+                                                            let nope: string = santri.hp;
+                                                            if (nope.startsWith("0")) {
+                                                                nope = "62" + nope.slice(1);
+                                                            }
+                                                            const url = `https://wa.me/${nope}`;
+                                                            window.open(url, "_blank");
+                                                        }}>
+                                                            <Icon
+                                                                icon="logos:whatsapp-icon"
+                                                                width="24"
+                                                                height="24"
+                                                                className={"mx-1"}
+                                                            />
+                                                            <span>{santri.hp}</span>
+                                                        </td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -258,7 +274,7 @@ const Detail = () => {
                                                 <td style={{width: "30%"}}>Kode</td>
                                                 <td style={{width: "70%"}}>{santri.kode}</td>
                                             </tr>
-                                            <EditNamaTD data={santri} />
+                                            <EditNamaTD data={santri}/>
                                             <tr>
                                                 <td>Jenis Kelamin</td>
                                                 <td>
@@ -321,7 +337,7 @@ const Detail = () => {
                                     </>
                                 )}
 
-                            <EditNamaModal data={santri} mutate={mutate} />
+                            <EditNamaModal data={santri} mutate={mutate}/>
 
                             {
                                 santri.pembayaran ? (
