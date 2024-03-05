@@ -159,6 +159,9 @@ const post = async function (req: NextApiRequest) {
                     case "peringkat_kelas":
                         pres = "Peringkat 1 - 3 di kelas 9"
                         break;
+                    case "prestasi_internal":
+                        pres = "Prestasi Internal Zainul Hasan"
+                        break;
                     default:
                         pres = "unknown error"
                 }
@@ -225,6 +228,9 @@ const post = async function (req: NextApiRequest) {
                         break;
                     case "peringkat_kelas":
                         pres = "Peringkat 1 - 3 di kelas 9"
+                        break;
+                    case "prestasi_internal":
+                        pres = "Prestasi Internal Zainul Hasan"
                         break;
                     default:
                         pres = "unknown error"

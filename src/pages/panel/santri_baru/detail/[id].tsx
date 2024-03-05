@@ -290,7 +290,22 @@ const Detail = () => {
                                             </tr>
                                             <tr>
                                                 <td style={{width: "30%"}}>Nomor HP</td>
-                                                <td style={{width: "70%"}}>{santri.hp}</td>
+                                                <td className={"flex flex-row cursor-pointer"} style={{width: "30%"}} onClick={() => {
+                                                    let nope: string = santri.hp;
+                                                    if (nope.startsWith("0")) {
+                                                        nope = "62" + nope.slice(1);
+                                                    }
+                                                    const url = `https://wa.me/${nope}`;
+                                                    window.open(url, "_blank");
+                                                }}>
+                                                    <Icon
+                                                        icon="logos:whatsapp-icon"
+                                                        width="24"
+                                                        height="24"
+                                                        className={"mx-1"}
+                                                    />
+                                                    <span>{santri?.hp}</span>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td style={{width: "30%"}}>Sekolah Asal</td>
@@ -308,7 +323,7 @@ const Detail = () => {
                                         </table>
 
                                         <center>
-                                            <h3>Informasi Gelombang:</h3>
+                                        <h3>Informasi Gelombang:</h3>
                                         </center>
                                         <table className="table table-bordered mb-3">
                                             <tbody>
@@ -517,6 +532,9 @@ const handlePrestasi = (jenis: string, santri: any) => {
             break;
         case "peringkat_kelas":
             pres = "Peringkat 1 - 3 di kelas 9"
+            break;
+        case "prestasi_internal":
+            pres = "Prestasi Internal Zainul Hasan"
             break;
         default:
             pres = "unknown error"

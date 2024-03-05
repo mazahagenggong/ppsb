@@ -72,6 +72,7 @@ const getdata = async function (req: NextApiRequest) {
                     pembayaran: true,
                     panitia: true,
                     gelombang: true,
+                    prestasi:true,
                 }
             })
             let pesan = `Nama : ${siswa?.nama}\n`;
@@ -85,8 +86,33 @@ const getdata = async function (req: NextApiRequest) {
             pesan = pesan + `Alamat : ${siswa?.alamat?.alamat} RT ${siswa?.alamat?.rt} RW ${siswa?.alamat?.rw} - ${siswa?.alamat?.keldes},  ${siswa?.alamat?.kecamatan}  - ${siswa?.alamat?.kabkot} - ${siswa?.alamat?.provinsi}\n`;
             pesan = pesan + `Waktu Pembayaran : ${formatDate(siswa?.created_at ?? null)}\n`;
             pesan = pesan + `Gelombang : ${siswa?.gelombang?.nama}\n`;
-            pesan = pesan + `Biaya Pendaftaran : ${siswa?.gelombang?.biaya}\n`;
-            pesan = pesan + `Metode Pembayaran : Via ${siswa?.panitia?.nama ? 'Panitia (' + siswa?.panitia?.nama + ')' : 'Transfer'}\n`;
+            if (siswa?.prestasi){
+                let pres;
+                switch (siswa.prestasi.jenis) {
+                    case "tahfidz":
+                        pres = "Tahfidz 5 juz"
+                        break;
+                    case "alfiyah":
+                        pres = "Hafal nadzam alfiyah 500 bait"
+                        break;
+                    case "porseni":
+                        pres = "Juara Porseni minimal tingkat kabupaten"
+                        break;
+                    case "peringkat_kelas":
+                        pres = "Peringkat 1 - 3 di kelas 9"
+                        break;
+                    case "prestasi_internal":
+                        pres = "Prestasi Internal Zainul Hasan"
+                        break;
+                    default:
+                        pres = "unknown error"
+                }
+                pesan = pesan + `Biaya Pendaftaran : Gratis (Prestasi)\n`;
+                pesan = pesan + `Jenis Prestasi : ${pres} ${siswa?.panitia?.nama ? '- Panitia (' + siswa?.panitia?.nama + ')' : ''}\n`;
+            } else {
+                pesan = pesan + `Biaya Pendaftaran : ${siswa?.gelombang?.biaya}\n`;
+                pesan = pesan + `Metode Pembayaran : Via ${siswa?.panitia?.nama ? 'Panitia (' + siswa?.panitia?.nama + ')' : 'Transfer'}\n`;
+            }
             pesan = pesan + `Status Pembayaran : Lunas\n`;
             pesan = pesan + `Telah mendaftar dan melakukan pembayaran`;
             pesan = await Pesan({

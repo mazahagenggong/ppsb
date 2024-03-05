@@ -181,6 +181,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({data, santri}) => {
                                     <option value="alfiyah">Alfiyah 500 Bait</option>
                                     <option value="porseni">Juara 1-3 Porseni Kabupaten</option>
                                     <option value="peringkat_kelas">Peringkat 1 di kelas 9</option>
+                                    <option value="prestasi_internal">Prestasi Internal Zainul Hasan</option>
                                 </select>
                                 <div
                                     className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
