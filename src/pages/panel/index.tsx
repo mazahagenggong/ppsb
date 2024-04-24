@@ -5,6 +5,9 @@ import PanelContent from "@/components/panelContent";
 import Countdata from "@/components/dashboard/countdata";
 import Gelombang from "@/components/dashboard/gelombang";
 import Sekolah from "@/components/dashboard/sekolah";
+import Jurusan from "@/components/dashboard/jurusan";
+import RincianJurusan from "@/components/dashboard/rincian_jurusan";
+import DivJurusan from "@/components/dashboard/div_jurusan";
 
 const Index = () => {
     const {setActive, setShow} = useSidebarPanel();
@@ -27,6 +30,7 @@ const Index = () => {
                         <Gelombang/>
                         <Sekolah/>
                     </div>
+                    <DivJurusan/>
                 </center>
             </PanelContent>
         </Template>

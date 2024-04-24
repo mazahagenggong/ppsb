@@ -43,7 +43,7 @@ const Sekolah = () => {
                 labels,
                 datasets: [
                     {
-                        label: 'Jumlah Pemdaftar',
+                        label: 'Jumlah Pendaftar',
                         data: [sekolah.data.mtszaha, sekolah.data.smpzaha, sekolah.data.lainnya],
                         backgroundColor: [
                             'rgba(0,252,39,0.2)',
