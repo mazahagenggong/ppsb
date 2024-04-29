@@ -69,12 +69,12 @@ const Gelombang = () => {
                 datasets: [
                     {
                         label: 'Bayar',
-                        data: [gelombang.data.gel1NoPresCount, gelombang.data.gel2NoPresCount, gelombang.data.gel2NoPresCount],
+                        data: [gelombang.data.gel1NoPresCount, gelombang.data.gel2NoPresCount, gelombang.data.gel3NoPresCount],
                         backgroundColor: 'rgba(2,136,234,0.5)',
                     },
                     {
                         label: 'Prestasi',
-                        data: [gelombang.data.gel1PresCount, gelombang.data.gel2PresCount, gelombang.data.gel2PresCount],
+                        data: [gelombang.data.gel1PresCount, gelombang.data.gel2PresCount, gelombang.data.gel3PresCount],
                         backgroundColor: 'rgba(28,206,7,0.5)',
                     },
                 ],
