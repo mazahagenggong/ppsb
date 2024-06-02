@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import {Doughnut} from 'react-chartjs-2';
-import useSWR from "swr";
-import axios from "axios";
-import {getCookie} from "cookies-next";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 

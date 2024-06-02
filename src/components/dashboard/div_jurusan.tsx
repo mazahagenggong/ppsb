@@ -3,6 +3,7 @@ import useSWR from "swr";
 import axios from "axios";
 import {getCookie} from "cookies-next";
 import RincianJurusan from "@/components/dashboard/rincian_jurusan";
+import RincianJK from "@/components/dashboard/rincian_jk";
 import Jurusan from "@/components/dashboard/jurusan";
 
 const fetcher = async (url: string) => {
@@ -64,9 +65,12 @@ const DivJurusan = () => {
             {jurusan && (
                 <div>
                     <hr className={"m-5"}/>
-                    <p className={"text-2xl"}>Grafik Jurusan:</p>
+                    <p className={"text-2xl"}>Grafik Jurusan dan Jenis Kelamin:</p>
                     <div className={"flex flex-col md:flex-row"}>
-                        <RincianJurusan data={jurusan.data}/>
+                        <div className="flex flex-col w-full md:w-1/2 text-center items-center">
+                            <RincianJurusan data={jurusan.data}/>
+                            <RincianJK/>
+                        </div>
                         <Jurusan data={jurusan.data}/>
                     </div>
                 </div>
