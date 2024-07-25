@@ -3,90 +3,104 @@ import Cors from 'cors'
 import runMiddleware from "@/utils/runMiddleware"
 import moment from "moment/moment";
 import 'moment/locale/id';
-import {KirimPribadi, Pesan} from "@/utils/telegram/chat";
-import {Admin} from "@/utils/validate/token";
 import prisma from "@/utils/prisma";
-import biodata from "@/components/santri/biodata";
 
 moment.locale('id');
 
 const postdata = async function (req: NextApiRequest) {
-    // const reqbody = req.body
-    // if (!reqbody.id || !reqbody.prestasi) {
-    //     return {
-    //         status: 401,
-    //         data: {
-    //             success: false,
-    //             message: "gagal"
-    //         }
-    //     }
-    // }
     try {
-        const putra = await prisma.siswa.count({
-            where:{
-                jk: "lk"
+        const sd = await prisma.siswa.findMany({
+            include: {
+                alamat: true,
+                biodata: true,
+                pembayaran: true,
+                panitia: true,
+                gelombang: true,
+                prestasi: true
             }
-        });
-        const putri = await prisma.siswa.count({
-            where:{
-                jk: "pr"
+        })
+        let nd: any = [];
+        let umum: any = [];
+        let pk: any = [];
+        sd.forEach((item, index) => {
+            const ttl = () => {
+                let hasil;
+                if (item?.biodata?.tempat_lahir && item?.biodata?.tanggal_lahir) {
+                    const tl = item?.biodata?.tanggal_lahir;
+                    hasil = `${item?.biodata?.tempat_lahir}, ${moment(tl).format("DD MMMM YYYY")}`;
+                } else {
+                    hasil = ""
+                }
+                return hasil
             }
-        });
-        // const siswa = await prisma.siswa.findMany({
-        //     where: {
-        //         pembayaran: {
-        //             status: "Lunas",
-        //             AND: {
-        //
-        //             }
-        //         },
-        //     },
-        //     select: {
-        //         nama: true
-        //     }
-        // });
-        return {
-            status: 200,
-            data: {
-                putri: putri,
-                putra: putra
+            const satdat: any = {
+                nomor_peserta: item.nomor,
+                kode: item.kode,
+                nama: item.nama,
+                nik: item.biodata?.nik ?? "",
+                jenis_kelamin: item.jk,
+                tempat_tanggal_lahir: ttl(),
+                informasi_pendaftaran: item.ip,
+                nomor_hp: item.hp,
+                alamat: `${item?.alamat?.alamat} rt ${item?.alamat?.rt} rw ${item?.alamat?.rw},${item?.alamat?.keldes} - ${item?.alamat?.kecamatan} - ${item?.alamat?.kabkot} - ${item?.alamat?.provinsi}`,
+                gelombang: item?.gelombang?.nama,
+                jalur_pendaftaran: item.prestasi ? "Gratis " + item.prestasi.jenis : "Berbayar (" + item?.gelombang?.biaya + ")",
+                status_pembayaran: item?.pembayaran?.status ?? "Belum Bayar"
+            };
+            if (item?.biodata?.jurusan) {
+                satdat.jurusan = item?.biodata?.jurusan
+            } else if (item.prejur) {
+                satdat.jurusan = item.prejur
+            } else {
+                satdat.jurusan = "Belum Di Pilih"
             }
-        }
-        // const putra = await prisma.siswa.count({
-        //     where: {
-        //             jk: "lk"
-        //     }
-        // });
-        // const putri = await prisma.siswa.count({
-        //     where: {
-        //         jk: "pr"
-        //     }
-        // })
-        // if (!putra) {
-        //     return {
-        //         status: 401,
-        //         data: {
-        //             success: false,
-        //             message: "putra gak ada"
-        //         }
-        //     }
-        // }
-        // if (!putri) {
-        //     return {
-        //         status: 401,
-        //         data: {
-        //             success: false,
-        //             message: "putri gak ada"
-        //         }
-        //     }
-        // }
+            satdat.sekolah_asal = item.sekolah
+            if (item.biodata) {
+                satdat.alamat_sekolah = item.biodata.alamat_sekolah ?? ""
+                satdat.npsn_sekolah = item.biodata.npsn ?? ""
+                satdat.nisn = item.biodata.nisn ?? ""
+                satdat.jumlah_saudara = item.biodata.jumlah_saudara
+                satdat.anak_ke = item.biodata.anak_ke
+                satdat.nama_ayah = item.biodata.nama_ayah ?? ""
+                satdat.nik_ayah = item.biodata.nik_ayah ?? ""
+                satdat.pendidikan_ayah = item.biodata.pendidikan_ayah ?? ""
+                satdat.pekerjaan_ayah = item.biodata.pekerjaan_ayah ?? ""
+                satdat.nama_ibu = item.biodata.nama_ibu ?? ""
+                satdat.nik_ibu = item.biodata.nik_ibu ?? ""
+                satdat.pendidikan_ibu = item.biodata.pendidikan_ibu ?? ""
+                satdat.pekerjaan_ibu = item.biodata.pekerjaan_ibu ?? ""
+            } else {
+                satdat.alamat_sekolah = ""
+                satdat.npsn_sekolah = ""
+                satdat.nisn = ""
+                satdat.kip = ""
+                satdat.jumlah_saudara = ""
+                satdat.anak_ke = ""
+                satdat.nama_ayah = ""
+                satdat.nik_ayah = ""
+                satdat.pendidikan_ayah = ""
+                satdat.pekerjaan_ayah = ""
+                satdat.nama_ibu = ""
+                satdat.nik_ibu = ""
+                satdat.pendidikan_ibu = ""
+                satdat.pekerjaan_ibu = ""
+            }
+            if (satdat.jurusan === "UMUM"){
+                umum.push(satdat);
+            }
+            if (satdat.jurusan === "PK"){
+                pk.push(satdat);
+            }
+            nd.push(satdat);
+        })
         // return {
         //     status: 200,
-        //     data: {
-        //         putra: putra,
-        //         putri: putri
-        //     }
+        //     data: umum
         // }
+        return {
+            status: 200,
+            data: {page: "test page"}
+        }
 
     } catch (e) {
         return {
@@ -98,14 +112,6 @@ const postdata = async function (req: NextApiRequest) {
             }
         }
     }
-
-    // return {
-    //     status: 200,
-    //     data: {
-    //         success: true,
-    //         data: "testing"
-    //     }
-    // }
 }
 export default async function handler(
     req: NextApiRequest,
@@ -120,7 +126,7 @@ export default async function handler(
     switch (req.method) {
         case "GET" :
             const data = await postdata(req);
-        return res.status(data.status).json(data.data);
+            return res.status(data.status).json(data.data);
         default:
             return res.status(404).json({
                 error: "halaman tidak ada"
